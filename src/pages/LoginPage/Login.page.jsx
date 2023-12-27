@@ -24,6 +24,7 @@ export default function LoginPage() {
     const navigation = useNavigate()
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
+        //if user exists (already logged in then dont show the login page)
         if (!isLoading) {
             if (user) {
                 navigation('/home');
@@ -32,6 +33,8 @@ export default function LoginPage() {
     }, [user, isLoading, navigation]);
     const HandleLogin = async (e) => {
         e.preventDefault()
+
+        //perform the zod validation
         try {
 
             ZodLoginSchema.parse({ email, password });
@@ -43,7 +46,7 @@ export default function LoginPage() {
             })
             return;
         }
-        //if validation is good then login
+        //if user inputs passed the validation then login
         try {
             setIsLogging(true)
             await signInWithEmailAndPassword(auth, email, password)
