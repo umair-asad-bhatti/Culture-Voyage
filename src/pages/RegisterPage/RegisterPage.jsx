@@ -84,7 +84,7 @@ export default function RegisterPage() {
                         </div>
                         <div className=''>
                             <InputField type='password' value={confrimPassword} setValue={setConfirmPassword} >
-                                <Send color='#808998' />
+                            <PasswordCheck color='#808998' />
                             </InputField>
                             <div className='mt-4'>
                                 <PasswordChecklist

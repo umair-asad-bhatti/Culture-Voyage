@@ -2,11 +2,13 @@
 import 'react-phone-number-input/style.css'
 import { useState } from 'react';
 import InputField from '../../components/Inputfield/InputField.component';
-import { User, UserEdit } from 'iconsax-react'
+import { User, UserEdit, CalendarSearch, UserSquare } from 'iconsax-react'
 import Button from '../../components/Button/Button.component';
 import PhoneInput from 'react-phone-number-input'
 import { formatPhoneNumberIntl } from 'react-phone-number-input'
 import { useNavigate } from 'react-router-dom';
+import AdditionalInfo from '../../assets/AdditionalInfo.png'
+import strings from '../../constants/Strings'
 // eslint-disable-next-line react/prop-types
 
 const AdditionalInformationPage = () => {
@@ -33,8 +35,8 @@ const AdditionalInformationPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-primary p-8 rounded-xl shadow-md ">
+        <div className="min-h-screen bg-primary flex items-center justify-center bg-gray-100">
+            <div className="w-[50%]  p-8  ">
                 <h2 className="text-2xl font-semibold mb-4">Profile Information</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4 flex gap-2 md:flex-row flex-col">
@@ -47,14 +49,14 @@ const AdditionalInformationPage = () => {
                     </div>
                     
                     <div className="mb-4">
-                        <InputField type='Last Name' value={username} setValue={setUsername} >
+                        <InputField type='Username' value={username} setValue={setUsername} >
 
-                            <UserEdit color="#808998" />
+                            <UserSquare color="#808998" />
                         </InputField>
                     </div>
                     <div className="mb-4">
                         <InputField type='date' value={dob} setValue={setDOB} >
-                            <UserEdit color="#808998" />
+                            <CalendarSearch color="#808998" />
                         </InputField>
                     </div>
                     <div className="mb-4">
@@ -86,6 +88,11 @@ const AdditionalInformationPage = () => {
                     </Button>
                 </form>
             </div>
+            <div className='w-[50%] bg-accent min-h-screen flex flex-col items-center justify-center'>
+                    <img src={AdditionalInfo} width={300} height={300} />
+                    <h3 className='text-primary text-2xl'>{strings.signUpHeading}</h3>
+
+                </div>
         </div>
     );
 };
