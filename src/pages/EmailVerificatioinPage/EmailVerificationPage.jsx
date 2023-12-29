@@ -3,6 +3,10 @@ import { auth, db } from '../../firebase/Firebase'; // Import your Firebase conf
 import { sendEmailVerification, onAuthStateChanged } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore'
 import NaviagateLink from '../../components/NavigateLink/NaviagateLink.component';
+import EmailVerify from '../../assets/EmailVerify.png'
+import strings from '../../constants/Strings'
+
+
 
 const EmailVerificationPage = () => {
     const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -37,8 +41,15 @@ const EmailVerificationPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded shadow-md w-96">
+        <div className="min-h-screen flex justify-between">
+            
+            <div className='w-[50%] bg-accent min-h-screen flex flex-col items-center justify-center'>
+                <img src={EmailVerify} width={300} height={300} />
+                <h3 className='text-primary text-2xl text-center mt-4'>{strings.EmailVerify}</h3>
+            </div>
+            
+            <div className="p-8 rounded  w-[50%] flex justify-center items-center">
+            
                 {isEmailVerified ? (
                     <div>
                         <h2 className="text-2xl font-semibold mb-4">Email Verified</h2>
@@ -59,6 +70,7 @@ const EmailVerificationPage = () => {
                 )}
             </div>
         </div>
+    
     );
 };
 

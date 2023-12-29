@@ -86,7 +86,7 @@ export default function LoginPage() {
                     </div>
 
                     <div className="text-right my-4">
-                        <NaviagateLink toURL={''}>Forgot Password</NaviagateLink>
+                        <NaviagateLink toURL={'/forgetpassword'}>Forgot Password</NaviagateLink>
                     </div>
                     <div className='my-4'>
                         {<Button onClickHandler={HandleLogin} isDisabled={isLogging}>

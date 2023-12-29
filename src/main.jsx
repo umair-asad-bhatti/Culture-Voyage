@@ -15,6 +15,10 @@ import HomePage from './pages/HomePage/HomePage.jsx';
 import RegisterPage from './pages/RegisterPage/RegisterPage.jsx';
 import EmailVerificationPage from './pages/EmailVerificatioinPage/EmailVerificationPage.jsx';
 import AdditionalInformationPage from './pages/AdditionalInformationPage/AdditionalInformationPage.jsx';
+import ForgetPasswordPage from './pages/ForgetPassword/ForgetPasswordPage.jsx';
+import MainHomePage from './pages/MainHome/MainHomePage.jsx';
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -24,7 +28,8 @@ const router = createBrowserRouter(
       <Route path='/home' element={<HomePage />} />
       <Route path='/emailverification' element={<EmailVerificationPage />} />
       <Route path='/additionalinformation' element={<AdditionalInformationPage />} />
-
+      <Route path='/forgetpassword' element={<ForgetPasswordPage />} />
+      <Route path='/MainHome' element={<MainHomePage />} />
     </Route>
   )
 );
