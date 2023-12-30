@@ -62,7 +62,7 @@ export default function HomePage() {
                             </div>
                         </div>
 
-                        <div className="flex flex-row ">
+                        <div className="flex flex-row justify-between gap-4">
                             <div className=" bg-primary min-h-screen w-1/5 px-3 shadow-lg lg:block hidden">
 
                                 <div className="mt-4 flex flex-col gap-5 relative  ">
@@ -121,18 +121,17 @@ export default function HomePage() {
                             </div>
                             {/* Scrolling Area */}
 
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-2 gap-8 ">
 
+                                <PostCardComponent/>
+                                <PostCardComponent/>
                                 <PostCardComponent/>
                                 <PostCardComponent/>
                             </div>
                             {/* Right Sider Bar  */}
-                            <div className="shadow-lg w-1/5">visited Communities</div>
+                            <div className="shadow-lg p-4">visited Communities</div>
                         </div>
-                        <div>
 
-
-                        </div>
                     </>
 
                 )
