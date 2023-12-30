@@ -16,7 +16,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.jsx';
 import EmailVerificationPage from './pages/EmailVerificatioinPage/EmailVerificationPage.jsx';
 import AdditionalInformationPage from './pages/AdditionalInformationPage/AdditionalInformationPage.jsx';
 import ForgetPasswordPage from './pages/ForgetPassword/ForgetPasswordPage.jsx';
-import MainHomePage from './pages/MainHome/MainHomePage.jsx';
+import { ChakraProvider } from '@chakra-ui/react'
 
 
 const router = createBrowserRouter(
@@ -29,14 +29,16 @@ const router = createBrowserRouter(
       <Route path='/emailverification' element={<EmailVerificationPage />} />
       <Route path='/additionalinformation' element={<AdditionalInformationPage />} />
       <Route path='/forgetpassword' element={<ForgetPasswordPage />} />
-      <Route path='/MainHome' element={<MainHomePage />} />
+
     </Route>
   )
 );
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+      <ChakraProvider>
+            <AuthProvider>
+              <RouterProvider router={router} />
+            </AuthProvider>
+      </ChakraProvider>
   </React.StrictMode>,
 )

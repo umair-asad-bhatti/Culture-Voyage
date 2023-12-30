@@ -1,7 +1,7 @@
 import { z } from 'zod'
 const ZodLoginSchema = z.object({
-    email: z.string().email(),
-    password: z.string()
+    email: z.string().email({message:'Please provide a valid email'}),
+    password: z.string().min(8,{message:"Password must contains atleast 8 characters"})
 })
 
 const ZodSignupSchema = z.object({

@@ -2,7 +2,7 @@
 import 'react-phone-number-input/style.css'
 import { useState } from 'react';
 import InputField from '../../components/Inputfield/InputField.component';
-import { User, UserEdit, CalendarSearch, UserSquare } from 'iconsax-react'
+import { User, CalendarSearch, UserSquare } from 'iconsax-react'
 import Button from '../../components/Button/Button.component';
 import PhoneInput from 'react-phone-number-input'
 import { formatPhoneNumberIntl } from 'react-phone-number-input'
