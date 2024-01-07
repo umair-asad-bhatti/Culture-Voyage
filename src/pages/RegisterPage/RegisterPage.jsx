@@ -52,6 +52,7 @@ export default function RegisterPage() {
             setisSigningUp(true)
             await createUserWithEmailAndPassword(auth, email, password)
             if (user) {
+                //saving user data in firestore
                 await setDoc(doc(db, 'users', user.uid), {
                     email, password, firstname: '', lastname: '', dob: '', phone: '', emailVerified: user.emailVerified
                 })

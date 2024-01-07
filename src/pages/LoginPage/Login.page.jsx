@@ -1,6 +1,4 @@
 import strings from '../../constants/Strings'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../firebase/Firebase'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Send } from 'iconsax-react'
@@ -10,21 +8,18 @@ import GoogleLogo from '../../assets/GoogleLogo.png'
 import InputField from '../../components/Inputfield/InputField.component'
 import Button from '../../components/Button/Button.component'
 import NavigateLink from '../../components/NavigateLink/NavigateLink.component.jsx'
-import { ZodLoginSchema } from '../../utils'
 import SocialMediaButton from '../../components/SocialMediaButton/SocialMediaButton.component'
 import { useContext } from 'react'
 import { UserContext } from '../../context/AuthContext'
-import { useToast } from '@chakra-ui/react'
-import {ToastStrings} from "../../constants/ToastStrings.js";
 import { Spinner } from '@chakra-ui/react'
-import {Colors} from '../../constants/Colors.js'
+import { Colors } from '../../constants/Colors.js'
+import {useLogin} from "../../hooks/useLogin.js";
 export default function LoginPage() {
-    const toast = useToast()
+    // const toast = useToast()
     const { user, isLoading } = useContext(UserContext)
-
+    const {HandleLogin,isLogging}=useLogin()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLogging, setIsLogging] = useState(false)
     const navigation = useNavigate()
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
@@ -35,46 +30,7 @@ export default function LoginPage() {
             }
         }
     }, [user, isLoading, navigation]);
-    const HandleLogin = async (e) => {
-        e.preventDefault()
 
-        //perform the zod validation
-        try {
-
-            ZodLoginSchema.parse({ email, password });
-
-        } catch (errors) {
-            let LoginErrors = JSON.parse(errors);
-            LoginErrors.forEach(error => {
-                toast({
-                    title: 'Invalid Email or Password.',
-                    description: error.message,
-                    status: 'error',
-                    duration: ToastStrings.duration,
-                    isClosable: true,
-                })
-            })
-            return;
-        }
-        //if user inputs passed the validation then login
-        try {
-            setIsLogging(true)
-            await signInWithEmailAndPassword(auth, email, password)
-            if (!isLoading && user)
-                navigation("/home")
-            setIsLogging(false)
-        } catch (error) {
-            setIsLogging(false)
-            const errorMessage = error.message;
-            toast({
-                title:errorMessage,
-                duration:ToastStrings.duration,
-                status:'error',
-                isClosable:true
-            })
-        }
-
-    };
 
     return <>
         {
@@ -106,8 +62,8 @@ export default function LoginPage() {
                                 <NavigateLink toURL={'/forgetpassword'}>Forgot Password</NavigateLink>
                             </div>
                             <div className='my-4'>
-                                {<Button onClickHandler={HandleLogin} isDisabled={isLogging}>
-                                    {isLogging ? <Spinner color={Colors.white} size={'sm'}/> : 'Login'}
+                                {<Button onClickHandler={()=>HandleLogin(event,email,password)} isDisabled={isLogging}>
+                                    {isLogging ? <Spinner color={Colors.white} size={'sm'} /> : 'Login'}
                                 </Button>}
                             </div>
 

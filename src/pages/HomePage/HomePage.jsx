@@ -65,7 +65,7 @@ export default function HomePage() {
                                     <PostCardComponent />
                                     <PostCardComponent />
                                 </div>
-                                <div className='w-1/5 p-4 md:block hidden'>
+                                <div className='w-1/5 p-4 md:block hidden  shadow-lg'>
                                     <div className='fixed z-50'>
                                         <h1>Visited Communities</h1>
                                     </div>
