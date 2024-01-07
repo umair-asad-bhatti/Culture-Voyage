@@ -1,5 +1,5 @@
 
-import { Card, CardBody, Image, Heading, Stack, Text, CardFooter, Button } from '@chakra-ui/react'
+// import { Card, CardBody, Image, Heading, Stack, Text, CardFooter, Button } from '@chakra-ui/react'
 const PostCardComponent = () => {
 
     return (
