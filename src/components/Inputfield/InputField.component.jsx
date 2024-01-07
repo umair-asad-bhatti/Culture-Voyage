@@ -5,7 +5,7 @@ import { useState } from "react"
 export default function InputField({ type, value, setValue, children }) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
     return (
-        <div className="flex items-center gap-2  w-full py-2 px-4 text-lg border-2 border-[#808998] rounded-lg focus-within:border-accent">
+        <div className="flex items-center gap-2 bg-trasnparant  w-full py-1 px-4 text-lg border-2 border-[#808998] rounded-lg focus-within:border-accent">
             {children}
             <input
 
@@ -14,7 +14,7 @@ export default function InputField({ type, value, setValue, children }) {
                 name={type}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                className='outline-none border-none w-full'
+                className='outline-none border-none w-full bg-transparent'
             />
             {
                 type == 'password' && <div className="flex content-end ml-16" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>

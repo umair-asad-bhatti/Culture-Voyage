@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
         //     setUser(JSON.parse(storedUser));
         // }
         const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-            console.log('in auth state changed');
+
             if (authUser) {
                 console.log('user found');
                 setUser(authUser);

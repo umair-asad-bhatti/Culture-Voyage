@@ -1,15 +1,11 @@
-import { signOut } from 'firebase/auth';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../context/AuthContext';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { auth } from '../../firebase/Firebase';
 import Navbar from '../../components/Navbar/Navbar.component.jsx';
-import InputField from "../../components/Inputfield/InputField.component.jsx";
-
-import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx";
+import { UserContext } from '../../context/AuthContext';
 import { Spinner } from "@chakra-ui/react";
-import { Colors } from "../../constants/Colors.js";
+import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx";
 import SideBarComponent from "../../components/SideBar/SideBar.component.jsx";
+import { Colors } from "../../constants/Colors.js";
 // import { SplitScreenComponent } from '../../components/SplitScreen/SplitScreen.component.jsx';
 export default function HomePage() {
 
@@ -44,9 +40,9 @@ export default function HomePage() {
                             </div>
                         </div>
                         <div className='flex justify-center items-center'>
-                            <div className='w-screen xl:w-[1500px] flex relative'>
+                            <div className='w-screen  min-h-screen xl:w-[1500px] flex'>
                                 <div className='w-[250px]  lg:block hidden '>
-                                    <div className='fixed z-50 w-[250px]'>
+                                    <div className='fixed  z-50 w-[250px] '>
                                         <SideBarComponent />
                                     </div>
                                 </div>
