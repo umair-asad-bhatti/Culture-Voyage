@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Navbar from '../../components/Navbar/Navbar.component.jsx';
 import { UserContext } from '../../context/AuthContext';
@@ -11,7 +11,7 @@ export default function HomePage() {
 
     const navigation = useNavigate();
     const { user, isLoading } = useContext(UserContext);
-
+    const [isScrolled, setIsScrolled] = useState(false)
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
         if (!isLoading) {
@@ -24,6 +24,14 @@ export default function HomePage() {
     }, [user, isLoading, navigation]);
     // TODO check if user has completed the profile or not
 
+    const checkIfScrolled = () => {
+        const amountScrolled = window.scrollY
+        if (amountScrolled > 50) {
+            setIsScrolled(true)
+        } else
+            setIsScrolled(false)
+    }
+    window.addEventListener('scroll', checkIfScrolled)
 
     return (
         <>
@@ -34,8 +42,8 @@ export default function HomePage() {
                 user?.emailVerified && (
 
                     <>
-                        <div className="sticky top-0 py-2 z-10 shadow-sm text-dark bg-primary flex justify-center">
-                            <div className='w-screen xl:w-[1500px] justify-center px-4'>
+                        <div className="sticky top-0  z-10 shadow-sm text-dark  flex justify-center">
+                            <div style={{ background: isScrolled ? Colors.softGrey : Colors.primary }} className='w-screen xl:w-[1500px] justify-center px-4'>
                                 <Navbar />
                             </div>
                         </div>

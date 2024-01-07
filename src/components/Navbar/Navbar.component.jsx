@@ -6,6 +6,7 @@ import { SearchNormal, HambergerMenu } from "iconsax-react";
 export default function Navbar() {
     const [search, setSearch] = useState("");
     const [toggleSidebar, settoggleSidebar] = useState(false)
+
     const signout = () => {
         signOut(auth).then(() => {
             console.log('logged out');
@@ -13,8 +14,9 @@ export default function Navbar() {
             alert(error);
         });
     }
+
     return (
-        <div className="flex items-center justify-between">
+        <div className={'flex items-center justify-between py-2'}>
             <div className="flex items-center lg:order-none order-last">
                 {/* <img className="ml-3" src={Logo} width={80} height={80} /> */}
                 <div className="ml-3 text-accent font-bold text-2xl">
