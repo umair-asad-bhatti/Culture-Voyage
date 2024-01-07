@@ -17,6 +17,7 @@ const PostCardComponent = () => {
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
+
         >
             <Image
                 objectFit='cover'

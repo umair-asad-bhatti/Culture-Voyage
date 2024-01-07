@@ -44,9 +44,11 @@ export default function HomePage() {
                             </div>
                         </div>
                         <div className='flex justify-center items-center'>
-                            <div className='w-screen xl:w-[1500px] flex'>
-                                <div className='w-1/5 lg:block hidden'>
-                                    <SideBarComponent />
+                            <div className='w-screen xl:w-[1500px] flex relative'>
+                                <div className='w-[250px]  lg:block hidden '>
+                                    <div className='fixed z-50 w-[250px]'>
+                                        <SideBarComponent />
+                                    </div>
                                 </div>
                                 <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
                                     <PostCardComponent />
@@ -60,7 +62,9 @@ export default function HomePage() {
                                     <PostCardComponent />
                                 </div>
                                 <div className='w-1/5 p-4 md:block hidden'>
-                                    visited communities
+                                    <div className='fixed z-50'>
+                                        <h1>Visited Communities</h1>
+                                    </div>
                                 </div>
                             </div>
                         </div>
