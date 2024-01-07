@@ -14,13 +14,13 @@ import strings from '../../constants/Strings'
 import { UserContext } from '../../context/AuthContext'
 import { auth, db } from '../../firebase/Firebase'
 import { ZodSignupSchema } from '../../utils'
-import {useToast} from "@chakra-ui/react";
-import {ToastStrings} from "../../constants/ToastStrings.js";
-import {Colors} from '../../constants/Colors.js'
-import {Spinner} from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
+import { ToastStrings } from "../../constants/ToastStrings.js";
+import { Colors } from '../../constants/Colors.js'
+import { Spinner } from "@chakra-ui/react";
 
 export default function RegisterPage() {
-    const toast=useToast()
+    const toast = useToast()
     const { user } = useContext(UserContext)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -39,10 +39,10 @@ export default function RegisterPage() {
             let SignupErrors = JSON.parse(errors);
             SignupErrors.forEach(error => {
                 toast({
-                    title:error.message,
-                    status:'error',
-                    duration:ToastStrings.duration,
-                    isClosable:true
+                    title: error.message,
+                    status: 'error',
+                    duration: ToastStrings.duration,
+                    isClosable: true
                 })
             })
             return;
@@ -63,10 +63,10 @@ export default function RegisterPage() {
             const errorMessage = error.message;
             //TODO show toast
             toast({
-                title:errorMessage,
-                status:'error',
-                duration:ToastStrings.duration,
-                isClosable:true
+                title: errorMessage,
+                status: 'error',
+                duration: ToastStrings.duration,
+                isClosable: true
             })
         }
 
@@ -100,7 +100,7 @@ export default function RegisterPage() {
                         </div>
                         <div className=''>
                             <InputField type='password' value={confrimPassword} setValue={setConfirmPassword} >
-                            <PasswordCheck color='#808998' />
+                                <PasswordCheck color='#808998' />
                             </InputField>
                             <div className='mt-4'>
                                 <PasswordChecklist
@@ -116,7 +116,7 @@ export default function RegisterPage() {
 
                         <div className='my-4'>
                             {<Button onClickHandler={HandleLogin} isDisabled={isSigningUp}>
-                                {isSigningUp ? <Spinner color={Colors.white} size={'sm'}/>: 'Sign Up'}
+                                {isSigningUp ? <Spinner color={Colors.white} size={'sm'} /> : 'Sign Up'}
                             </Button>}
                         </div>
 

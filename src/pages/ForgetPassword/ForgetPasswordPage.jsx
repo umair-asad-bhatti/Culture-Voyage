@@ -31,7 +31,7 @@ const ForgetPasswordPage = () => {
     try {
 
     await sendPasswordResetEmail(auth, email);
-   //todo toast success
+
       toast({
         title:'Password reset link has been sent...',
         status:'success',

@@ -1,11 +1,41 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  plugins: [require("daisyui")],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        height: 'height'
+      },
+      keyframes: {
+        'slide-in': {
+          '0%': {
+            '-webkit-transform': 'translateX(-200px)',
+            transform: 'translateX(200px)',
+          },
+          '100%': {
+            '-webkit-transform': 'translateX(0px)',
+            transform: 'translateX(0px)',
+          },
+        },
+        'fade-in-out': {
+          '0%': {
+
+            opacity: '0',
+          },
+          '100%': {
+
+            transform: '1',
+          },
+        },
+      },
+      animation: {
+        'slide-in': 'slide-in 0.5s ease-out',
+        'fade': 'fade-in-out 1s ease-in-out infinite alternate',
+      },
       colors: {
         primary: '#FFFFFF',
         secondary: '#292D32',
@@ -36,6 +66,7 @@ export default {
       },
     },
   },
-  plugins: [],
+
+
 }
 
