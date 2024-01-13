@@ -5,6 +5,7 @@ import { UserContext } from '../../context/AuthContext';
 import { Spinner } from "@chakra-ui/react";
 import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx";
 import SideBarComponent from "../../components/SideBar/SideBar.component.jsx";
+import {Route,Routes} from 'react-router-dom'
 import { Colors } from "../../constants/Colors.js";
 // import { SplitScreenComponent } from '../../components/SplitScreen/SplitScreen.component.jsx';
 export default function HomePage() {
@@ -55,15 +56,9 @@ export default function HomePage() {
                                     </div>
                                 </div>
                                 <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
-                                    <PostCardComponent />
-                                    <PostCardComponent />
-                                    <PostCardComponent />
-                                    <PostCardComponent />
-                                    <PostCardComponent />
-                                    <PostCardComponent />
-                                    <PostCardComponent />
-                                    <PostCardComponent />
-                                    <PostCardComponent />
+                                    <Routes>
+                                        <Route exact path={'/'} element={<PostCardComponent/>}/>
+                                    </Routes>
                                 </div>
                                 <div className='w-1/5 p-4 md:block hidden  shadow-lg'>
                                     <div className='fixed z-50'>

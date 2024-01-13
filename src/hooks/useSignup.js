@@ -11,7 +11,7 @@ const useSignup=()=>{
 
     const navigation=useNavigate()
     const toast=useToast()
-    const [isSigningUp, setisSigningUp] = useState(false)
+    const [isSigningUp, setIsSigningUp] = useState(false)
     const handleSignup = async (e,email,password) => {
         e.preventDefault()
         try {
@@ -30,9 +30,9 @@ const useSignup=()=>{
             })
             return;
         }
-        //if validation is good then login
+        //if email and password validations are passed then perform login
         try {
-            setisSigningUp(true)
+            setIsSigningUp(true)
             const {user}=await createUserWithEmailAndPassword(auth, email, password)
             if (user) {
                 //saving user data in firestore
@@ -44,7 +44,7 @@ const useSignup=()=>{
 
         } catch (error) {
             console.log(error)
-            setisSigningUp(false)
+            setIsSigningUp(false)
             const errorMessage = error.message;
             //TODO show toast
             toast({
