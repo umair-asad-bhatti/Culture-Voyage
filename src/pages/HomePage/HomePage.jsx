@@ -14,6 +14,7 @@ export default function HomePage() {
     const { user, isLoading } = useContext(UserContext);
     const [isScrolled, setIsScrolled] = useState(false)
     useEffect(() => {
+
         // Wait for user data to be loaded before redirecting
         if (!isLoading) {
             if (user === null) {
@@ -58,6 +59,7 @@ export default function HomePage() {
                                 <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
                                     <Routes>
                                         <Route exact path={'/'} element={<PostCardComponent/>}/>
+                                        //TODO more routes here
                                     </Routes>
                                 </div>
                                 <div className='w-1/5 p-4 md:block hidden  shadow-lg'>

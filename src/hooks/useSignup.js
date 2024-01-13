@@ -7,7 +7,7 @@ import { useToast } from "@chakra-ui/react";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FireBaseErrorHandler} from "../utils/index.js";
-
+import {UserModel} from '../Models/UserModel.js'
 const useSignup=()=>{
 
     const navigation=useNavigate()
@@ -16,9 +16,7 @@ const useSignup=()=>{
     const handleSignup = async (e,email,password) => {
         e.preventDefault()
         try {
-
             ZodSignupSchema.parse({ email, password });
-
         } catch (errors) {
             let SignupErrors = JSON.parse(errors);
             SignupErrors.forEach(error => {
@@ -33,15 +31,13 @@ const useSignup=()=>{
         }
         //if email and password validations are passed then perform login
         try {
+
             setIsSigningUp(true)
             const {user}=await createUserWithEmailAndPassword(auth, email, password)
-            if (user) {
-                //saving user data in firestore
-                await setDoc(doc(db, 'users', user.uid), {
-                    email, password, firstname: '', lastname: '', dob: '', phone: '', emailVerified: user.emailVerified
-                })
-                navigation("/emailverification")
-            }
+            //saving user data in firestore
+            const newUser=new UserModel(email)
+            await setDoc(doc(db,'Users',user.uid),{...newUser})
+            navigation("/emailverification")
 
         } catch (error) {
 

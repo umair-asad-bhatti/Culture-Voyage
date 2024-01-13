@@ -7,12 +7,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDJI7ThoM2GrLsrTj8H2xQfVdmLbA7GJSE",
-    authDomain: "culture-voyage.firebaseapp.com",
-    projectId: "culture-voyage",
-    storageBucket: "culture-voyage.appspot.com",
-    messagingSenderId: "675639644855",
-    appId: "1:675639644855:web:3392771b8588be12e8f332"
+    apiKey: "AIzaSyDWb0ToIlIT7i-R0DnPk6Z-R1iVp36SIoo",
+    authDomain: "fyp-practice-d9814.firebaseapp.com",
+    projectId: "fyp-practice-d9814",
+    storageBucket: "fyp-practice-d9814.appspot.com",
+    messagingSenderId: "298704112410",
+    appId: "1:298704112410:web:8219d36da7673e24577aa3",
+    measurementId: "G-X9VHVJ27YY"
 };
 
 

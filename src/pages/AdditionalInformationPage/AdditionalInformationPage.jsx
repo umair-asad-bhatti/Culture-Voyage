@@ -1,6 +1,7 @@
 
 import 'react-phone-number-input/style.css'
-import { useState } from 'react';
+
+import {useContext, useState} from 'react';
 import InputField from '../../components/Inputfield/InputField.component';
 import { User, CalendarSearch, UserSquare } from 'iconsax-react'
 import Button from '../../components/Button/Button.component';
@@ -9,6 +10,9 @@ import { formatPhoneNumberIntl } from 'react-phone-number-input'
 import { useNavigate } from 'react-router-dom';
 import AdditionalInfo from '../../assets/AdditionalInfo.png'
 import strings from '../../constants/Strings'
+import {doc, updateDoc} from "firebase/firestore";
+import {db} from "../../firebase/Firebase.js";
+import {UserContext} from "../../context/AuthContext.jsx";
 // eslint-disable-next-line react/prop-types
 
 const AdditionalInformationPage = () => {
@@ -19,18 +23,25 @@ const AdditionalInformationPage = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [gender, setGender] = useState('');
     const navigation = useNavigate()
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle the submission of the user's profile information
-        // You can send the data to your server or update the user's profile in Firebase, etc.
-        console.log('Submitting profile information:', {
-            firstName,
-            lastName,
-            username,
-            dob,
-            gender,
-            PhoneNumber: formatPhoneNumberIntl(phoneNumber),
-        });
+    const { user } = useContext(UserContext);
+    const handleSubmit =async (e) => {
+        e.preventDefault()
+
+        //TODO extract related information from user phone number ==>Zain
+
+        await updateDoc(doc(db,'Users',user.uid),{
+            ['First Name']:firstName,
+            ['Last Name']:lastName,
+            ['Username']:username,
+            ['Country']:'',
+            ['Country Code']:'',
+            ['Country Dial Code']:'',
+            ['National Number']:'',
+            ['Phone Number']:phoneNumber,
+            ['Gender']:gender,
+            ['Date Of Birth']:dob,
+            ['Phone Verified']:false,
+        })
         navigation("/home")
     };
 

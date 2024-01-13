@@ -89,8 +89,7 @@ const FireBaseErrorHandler=(errorCode)=>{
             return FirebaseErrors.tooManyRequests
         case 'auth/network-request-failed':
             return FirebaseErrors.networkError
-        default:
-            return 'Unknown error occurred. Try again'
+
 
     }
 
