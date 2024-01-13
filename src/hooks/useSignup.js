@@ -6,6 +6,7 @@ import {doc, setDoc} from "firebase/firestore";
 import { useToast } from "@chakra-ui/react";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {FireBaseErrorHandler} from "../utils/index.js";
 
 const useSignup=()=>{
 
@@ -43,9 +44,9 @@ const useSignup=()=>{
             }
 
         } catch (error) {
-            console.log(error)
+
             setIsSigningUp(false)
-            const errorMessage = error.message;
+            const errorMessage = FireBaseErrorHandler(error.code)
             //TODO show toast
             toast({
                 title: errorMessage,

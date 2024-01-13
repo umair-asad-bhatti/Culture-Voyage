@@ -5,6 +5,7 @@ import { auth } from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import {useState} from 'react'
+import {FireBaseErrorHandler} from "../utils/index.js";
 
 export const useLogin = () => {
     const toast = useToast()
@@ -41,7 +42,7 @@ export const useLogin = () => {
 
         } catch (error) {
 
-            const errorMessage = error.message;
+            const errorMessage=FireBaseErrorHandler(error.code)
             toast({
                 title: errorMessage,
                 duration: ToastStrings.duration,
