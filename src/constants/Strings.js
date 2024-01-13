@@ -9,7 +9,7 @@ const strings = {
     //EmailVerification Screen
     EmailVerify:'Verify Your Email Address',
 
-    //Forget Passwsord
+    //Forget Password
     ForgetPassword:'Forget Password',
     ForgetPasswordHeading:'Do not worry sometimes people can forget too , enter your email and we will send you forget password reset link'
 }
