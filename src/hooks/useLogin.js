@@ -1,11 +1,13 @@
 import { ZodLoginSchema } from "../utils/index.js";
 import { ToastStrings } from "../constants/ToastStrings.js";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/Firebase.js";
+import {auth, db} from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react'
 import { FireBaseErrorHandler } from "../utils/index.js";
+import {UserModel} from "../Models/UserModel.js";
+import {doc, setDoc,getDoc} from "firebase/firestore";
 
 export const useLogin = () => {
     const toast = useToast()
@@ -62,13 +64,16 @@ export const useLogin = () => {
         try {
 
             setIsloading(true)
-            const response = await signInWithPopup(auth, provider)
-            const user = response.user;
+            const {user} = await signInWithPopup(auth, provider)
+            //check if user is already present or not
+            const alreadyPresentUser=await getDoc(doc(db,'Users',user.uid))
+            if(!alreadyPresentUser.exists())
+            {
+                //saving user data in firestore
+                const newUser = new UserModel(user.email)
+                await setDoc(doc(db, 'Users', user.uid), { ...newUser })
 
-            //saving user data in firestore
-            const newUser = new UserModel(user.email)
-            await setDoc(doc(db, 'Users', user.uid), { ...newUser })
-            navigation("/additionalinformation")
+            }
 
         } catch (error) {
 

@@ -7,6 +7,8 @@ import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx"
 import SideBarComponent from "../../components/SideBar/SideBar.component.jsx";
 import {Route,Routes} from 'react-router-dom'
 import { Colors } from "../../constants/Colors.js";
+import {doc, getDoc} from "firebase/firestore";
+import {db} from "../../firebase/Firebase.js";
 // import { SplitScreenComponent } from '../../components/SplitScreen/SplitScreen.component.jsx';
 export default function HomePage() {
 
@@ -14,14 +16,21 @@ export default function HomePage() {
     const { user, isLoading } = useContext(UserContext);
     const [isScrolled, setIsScrolled] = useState(false)
     useEffect(() => {
-
         // Wait for user data to be loaded before redirecting
+
         if (!isLoading) {
             if (user === null) {
                 navigation('/login');
             } else if (!user.emailVerified) {
                 navigation('/emailverification');
             }
+            else if(user)
+                (async()=>{
+                const response=await getDoc(doc(db,'Users',user.uid));
+                const userData=response.data();
+                if(userData.Username.length==0)
+                    navigation('/additionalinformation')
+            })()
         }
     }, [user, isLoading, navigation]);
     // TODO check if user has completed the profile or not

@@ -2,7 +2,7 @@ import {ZodSignupSchema} from "../utils/index.js";
 import {ToastStrings} from "../constants/ToastStrings.js";
 import {createUserWithEmailAndPassword,signInWithPopup,GoogleAuthProvider} from "firebase/auth";
 import {auth, db} from "../firebase/Firebase.js";
-import {doc, setDoc} from "firebase/firestore";
+import {doc, getDoc, setDoc} from "firebase/firestore";
 import { useToast } from "@chakra-ui/react";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -35,6 +35,7 @@ const useSignup=()=>{
 
             setIsSigningUp(true)
             const {user}=await createUserWithEmailAndPassword(auth, email, password)
+
             //saving user data in firestore
             const newUser=new UserModel(email)
             await setDoc(doc(db,'Users',user.uid),{...newUser})
@@ -61,16 +62,20 @@ const useSignup=()=>{
         try {
 
             setIsLoading(true)
-            const response=await signInWithPopup(auth, provider)
-            const user = response.user;
-            
-            //saving user data in firestore
-            const newUser=new UserModel(user.email)
-            await setDoc(doc(db,'Users',user.uid),{...newUser})
-            navigation("/additionalinformation")
+            const {user}=await signInWithPopup(auth, provider)
+            const alreadyPresentUser=await getDoc(doc(db,'Users',user.uid))
+            if(alreadyPresentUser.exists())
+            {
+                navigation('/additionalinformation')
+            }else{
+                //saving user data in firestore
+                const newUser = new UserModel(user.email)
+                await setDoc(doc(db, 'Users', user.uid), { ...newUser })
+                navigation("/additionalinformation")
+            }
 
         } catch (error) {
-
+            console.log(error)
             setIsLoading(false)
             const errorMessage = FireBaseErrorHandler(error.code)
             //TODO show toast

@@ -1,20 +1,15 @@
 import "react-phone-number-input/style.css";
 
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import InputField from "../../components/Inputfield/InputField.component";
 import { User, CalendarSearch, UserSquare } from "iconsax-react";
 import Button from "../../components/Button/Button.component";
 import PhoneInput from "react-phone-number-input";
-import {
-  formatPhoneNumberIntl,
-  parsePhoneNumber,
-  getCountryCallingCode,
-  getCountries,
-} from "react-phone-number-input";
+import {parsePhoneNumber} from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import AdditionalInfo from "../../assets/AdditionalInfo.png";
 import strings from "../../constants/Strings";
-import { doc, updateDoc } from "firebase/firestore";
+import {doc, getDoc, updateDoc} from "firebase/firestore";
 import { db } from "../../firebase/Firebase.js";
 import { UserContext } from "../../context/AuthContext.jsx";
 import axios from "axios";
@@ -29,20 +24,30 @@ const AdditionalInformationPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const navigation = useNavigate();
-  const { user } = useContext(UserContext);
-
+  const { user,isLoading } = useContext(UserContext);
+  useEffect(()=>{
+    if(!isLoading && user)
+    {
+      //TODO check if user profile is already completed than redirect to home
+      (async()=>{
+        const response=await getDoc(doc(db,'Users',user.uid));
+        const userData=response.data();
+        if(userData.Username)
+          navigation('/home')
+      })()
+    }
+  })
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-=======
+
     const DOB = new Date(dob).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
       });
 
-    //TODO extract related information from user phone number ==>Zain
->>>>>>> 0a281dcf4c9d36d2a3af59c3c7d18f9a33f06655
+    //TODO check if the information is complete or not
+
     const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
     const countryCode = `+${parsedPhoneNumber?.countryCallingCode || ""}`;
     const countryDialCode = parsedPhoneNumber?.country || "";
@@ -52,12 +57,6 @@ const AdditionalInformationPage = () => {
     );
     const country = response.data?.[0]?.name?.common || "";
 
-<<<<<<< HEAD
-=======
-    //console.log("Country Name:", country);
-    
-
->>>>>>> 0a281dcf4c9d36d2a3af59c3c7d18f9a33f06655
     await updateDoc(doc(db, "Users", user.uid), {
       ["First Name"]: firstName,
       ["Last Name"]: lastName,

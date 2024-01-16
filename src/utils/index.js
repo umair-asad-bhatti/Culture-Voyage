@@ -92,7 +92,5 @@ const FireBaseErrorHandler=(errorCode)=>{
 
 
     }
-
-
 }
 export { ZodLoginSchema, ZodSignupSchema,FireBaseErrorHandler }
