@@ -33,8 +33,6 @@ const AdditionalInformationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-=======
     const DOB = new Date(dob).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'long',
@@ -42,8 +40,8 @@ const AdditionalInformationPage = () => {
       });
 
     //TODO extract related information from user phone number ==>Zain
->>>>>>> 0a281dcf4c9d36d2a3af59c3c7d18f9a33f06655
     const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
+
     const countryCode = `+${parsedPhoneNumber?.countryCallingCode || ""}`;
     const countryDialCode = parsedPhoneNumber?.country || "";
     const nationalNumber = parsedPhoneNumber?.nationalNumber || "";
@@ -52,12 +50,9 @@ const AdditionalInformationPage = () => {
     );
     const country = response.data?.[0]?.name?.common || "";
 
-<<<<<<< HEAD
-=======
     //console.log("Country Name:", country);
     
 
->>>>>>> 0a281dcf4c9d36d2a3af59c3c7d18f9a33f06655
     await updateDoc(doc(db, "Users", user.uid), {
       ["First Name"]: firstName,
       ["Last Name"]: lastName,
