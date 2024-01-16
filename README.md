@@ -8,6 +8,10 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 
-todo
-1. complete the registration process
-2. show the icon in navbar to show the user profile indication
+# TODO = Zain
+1. change the format of date of birth to be saved in fireabse 
+2. integrate the google login 
+3. link email/phone and google authentication togather.
+------------------------------------------------------------------------
+# TODO Umair
+1. post

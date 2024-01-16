@@ -33,10 +33,7 @@ const AdditionalInformationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    //TODO extract related information from user phone number ==>Zain
     const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
-
     const countryCode = `+${parsedPhoneNumber?.countryCallingCode || ""}`;
     const countryDialCode = parsedPhoneNumber?.country || "";
     const nationalNumber = parsedPhoneNumber?.nationalNumber || "";
@@ -44,8 +41,6 @@ const AdditionalInformationPage = () => {
       `https://restcountries.com/v3.1/alpha/${countryDialCode}`
     );
     const country = response.data?.[0]?.name?.common || "";
-
-    //console.log("Country Name:", country);
 
     await updateDoc(doc(db, "Users", user.uid), {
       ["First Name"]: firstName,
@@ -62,15 +57,7 @@ const AdditionalInformationPage = () => {
     });
     navigation("/home");
   };
-  const getCountryName = (countryCode) => {
-    if (countryCode) {
-      const countries = getCountries();
-      //   console.log('Countries list:', countries);
-      const country = countries.find((country) => country.iso2 === countryCode);
-      return country?.name;
-    }
-    return "";
-  };
+
   return (
     <div className="min-h-screen bg-primary flex items-center justify-center bg-gray-100">
       <div className="w-[50%]  p-8  ">
