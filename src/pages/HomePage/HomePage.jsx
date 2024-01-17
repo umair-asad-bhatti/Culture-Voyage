@@ -7,33 +7,26 @@ import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx"
 import SideBarComponent from "../../components/SideBar/SideBar.component.jsx";
 import {Route,Routes} from 'react-router-dom'
 import { Colors } from "../../constants/Colors.js";
-import {doc, getDoc} from "firebase/firestore";
-import {db} from "../../firebase/Firebase.js";
-// import { SplitScreenComponent } from '../../components/SplitScreen/SplitScreen.component.jsx';
+import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
+
 export default function HomePage() {
 
     const navigation = useNavigate();
     const { user, isLoading } = useContext(UserContext);
     const [isScrolled, setIsScrolled] = useState(false)
+    const {isAdditionalInformationComplete,checkIsEmailVerified,checkingUserInformation}=useCheckUserInformation()
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
-
-        if (!isLoading) {
-            if (user === null) {
+        (async()=>{
+            if (!isLoading && !user)
                 navigation('/login');
-            } else if (!user.emailVerified) {
-                navigation('/emailverification');
-            }
-            else if(user)
-                (async()=>{
-                const response=await getDoc(doc(db,'Users',user.uid));
-                const userData=response.data();
-                if(userData.Username.length==0)
-                    navigation('/additionalinformation')
-            })()
-        }
+
+            checkIsEmailVerified(user)
+            await isAdditionalInformationComplete(user)
+        })()
     }, [user, isLoading, navigation]);
-    // TODO check if user has completed the profile or not
+    if(checkingUserInformation || isLoading)
+        return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
 
     const checkIfScrolled = () => {
         const amountScrolled = window.scrollY
@@ -45,12 +38,6 @@ export default function HomePage() {
     window.addEventListener('scroll', checkIfScrolled)
 
     return (
-        <>
-            {isLoading ? (
-                // Render a loading indicator if user data is still loading
-                <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
-            ) : (
-                user?.emailVerified && (
 
                     <>
                         <div className="sticky top-0  z-10 shadow-sm text-dark  flex justify-center">
@@ -78,12 +65,8 @@ export default function HomePage() {
                                 </div>
                             </div>
                         </div>
-                        
+
                     </>
 
-                )
-            )}
-
-        </>
     );
 }

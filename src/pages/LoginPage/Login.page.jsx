@@ -14,10 +14,12 @@ import { UserContext } from "../../context/AuthContext";
 import { Spinner } from "@chakra-ui/react";
 import { Colors } from "../../constants/Colors.js";
 import { useLogin } from "../../hooks/useLogin.js";
+import {useGoogleLogin} from "../../hooks/useGoogleLogin.js";
 export default function LoginPage() {
   // const toast = useToast()
   const { user, isLoading } = useContext(UserContext);
-  const { HandleLogin, isLogging, googleSignup, isloading } = useLogin();
+  const { HandleLogin, isLogging } = useLogin();
+  const {handleGoogleLogin,isGoogleLoading}=useGoogleLogin()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigate();
@@ -94,8 +96,8 @@ export default function LoginPage() {
                   <div className="w-16 h-[1px] border border-gray-300"></div>
                 </div>
 
-                <SocialMediaButton onClickHandler={googleSignup}>
-                  {isloading ? (
+                <SocialMediaButton onClickHandler={handleGoogleLogin}>
+                  {isGoogleLoading ? (
                     <Spinner color={Colors.black} size={"sm"} />
                   ) : (
                     <img src={GoogleLogo} alt="" width={30} height={30} />

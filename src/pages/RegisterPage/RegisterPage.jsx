@@ -11,6 +11,7 @@ import { Colors } from "../../constants/Colors.js";
 import { Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import useSignup from "../../hooks/useSignup.js";
+import {useGoogleLogin} from "../../hooks/useGoogleLogin.js";
 
 export default function RegisterPage() {
   // const toast = useToast()
@@ -18,7 +19,9 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { handleSignup, isSigningUp, googleSignup,isLoading } = useSignup();
+  const { handleSignup, isSigningUp } = useSignup();
+  const {handleGoogleLogin,isGoogleLoading}=useGoogleLogin();
+
 
   // const navigation = useNavigate()
   return (
@@ -94,8 +97,8 @@ export default function RegisterPage() {
               <div className="w-16 h-[1px] border border-gray-300"></div>
             </div>
 
-            <SocialMediaButton onClickHandler={googleSignup}>
-              {isLoading ? (
+            <SocialMediaButton onClickHandler={handleGoogleLogin}>
+              {isGoogleLoading ? (
                 <Spinner color={Colors.black} size={"sm"} />
               ) : (
                 <img src={GoogleLogo} alt="" width={30} height={30} />

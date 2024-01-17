@@ -13,6 +13,9 @@ import {doc, getDoc, updateDoc} from "firebase/firestore";
 import { db } from "../../firebase/Firebase.js";
 import { UserContext } from "../../context/AuthContext.jsx";
 import axios from "axios";
+import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
+import {Spinner} from "@chakra-ui/react";
+import {Colors} from "../../constants/Colors.js";
 
 // eslint-disable-next-line react/prop-types
 
@@ -25,28 +28,25 @@ const AdditionalInformationPage = () => {
   const [gender, setGender] = useState("");
   const navigation = useNavigate();
   const { user,isLoading } = useContext(UserContext);
+  const {isAdditionalInformationComplete,checkingUserInformation}=useCheckUserInformation()
   useEffect(()=>{
     if(!isLoading && user)
     {
-      //TODO check if user profile is already completed than redirect to home
       (async()=>{
-        const response=await getDoc(doc(db,'Users',user.uid));
-        const userData=response.data();
-        if(userData.Username)
-          navigation('/home')
+        await isAdditionalInformationComplete(user)
       })()
-    }
+    }else
+      navigation('/login')
   })
+  if(isLoading || checkingUserInformation)
+    return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const DOB = new Date(dob).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
       });
-
-    //TODO check if the information is complete or not
 
     const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
     const countryCode = `+${parsedPhoneNumber?.countryCallingCode || ""}`;

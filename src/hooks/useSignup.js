@@ -13,7 +13,7 @@ const useSignup=()=>{
     const navigation=useNavigate()
     const toast=useToast()
     const [isSigningUp, setIsSigningUp] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+
     const handleSignup = async (e,email,password) => {
         e.preventDefault()
         try {
@@ -55,39 +55,7 @@ const useSignup=()=>{
         }
 
     };
-    const googleSignup = async (e) => {
-        e.preventDefault()
-        const provider = new GoogleAuthProvider();
-        
-        try {
 
-            setIsLoading(true)
-            const {user}=await signInWithPopup(auth, provider)
-            const alreadyPresentUser=await getDoc(doc(db,'Users',user.uid))
-            if(alreadyPresentUser.exists())
-            {
-                navigation('/additionalinformation')
-            }else{
-                //saving user data in firestore
-                const newUser = new UserModel(user.email)
-                await setDoc(doc(db, 'Users', user.uid), { ...newUser })
-                navigation("/additionalinformation")
-            }
-
-        } catch (error) {
-            console.log(error)
-            setIsLoading(false)
-            const errorMessage = FireBaseErrorHandler(error.code)
-            //TODO show toast
-            toast({
-                title: errorMessage,
-                status: 'error',
-                duration: ToastStrings.duration,
-                isClosable: true
-            })
-        }
-
-    };
-    return {handleSignup,isSigningUp,googleSignup,isLoading}
+    return {handleSignup,isSigningUp}
 }
 export default  useSignup
