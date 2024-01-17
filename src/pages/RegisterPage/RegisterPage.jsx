@@ -9,9 +9,11 @@ import SocialMediaButton from "../../components/SocialMediaButton/SocialMediaBut
 import strings from "../../constants/Strings";
 import { Colors } from "../../constants/Colors.js";
 import { Spinner } from "@chakra-ui/react";
-import { useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import useSignup from "../../hooks/useSignup.js";
 import {useGoogleLogin} from "../../hooks/useGoogleLogin.js";
+import {UserContext} from "../../context/AuthContext.jsx";
+import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
 
 export default function RegisterPage() {
   // const toast = useToast()
@@ -21,8 +23,13 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const { handleSignup, isSigningUp } = useSignup();
   const {handleGoogleLogin,isGoogleLoading}=useGoogleLogin();
-
-
+  const {user, isLoading}= useContext(UserContext)
+  const {isAdditionalInformationComplete,checkIsEmailVerified} =useCheckUserInformation()
+  useEffect(() => {
+    if (!isLoading && user) {
+        checkIsEmailVerified(user)
+    }
+  }, [user, isLoading]);
   // const navigation = useNavigate()
   return (
     <>

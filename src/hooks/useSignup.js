@@ -9,8 +9,6 @@ import {useNavigate} from "react-router-dom";
 import {FireBaseErrorHandler} from "../utils/index.js";
 import {UserModel} from '../Models/UserModel.js'
 const useSignup=()=>{
-
-    const navigation=useNavigate()
     const toast=useToast()
     const [isSigningUp, setIsSigningUp] = useState(false)
 
@@ -35,14 +33,11 @@ const useSignup=()=>{
 
             setIsSigningUp(true)
             const {user}=await createUserWithEmailAndPassword(auth, email, password)
-
             //saving user data in firestore
             const newUser=new UserModel(email)
             await setDoc(doc(db,'Users',user.uid),{...newUser})
-            navigation("/emailverification")
 
         } catch (error) {
-
             setIsSigningUp(false)
             const errorMessage = FireBaseErrorHandler(error.code)
             //TODO show toast
@@ -53,7 +48,6 @@ const useSignup=()=>{
                 isClosable: true
             })
         }
-
     };
 
     return {handleSignup,isSigningUp}

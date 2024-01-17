@@ -19,34 +19,12 @@ import ForgetPasswordPage from './pages/ForgetPassword/ForgetPasswordPage.jsx';
 import { ChakraProvider } from '@chakra-ui/react'
 
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route path='/' element={<App />} />
-      <Route path='/login' element={<LoginPage />} />
-      <Route path='/register' element={<RegisterPage />} />
-      <Route path='/home' element={<HomePage />} />
-      <Route path='/emailverification' element={<EmailVerificationPage />} />
-      <Route path='/additionalinformation' element={<AdditionalInformationPage />} />
-      <Route path='/forgetpassword' element={<ForgetPasswordPage />} />
-    </Route>
-  )
-);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
       <ChakraProvider>
             <AuthProvider>
-              {/*<RouterProvider router={router} />*/}
                 <BrowserRouter >
-                    <Routes>
-                        <Route path='/' element={<App />} exact/>
-                        <Route path='/login' element={<LoginPage />} exact/>
-                        <Route path='/register' element={<RegisterPage />} exact/>
-                        <Route path='/emailverification' element={<EmailVerificationPage />} exact/>
-                        <Route path='/additionalinformation' element={<AdditionalInformationPage />} exact/>
-                        <Route path='/forgetpassword' element={<ForgetPasswordPage />} exact />
-                        <Route path='/home/*' element={<HomePage />} />
-                    </Routes>
+                   <App/>
                 </BrowserRouter>
             </AuthProvider>
       </ChakraProvider>

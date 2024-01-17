@@ -12,8 +12,6 @@ export const useLogin = () => {
     const toast = useToast()
     const navigation = useNavigate()
     const [isLogging, setIsLogging] = useState(false)
-
-
     const HandleLogin = async (e, email, password) => {
 
         e.preventDefault()

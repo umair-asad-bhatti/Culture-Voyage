@@ -28,17 +28,12 @@ const AdditionalInformationPage = () => {
   const [gender, setGender] = useState("");
   const navigation = useNavigate();
   const { user,isLoading } = useContext(UserContext);
-  const {isAdditionalInformationComplete,checkingUserInformation}=useCheckUserInformation()
+  const {checkingUserInformation}=useCheckUserInformation()
   useEffect(()=>{
-    if(!isLoading && user)
-    {
-      (async()=>{
-        await isAdditionalInformationComplete(user)
-      })()
-    }else
-      navigation('/login')
-  })
-  if(isLoading || checkingUserInformation)
+    if(!isLoading && !user)
+       navigation('/login')
+  },[user,isLoading])
+  if(isLoading)
     return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
   const handleSubmit = async (e) => {
     e.preventDefault();

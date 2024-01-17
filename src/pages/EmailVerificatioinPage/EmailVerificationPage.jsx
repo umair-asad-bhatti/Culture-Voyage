@@ -13,15 +13,22 @@ import {useNavigate} from "react-router-dom";
 import {Colors} from '../../constants/Colors.js'
 import {Spinner} from "@chakra-ui/react";
 import Button from '../../components/Button/Button.component.jsx'
+import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
 const EmailVerificationPage = () => {
-    const {user,isLoading}=useContext(UserContext)
+    const {user,isLoading,setUser}=useContext(UserContext)
     const navigation=useNavigate()
     const toast=useToast()
     const [isEmailVerified, setIsEmailVerified] = useState(false);
     const [isSending,setIsSending]=useState(false)
+    const {isAdditionalInformationComplete}=useCheckUserInformation()
     useEffect(()=>{
         if(!user)
             navigation('/login')
+        if(!isLoading && user && user.emailVerified){
+            (async()=>{
+                await isAdditionalInformationComplete(user)
+            })()
+        }
     },[user,isLoading])
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
@@ -36,7 +43,7 @@ const EmailVerificationPage = () => {
                     if (user && user.emailVerified) {
                         clearInterval(unsubscribeSetInterval) //delete interval
                         setIsEmailVerified(true)
-                        updateDoc(doc(db, 'users', user.uid), { emailVerified: user.emailVerified })
+                        setUser(user)
                         // -> Go to your screnn
                         return onIdTokenChangedUnsubscribe() //unsubscribe onIdTokenChanged
                     }
@@ -75,7 +82,6 @@ const EmailVerificationPage = () => {
         }finally {
             setIsSending(false)
         }
-
     };
 
     return (

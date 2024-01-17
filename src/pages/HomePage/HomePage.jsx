@@ -9,23 +9,25 @@ import {Route,Routes} from 'react-router-dom'
 import { Colors } from "../../constants/Colors.js";
 import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
 
+
+
 export default function HomePage() {
 
     const navigation = useNavigate();
     const { user, isLoading } = useContext(UserContext);
     const [isScrolled, setIsScrolled] = useState(false)
-    const {isAdditionalInformationComplete,checkIsEmailVerified,checkingUserInformation}=useCheckUserInformation()
+   const {checkIsEmailVerified,isAdditionalInformationComplete}= useCheckUserInformation()
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
-        (async()=>{
-            if (!isLoading && !user)
-                navigation('/login');
-
+        if (!isLoading && !user)
+            navigation('/login');
+        if(!isLoading && !user?.emailVerified)
             checkIsEmailVerified(user)
-            await isAdditionalInformationComplete(user)
-        })()
-    }, [user, isLoading, navigation]);
-    if(checkingUserInformation || isLoading)
+        if(!isLoading && user && user?.emailVerified)
+            isAdditionalInformationComplete(user)
+    }, [user, isLoading]);
+
+    if(isLoading)
         return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
 
     const checkIfScrolled = () => {
@@ -54,8 +56,8 @@ export default function HomePage() {
                                 </div>
                                 <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
                                     <Routes>
-                                        <Route exact path={'/'} element={<PostCardComponent/>}/>
-                                        //TODO more routes here
+                                        <Route exact path={'/'} element={<PostCardComponent/>} />
+
                                     </Routes>
                                 </div>
                                 <div className='w-1/5 p-4 md:block hidden  shadow-lg'>

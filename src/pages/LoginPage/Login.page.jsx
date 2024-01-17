@@ -15,6 +15,8 @@ import { Spinner } from "@chakra-ui/react";
 import { Colors } from "../../constants/Colors.js";
 import { useLogin } from "../../hooks/useLogin.js";
 import {useGoogleLogin} from "../../hooks/useGoogleLogin.js";
+import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
+
 export default function LoginPage() {
   // const toast = useToast()
   const { user, isLoading } = useContext(UserContext);
@@ -23,16 +25,16 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigate();
+  const {isAdditionalInformationComplete,checkIsEmailVerified} =useCheckUserInformation()
   useEffect(() => {
-    // Wait for user data to be loaded before redirecting
-    //if user exists (already logged in then dont show the login page)
-    if (!isLoading) {
-      if (user) {
-        navigation("/home");
-      }
+    if (!isLoading && user) {
+        (async()=>{
+          checkIsEmailVerified(user)
+          if(user.emailVerified)
+            await isAdditionalInformationComplete(user)
+        })()
     }
-  }, [user, isLoading, navigation]);
-
+  }, [user, isLoading]);
   return (
     <>
       {!isLoading && !user && (

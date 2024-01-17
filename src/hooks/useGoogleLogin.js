@@ -6,16 +6,19 @@ import {FireBaseErrorHandler} from "../utils/index.js";
 import {ToastStrings} from "../constants/ToastStrings.js";
 import { useToast } from "@chakra-ui/react";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+
 export const useGoogleLogin=()=>{
     const [isGoogleLoading,setIsGoogleLoading]=useState(false)
     const toast=useToast()
+
     const handleGoogleLogin = async (e) => {
+        setIsGoogleLoading(true)
         e.preventDefault()
         const provider = new GoogleAuthProvider();
         try {
-
-            setIsGoogleLoading(true)
             const {user} = await signInWithPopup(auth, provider)
+
             //check if user is already present or not
             const alreadyPresentUser=await getDoc(doc(db,'Users',user.uid))
             if(!alreadyPresentUser.exists())
@@ -23,10 +26,10 @@ export const useGoogleLogin=()=>{
                 //saving user data in firestore
                 const newUser = new UserModel(user.email)
                 await setDoc(doc(db, 'Users', user.uid), { ...newUser })
+
             }
-
+            setIsGoogleLoading(false)
         } catch (error) {
-
             setIsGoogleLoading(false)
             const errorMessage = FireBaseErrorHandler(error.code)
             //TODO show toast
