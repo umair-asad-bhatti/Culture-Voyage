@@ -27,7 +27,11 @@ export default function RegisterPage() {
   const {isAdditionalInformationComplete,checkIsEmailVerified} =useCheckUserInformation()
   useEffect(() => {
     if (!isLoading && user) {
+      (async()=>{
         checkIsEmailVerified(user)
+        if(user.emailVerified)
+          await isAdditionalInformationComplete(user)
+      })()
     }
   }, [user, isLoading]);
   // const navigation = useNavigate()

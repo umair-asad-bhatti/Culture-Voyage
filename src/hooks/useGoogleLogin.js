@@ -6,7 +6,7 @@ import {FireBaseErrorHandler} from "../utils/index.js";
 import {ToastStrings} from "../constants/ToastStrings.js";
 import { useToast } from "@chakra-ui/react";
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+
 
 export const useGoogleLogin=()=>{
     const [isGoogleLoading,setIsGoogleLoading]=useState(false)
@@ -26,7 +26,6 @@ export const useGoogleLogin=()=>{
                 //saving user data in firestore
                 const newUser = new UserModel(user.email)
                 await setDoc(doc(db, 'Users', user.uid), { ...newUser })
-
             }
             setIsGoogleLoading(false)
         } catch (error) {

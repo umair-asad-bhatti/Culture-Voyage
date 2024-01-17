@@ -16,7 +16,7 @@ export default function HomePage() {
     const navigation = useNavigate();
     const { user, isLoading } = useContext(UserContext);
     const [isScrolled, setIsScrolled] = useState(false)
-   const {checkIsEmailVerified,isAdditionalInformationComplete}= useCheckUserInformation()
+    const {checkIsEmailVerified,isAdditionalInformationComplete}= useCheckUserInformation()
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
         if (!isLoading && !user)

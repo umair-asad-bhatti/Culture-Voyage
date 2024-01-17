@@ -26,4 +26,4 @@ export const useCheckUserInformation=()=> {
             }
         }
         return {isAdditionalInformationComplete, checkIsEmailVerified}
-    }
+}
