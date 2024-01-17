@@ -7,10 +7,9 @@ export const useCheckUserInformation=()=> {
     const navigate = useNavigate();
 
     const isAdditionalInformationComplete = async (user) => {
+        const response = await getDoc(doc(db, 'Users', user?.uid));
 
-        const response = await getDoc(doc(db, 'Users', user.uid));
         if (response.exists()) {
-            console.log('in information if exists')
             const userData = response.data();
             if (userData['First Name'] && userData['Last Name'] && userData['Username'] && userData['Country'] && userData['Country Code'] && userData['Country Dial Code'] && userData['National Number'] && userData['Phone Number'] && userData['Gender'] && userData['Date Of Birth']) {
                 navigate('/home')

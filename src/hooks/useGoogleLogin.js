@@ -18,7 +18,6 @@ export const useGoogleLogin=()=>{
         const provider = new GoogleAuthProvider();
         try {
             const {user} = await signInWithPopup(auth, provider)
-
             //check if user is already present or not
             const alreadyPresentUser=await getDoc(doc(db,'Users',user.uid))
             if(!alreadyPresentUser.exists())

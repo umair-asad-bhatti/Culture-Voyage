@@ -28,13 +28,13 @@ export default function LoginPage() {
   const {isAdditionalInformationComplete,checkIsEmailVerified} =useCheckUserInformation()
   useEffect(() => {
     if (!isLoading && user) {
-        (async()=>{
+
           checkIsEmailVerified(user)
-          if(user.emailVerified)
-            await isAdditionalInformationComplete(user)
-        })()
+          if(user.emailVerified && !isGoogleLoading)
+            isAdditionalInformationComplete(user)
+
     }
-  }, [user, isLoading]);
+  }, [user, isLoading,isGoogleLoading]);
   return (
     <>
       {!isLoading && !user && (
