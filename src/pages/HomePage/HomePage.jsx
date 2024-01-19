@@ -19,12 +19,13 @@ export default function HomePage() {
     const {checkIsEmailVerified,isAdditionalInformationComplete}= useCheckUserInformation()
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
-        if (!isLoading && !user)
-            navigation('/login');
-        if(!isLoading && !user?.emailVerified)
-            checkIsEmailVerified(user)
-        if(!isLoading && user && user?.emailVerified)
-            isAdditionalInformationComplete(user)
+        // TODO apply following checks in production
+        // if (!isLoading && !user)
+        //     navigation('/login');
+        // else if(!isLoading && !user?.emailVerified)
+            // checkIsEmailVerified(user)
+        // else if(!isLoading && user && user?.emailVerified)
+        //     isAdditionalInformationComplete(user)
     }, [user, isLoading]);
 
     if(isLoading)
@@ -40,7 +41,6 @@ export default function HomePage() {
     window.addEventListener('scroll', checkIfScrolled)
 
     return (
-
                     <>
                         <div className="sticky top-0  z-10 shadow-sm text-dark  flex justify-center">
                             <div style={{ background: isScrolled ? Colors.softGrey : Colors.primary }} className='w-screen xl:w-[1500px] justify-center px-4'>
@@ -57,7 +57,6 @@ export default function HomePage() {
                                 <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
                                     <Routes>
                                         <Route exact path={'/'} element={<PostCardComponent/>} />
-
                                     </Routes>
                                 </div>
                                 <div className='w-1/5 p-4 md:block hidden  shadow-lg'>
