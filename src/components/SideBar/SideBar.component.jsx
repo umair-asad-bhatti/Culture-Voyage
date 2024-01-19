@@ -25,7 +25,7 @@ const SideBarComponent = () => {
                     <hr className="h-px my-4 bg-gray-400 "></hr>
                     <Link
                         style={{ transition: '0.1s ease' }}
-                        to={""}
+                        to={"community"}
                         className="text-textDark p-4 hover:text-white flex items-center gap-3 bg-gray-100 rounded-xl hover:bg-accent"
                     >
                         <People />
