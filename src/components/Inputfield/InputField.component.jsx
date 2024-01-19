@@ -1,36 +1,45 @@
+import { EyeSlash, Eye } from "iconsax-react";
+import { useState } from "react";
 
-import { EyeSlash, Eye } from "iconsax-react"
-import { useState } from "react"
 // eslint-disable-next-line react/prop-types
-export default function InputField({ type, value, setValue, children }) {
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-    return (
-        <div className="flex items-center gap-2 bg-trasnparant  w-full py-1 px-4 text-lg border-2 border-[#808998] rounded-lg focus-within:border-accent">
-            {children}
-            <input
+export default function InputField({ type, value, setValue, children, maxLength }) {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const isTextarea = type === 'textarea';
 
-                placeholder={type}
-                type={!isPasswordVisible ? type : 'text'}
-                name={type}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                className='outline-none border-none w-full bg-transparent'
-            />
-            {
-                type == 'password' && <div className="flex content-end ml-16" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
-                    {type == 'password' && (!isPasswordVisible ? <EyeSlash
-
-                        color="#808998"
-                    /> : <Eye
-
-                        color="#808998"
-                    />)}
-                </div>
-            }
-
-
-
-
+  return (
+    <div className={`flex items-center gap-2 bg-transparent w-full py-1 px-4 text-lg border-2 focus-within:border-accent rounded-lg ${isTextarea ? 'flex-col' : ''}`}>
+      {children}
+      {isTextarea ? (
+        <textarea
+          placeholder={type}
+          name={type}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className='outline-none border-none w-full bg-transparent resize-none'
+          maxLength={maxLength}
+        />
+      ) : (
+        <input
+          placeholder={type}
+          type={!isPasswordVisible ? type : 'text'}
+          name={type}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className='outline-none border-none w-full bg-transparent'
+        />
+      )}
+      {isTextarea && (
+        <div className="flex justify-end items-center mt-2">
+          <span className={`text-[#808998] ${value.length === maxLength ? 'text-red-500' : ''}`}>
+            {value.length}/{maxLength}
+          </span>
         </div>
-    )
+      )}
+      {type === 'password' && (
+        <div className={`flex content-end ml-2 ${isTextarea ? 'mt-2' : ''}`} onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+          {type === 'password' && (!isPasswordVisible ? <EyeSlash color="#808998" /> : <Eye color="#808998" />)}
+        </div>
+      )}
+    </div>
+  );
 }
