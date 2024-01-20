@@ -1,52 +1,29 @@
-import { Link } from "react-router-dom";
+
 import { AddCircle, Home, Like1, People, Star } from "iconsax-react";
+import { SideBarTab } from "../SideBarTab/SideBarTab.jsx";
 
 const SideBarComponent = () => {
     return (
         <>
             <div className=" w-full px-3 ">
                 <div className="mt-4 flex flex-col gap-5 relative  ">
-                    <Link
-                        style={{ transition: '0.1s ease' }}
-                        to={"/home"}
-                        className="text-textDark hover:text-white p-4 flex items-center gap-3 bg-gray-100 rounded-xl  hover:bg-accent "
-                    >
+                    <SideBarTab label={'Home'} to={'/home'}>
                         <Home />
-                        <h2>Home</h2>
-                    </Link>
-                    <Link
-                        style={{ transition: '0.1s ease' }}
-                        to={""}
-                        className="text-textDark w-auto hover:text-white p-4 flex items-center gap-3 bg-gray-100 rounded-xl hover:bg-accent"
-                    >
+                    </SideBarTab>
+
+                    <SideBarTab label={'Recommended'}>
                         <Like1 />
-                        <h2>Recommended</h2>
-                    </Link>
+                    </SideBarTab>
                     <hr className="h-px my-4 bg-gray-400 "></hr>
-                    <Link
-                        style={{ transition: '0.1s ease' }}
-                        to={"community"}
-                        className="text-textDark p-4 hover:text-white flex items-center gap-3 bg-gray-100 rounded-xl hover:bg-accent"
-                    >
+                    <SideBarTab to='community' label={'Communities'}>
                         <People />
-                        <h2>Communities</h2>
-                    </Link>
-                    <Link
-                        style={{ transition: '0.1s ease' }}
-                        to={""}
-                        className="text-textDark p-4 hover:text-white flex items-center gap-3 bg-gray-100 rounded-xl hover:bg-accent"
-                    >
+                    </SideBarTab>
+                    <SideBarTab label={'Create Post'}>
                         <AddCircle />
-                        <h2>Create Post</h2>
-                    </Link>
-                    <Link
-                        style={{ transition: '0.1s ease' }}
-                        to={""}
-                        className="text-textDark p-4 hover:text-white flex items-center gap-3 bg-gray-100 rounded-xl hover:bg-accent"
-                    >
+                    </SideBarTab>
+                    <SideBarTab label={'Favourites'}>
                         <Star />
-                        <h2>Favourites</h2>
-                    </Link>
+                    </SideBarTab>
                     <hr className="h-px my-4 bg-gray-400 "></hr>
                 </div>
             </div>

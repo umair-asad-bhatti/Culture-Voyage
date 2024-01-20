@@ -14,7 +14,6 @@ export default function Navbar() {
             alert(error);
         });
     }
-
     return (
         <div className={'flex items-center justify-between py-2'}>
             <div className="flex items-center lg:order-none order-last">
@@ -31,7 +30,7 @@ export default function Navbar() {
             </div>
             <div className="items-center mr-3 w-96 gap-2 lg:flex hidden">
                 <InputField type="search" value={search} setValue={setSearch}>
-                    <SearchNormal className={'dark:text-white text-textPrimary'} />
+                    <SearchNormal className={'dark:text-primary text-textPrimary'} />
                 </InputField>
                 <button
                     onClick={signout}

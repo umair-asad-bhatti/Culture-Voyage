@@ -14,19 +14,20 @@ export const CreateCommunity = () => {
         <>
             {/* Open the modal using document.getElementById('ID').showModal() method */}
             <Button
+
                 isDisabled={false}
                 onClickHandler={() => document.getElementById("my_modal_1").showModal()}
             >
                 Create Community
             </Button>
             <dialog id="my_modal_1" className="modal">
-                <div className="modal-box max-w-5xl">
+                <div className="modal-box max-w-5xl dark:bg-secondary">
                     {/* <h3 className="font-bold text-lg">Hello!</h3> */}
-                    <p className="py-2 text-center font-bold text-lg">Create Your Own Community</p>
+                    <p className="py-2 text-center font-bold text-lg dark:text-primary">Create Your Own Community</p>
                     {/* <div className="modal-action"> */}
                     <form method="dialog">
                         <UploadImage imageAsset={imageAsset} setImageAsset={setImageAsset} />
-                        <div className="mb-4 ">
+                        <div className="my-4 ">
                             <InputField
                                 type="Community Title..."
                                 value={title}
@@ -57,7 +58,7 @@ export const CreateCommunity = () => {
                                 </Button>
                             }
                         </div>
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        <button className="dark:text-primary btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
                 </div>
             </dialog>

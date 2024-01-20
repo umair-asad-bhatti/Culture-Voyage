@@ -14,6 +14,7 @@ import useSignup from "../../hooks/useSignup.js";
 import {useGoogleLogin} from "../../hooks/useGoogleLogin.js";
 import {UserContext} from "../../context/AuthContext.jsx";
 import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
+import {LoadingSpinner} from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 export default function RegisterPage() {
   // const toast = useToast()
@@ -36,15 +37,15 @@ export default function RegisterPage() {
   return (
     <>
       <div className="min-h-screen flex  justify-between">
-        <div className="w-[50%] bg-accent min-h-screen flex flex-col items-center justify-center">
+        <div className="w-[50%] bg-accent dark:bg-info  min-h-screen flex flex-col items-center justify-center">
           <img src={Logo} width={300} height={300} />
           <h3 className="text-primary text-2xl">{strings.signUpHeading}</h3>
         </div>
-        <div className=" p-8 rounded  w-[50%] flex justify-center items-center ">
+        <div className=" p-8 rounded dark:bg-secondary  w-[50%] flex justify-center items-center ">
           <form className="w-96">
             <div className="mb-4">
               <InputField type="email" value={email} setValue={setEmail}>
-                <Send color="#808998" />
+                <Send className={'dark:text-primary text-darkGrey'} />
               </InputField>
             </div>
             <div className="mb-4">
@@ -53,7 +54,7 @@ export default function RegisterPage() {
                 value={password}
                 setValue={setPassword}
               >
-                <PasswordCheck color="#808998" />
+                <PasswordCheck className={'dark:text-primary text-darkGrey'} />
               </InputField>
             </div>
             <div className="">
@@ -62,10 +63,11 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 setValue={setConfirmPassword}
               >
-                <PasswordCheck color="#808998" />
+                <PasswordCheck className={'dark:text-primary text-darkGrey'} />
               </InputField>
-              <div className="mt-4">
+              <div className="mt-4 ">
                 <PasswordChecklist
+                    className={'dark:text-primary'}
                   rules={[
                     "minLength",
                     "specialChar",
@@ -87,7 +89,7 @@ export default function RegisterPage() {
                   isDisabled={isSigningUp}
                 >
                   {isSigningUp ? (
-                    <Spinner color={Colors.white} size={"sm"} />
+                    <Spinner className={'dark:text-primary text-darkGrey'} size={"sm"} />
                   ) : (
                     "Sign Up"
                   )}
@@ -102,13 +104,13 @@ export default function RegisterPage() {
             </div>
             <div className="flex justify-center items-center gap-2">
               <div className="w-16 h-[1px] border border-gray-300"></div>
-              <h1 className="text-center my-4">Or signin with</h1>
+              <h1 className="text-center my-4 dark:text-primary">Or signin with</h1>
               <div className="w-16 h-[1px] border border-gray-300"></div>
             </div>
 
             <SocialMediaButton onClickHandler={handleGoogleLogin}>
               {isGoogleLoading ? (
-                <Spinner color={Colors.black} size={"sm"} />
+                <LoadingSpinner size={'sm'}/>
               ) : (
                 <img src={GoogleLogo} alt="" width={30} height={30} />
               )}

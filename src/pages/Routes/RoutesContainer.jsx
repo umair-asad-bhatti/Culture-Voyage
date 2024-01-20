@@ -7,6 +7,7 @@ import AdditionalInformationPage from "../AdditionalInformationPage/AdditionalIn
 import ForgetPasswordPage from "../ForgetPassword/ForgetPasswordPage.jsx";
 import HomePage from "../HomePage/HomePage.jsx";
 export default function RoutesContainer() {
+
     return (
         <Routes>
             <Route path='/login' element={<LoginPage />} exact />

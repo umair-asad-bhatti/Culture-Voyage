@@ -1,7 +1,7 @@
 import CommunityLogo from '../../assets/Community.png'
 import postImage from '../../assets/postImage.png'
 import { Heart, MedalStar, Message } from "iconsax-react";
-import { Colors } from "../../constants/Colors.js";
+
 // import { Card, CardBody, Image, Heading, Stack, Text, CardFooter, Button } from '@chakra-ui/react'
 const PostCardComponent = () => {
 
@@ -11,14 +11,14 @@ const PostCardComponent = () => {
             <div className={'flex justify-between items-center'}>
                 <div className={'flex gap-2 items-center justify-center'}>
                     <img src={CommunityLogo} alt="community image" />
-                    < div >
-                        <h1>StarsNStripesHub</h1>
-                        <h3>by @josh_01</h3>
+                    <div>
+                        <h1 className='dark:text-primary'>StarsNStripesHub</h1>
+                        <h3 className='dark:text-primary'>by @josh_01</h3>
                     </div >
                 </div >
                 <div className={'flex items-center justify-center gap-2'}>
                     <div className={' py-1 px-4 bg-accent text-white rounded-lg hover:bg-blue-500 cursor-pointer'}>Join</div>
-                    <div className={'text-center '}>34 m</div>
+                    <div className={'text-center dark:text-primary'}>34 m</div>
                 </div>
             </div >
             {/*   end top section*/}
@@ -26,16 +26,12 @@ const PostCardComponent = () => {
             {/*    post card main title*/}
             <h1 className={'text-3xl text-accent font-bold my-6 '}>A Slice of Americana: Sunday BBQ Tradition</h1>
             {/*    post card main title ends*/}
-
-
             {/*    post card main section with image*/}
             <div className={'flex justify-center items-start my-4'}>
-                <h2 className={'text-darkGrey text-xl'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit sed veritatis? Adipisci commodi ea esse, et facere modi molestias, quas quis, recusandae reiciendis sint temporibus totam.</h2>
+                <h2 className={'dark:text-primary text-xl'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit sed veritatis? Adipisci commodi ea esse, et facere modi molestias, quas quis, recusandae reiciendis sint temporibus totam.</h2>
                 <img src={postImage} alt="post image" />
             </div>
             {/*    post card main section with image ends*/}
-
-
             {/*    post card footer section starts here*/}
             <div className={'mt-2 p-4 border border-x-0 border-b-0 border-t-1 border-grey'}>
                 <div className={'flex justify-between items-center'}>
@@ -43,24 +39,24 @@ const PostCardComponent = () => {
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
                         <Heart
                             size="32"
-                            color={Colors.darkGrey}
+                            className='dark:text-primary'
                         />
-                        <p>41</p>
+                        <p className='dark:text-primary'>41</p>
                     </div>
 
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
                         <MedalStar
                             size="32"
-                            color={Colors.darkGrey}
+                            className='dark:text-primary'
                         />
-                        <p>41</p>
+                        <p className='dark:text-primary'>41</p>
                     </div>
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
                         <Message
                             size="32"
-                            color={Colors.darkGrey}
+                            className='dark:text-primary'
                         />
-                        <p>41</p>
+                        <p className='dark:text-primary'>41</p>
                     </div>
                 </div>
             </div>

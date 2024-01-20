@@ -36,7 +36,7 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
               <p className="font-bold text-2xl">
                 <DocumentUpload size="25" color="#FF8A65" />
               </p>
-              <p className="text-sm w-full"> click to upload</p>
+              <p className="text-sm w-full dark:text-primary"> click to upload</p>
             </div>
             <p className="mt-4 text-sm text-gray-400 ">
               Use high-quality jpeg, mp4, png image

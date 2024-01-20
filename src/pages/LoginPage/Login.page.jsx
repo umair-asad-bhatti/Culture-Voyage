@@ -14,33 +14,33 @@ import { UserContext } from "../../context/AuthContext";
 import { Spinner } from "@chakra-ui/react";
 import { Colors } from "../../constants/Colors.js";
 import { useLogin } from "../../hooks/useLogin.js";
-import {useGoogleLogin} from "../../hooks/useGoogleLogin.js";
-import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
+import { useGoogleLogin } from "../../hooks/useGoogleLogin.js";
+import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
+import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 export default function LoginPage() {
   // const toast = useToast()
   const { user, isLoading } = useContext(UserContext);
   const { HandleLogin, isLogging } = useLogin();
-  const {handleGoogleLogin,isGoogleLoading}=useGoogleLogin()
+  const { handleGoogleLogin, isGoogleLoading } = useGoogleLogin()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigate();
-  const {isAdditionalInformationComplete,checkIsEmailVerified} =useCheckUserInformation()
+  const { isAdditionalInformationComplete, checkIsEmailVerified } = useCheckUserInformation()
   useEffect(() => {
     if (!isLoading && user) {
-
-          checkIsEmailVerified(user)
-          if(user.emailVerified && !isGoogleLoading)
-            isAdditionalInformationComplete(user)
+      checkIsEmailVerified(user)
+      if (user.emailVerified && !isGoogleLoading)
+        isAdditionalInformationComplete(user)
 
     }
-  }, [user, isLoading,isGoogleLoading]);
+  }, [user, isLoading, isGoogleLoading]);
   return (
     <>
       {!isLoading && !user && (
         <>
           <div className="min-h-screen flex justify-between">
-            <div className="w-[50%] bg-accent min-h-screen flex flex-col items-center justify-center">
+            <div className="w-[50%] bg-accent dark:bg-info min-h-screen flex flex-col items-center justify-center">
               <img src={Logo} width={300} height={300} />
               <h3 className="text-primary text-2xl">{strings.loginHeading1}</h3>
               <h3 className="text-primary text-2xl text-center mt-4">
@@ -50,11 +50,11 @@ export default function LoginPage() {
                 {strings.loginHeading3}
               </h3>
             </div>
-            <div className=" p-8 rounded  w-[50%] flex justify-center items-center ">
+            <div className=" p-8 rounded dark:bg-secondary  w-[50%] flex justify-center items-center ">
               <form className="w-96">
                 <div className="mb-4">
                   <InputField type="email" value={email} setValue={setEmail}>
-                    <Send color="#808998" />
+                    <Send className={'dark:text-primary text-darkGrey'} />
                   </InputField>
                 </div>
                 <div className="mb-4">
@@ -63,7 +63,7 @@ export default function LoginPage() {
                     value={password}
                     setValue={setPassword}
                   >
-                    <PasswordCheck color="#808998" />
+                    <PasswordCheck className={'dark:text-primary text-darkGrey'} />
                   </InputField>
                 </div>
 
@@ -94,13 +94,13 @@ export default function LoginPage() {
                 </div>
                 <div className="flex justify-center items-center gap-2">
                   <div className="w-16 h-[1px] border border-gray-300"></div>
-                  <h1 className="text-center my-4">Or signin with</h1>
+                  <h1 className="text-center my-4 dark:text-primary">Or signin with</h1>
                   <div className="w-16 h-[1px] border border-gray-300"></div>
                 </div>
 
                 <SocialMediaButton onClickHandler={handleGoogleLogin}>
                   {isGoogleLoading ? (
-                    <Spinner color={Colors.black} size={"sm"} />
+                    <LoadingSpinner size={'sm'} />
                   ) : (
                     <img src={GoogleLogo} alt="" width={30} height={30} />
                   )}

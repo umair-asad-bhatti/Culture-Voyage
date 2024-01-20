@@ -14,7 +14,7 @@ export default function InputField({ type, value, setValue, children, maxLength 
           name={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='outline-none border-none w-full bg-transparent resize-none'
+          className='outline-none border-none dark:text-primary w-full bg-transparent resize-none'
           maxLength={maxLength}
         />
       ) : (
@@ -24,7 +24,7 @@ export default function InputField({ type, value, setValue, children, maxLength 
           name={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='outline-none border-none w-full bg-transparent'
+          className='outline-none border-none dark:text-primary w-full bg-transparent'
         />
       )}
       {isTextarea && (
@@ -36,7 +36,7 @@ export default function InputField({ type, value, setValue, children, maxLength 
       )}
       {type === 'password' && (
         <div className={`flex content-end ml-2 ${isTextarea ? 'mt-2' : ''}`} onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
-          {type === 'password' && (!isPasswordVisible ? <EyeSlash color="#808998" /> : <Eye color="#808998" />)}
+          {type === 'password' && (!isPasswordVisible ? <EyeSlash className={'dark:text-primary text-darkGrey'} /> : <Eye className={'dark:text-primary text-darkGrey'} />)}
         </div>
       )}
     </div>
