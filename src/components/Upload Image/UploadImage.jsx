@@ -7,8 +7,7 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
   //TODO then upload the url of image to firebase firestore
   //TODO then take name and description of the community
   //TODO make final document in firestore
- const preset_key = "culturevoyage";
- const cloud_name = "du2kwgdxc";
+
 
 
   const uploadImage = (e) => {
@@ -25,16 +24,11 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
         );
       }
     }
-    const formData = new FormData();
-    formData.append('file',file);
-    formData.append("upload_preset",preset_key);
-    axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,formData)
-    .then(res=>setImageAsset(res.data.secure_url))
-    .catch(err=>console.log(err))
+
 
   };
   return (
-    <div className={"h-32 w-full border rounded p-2 inline-block mx-auto"}>
+    <div className={"h-full w-full border rounded p-2 inline-block mx-auto"}>
       {!imageAsset ? (
         <label>
           <div className="flex flex-col items-center justify-center h-full">
@@ -58,9 +52,9 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
       ) : (
         <div className="relative h-full">
           <img
-            src={imageAsset}
+            src={URL.createObjectURL(imageAsset)}
             alt="uploaded-image"
-            className="h-full w-full"
+            className="h-full w-full object-cover"
           />
           <button
             type="button"

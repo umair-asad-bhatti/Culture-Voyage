@@ -43,7 +43,7 @@ export default function HomePage() {
     return (
                     <>
                         <div className="sticky top-0  z-10 shadow-sm text-dark  flex justify-center">
-                            <div style={{ background: isScrolled ? Colors.softGrey : Colors.primary }} className='w-screen xl:w-[1500px] justify-center px-4'>
+                            <div  className='w-screen xl:w-[1500px] justify-center px-4 dark:bg-darkerGrey bg-white '>
                                 <Navbar />
                             </div>
                         </div>

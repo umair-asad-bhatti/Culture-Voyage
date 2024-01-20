@@ -7,7 +7,7 @@ const Colors={
     textLight: '#FFFFFF',
     textDark: '#000000',
     lightContainer: '#F6F6F6',
-    darkContainer: 'rgba(255, 255, 255, 0.1)',
+    darkContainer: 'rgba(0, 0, 0, 0.9)',
     buttonBackgroundColor: 'rgba(57, 145, 248, 0.1)',
     buttonLightTextColor: '#6A7DA9',
     buttonDarkTextColor: '#8FA6E5',

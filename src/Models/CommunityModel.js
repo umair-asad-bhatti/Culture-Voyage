@@ -1,13 +1,16 @@
 class CommunityModel {
-  constructor( imageAsset,title, description) {
-    this["Community ID"] = "";
-    this["Title"] = title;
+  constructor( imageAsset,title, description,createdBy,bannerPublicId) {
+    this["Created By"]=createdBy
+    this["Created At"]=new Date() //change format
+    this["Community ID"] = null;
+    this["Community Name"] = title;
     this["Description"] = description;
     this["Banner"] = imageAsset;
-    this["Moderators"] = "";
-    this["Members"] = "";
-    this["Banned Users"] = "";
-    this["Rules"] = "";
+    this["Moderators"] = [createdBy];
+    this["Members"] = [];
+    this["Banned Users"] = [];
+    this["Rules"] = null;
+    this["Banner Public Id"]=bannerPublicId
   }
 }
 export { CommunityModel };
