@@ -31,7 +31,7 @@ export default function Navbar() {
             </div>
             <div className="items-center mr-3 w-96 gap-2 lg:flex hidden">
                 <InputField type="search" value={search} setValue={setSearch}>
-                    <SearchNormal color="#808998" />
+                    <SearchNormal className={'dark:text-white text-textPrimary'} />
                 </InputField>
                 <button
                     onClick={signout}
