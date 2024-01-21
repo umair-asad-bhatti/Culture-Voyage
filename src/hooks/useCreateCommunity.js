@@ -1,16 +1,14 @@
 import { CommunityModel } from "../Models/CommunityModel.js";
-import {collection, addDoc, query, where, getDocs} from "firebase/firestore";
+import {collection, addDoc} from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import {useContext, useState} from "react";
 import { ToastStrings } from "../constants/ToastStrings.js";
-import axios from "axios";
 import {UserContext} from "../context/AuthContext.jsx";
 import {getDocIfExists} from "../utils/Firebase Utils Functions/index.js";
+import {uploadImageAssetToCloudinary} from "../cloudinary/Cloudinary.js";
 
 export const useCreateCommunity = () => {
-  const preset_key = "culture voyage";
-  const cloud_name = "dxudpps7i";
   const toast = useToast();
   const { user } = useContext(UserContext);
   const [isCreating, setIsCreating] = useState(false);
@@ -28,35 +26,24 @@ export const useCreateCommunity = () => {
     }
     setIsCreating(true);
     try {
-        //trying to fetch the community with Community Name===title
-        const result_one= await getDocIfExists("Communities","Created By","==",user.uid)
-        const result_two= await getDocIfExists("Communities","Community Name","==",title)
-        //Check if community with created At==userId is exists or not
-        if(result_one){
+        const userHasAlreadyCreatedACommunity= await getDocIfExists("Communities","Created By","==",user.uid)
+        const communityNameAlreadyExists= await getDocIfExists("Communities","Community Name","==",title)
+        if(userHasAlreadyCreatedACommunity){
           setError("You have already created a community.You cannot create more than one community")
           setIsCreating(false);
           setTimeout(()=>setError(null),3000)
         }
-        else if(result_two){
+        else if(communityNameAlreadyExists){
           setError("Community name already exists")
           setIsCreating(false);
           setTimeout(()=>setError(null),3000)
         }
         else{
           setError(null)
-          const formData = new FormData();
-          formData.append('file',imageAsset);
-          formData.append("upload_preset",preset_key);
-          const {data}= await axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,formData)
-          const logoURL=data.secure_url;
-          const logoID=data.public_id;
+          const {secure_url, public_id}=await uploadImageAssetToCloudinary(imageAsset)
           const createdBy=user?.uid;
-          const communityModel = new CommunityModel(logoURL,title, description,createdBy,logoID,type);
-          const communityCollectionRef = collection(db, "Communities");
-          // Converting the communityModel to a JavaScript object
-          const communityData = { ...communityModel};
-          await addDoc(communityCollectionRef, communityData);
-
+          const communityModel = new CommunityModel(secure_url,title, description,createdBy,public_id,type);
+          await addDoc(collection(db, "Communities"), {...communityModel});
           toast({
             title: "Community created successfully!",
             status: "success",
@@ -66,13 +53,7 @@ export const useCreateCommunity = () => {
         }
     } catch (error) {
       console.error("Error creating community:", error);
-      toast({
-        title: "Error creating community.",
-        description: "An error occurred while creating the community.",
-        status: "error",
-        duration: ToastStrings.duration,
-        isClosable: true,
-      });
+      setError("An error occurred. Please try again later")
     } finally {
       setImageAsset(null)
       setTitle("")
