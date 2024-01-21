@@ -7,14 +7,14 @@ const SideBarComponent = () => {
         <>
             <div className=" w-full px-3 ">
                 <div className="mt-4 flex flex-col gap-5 relative  ">
-                    <SideBarTab label={'Home'} to={'/home'}>
+                    <SideBarTab label={'Home'} to={'/'}>
                         <Home />
                     </SideBarTab>
 
                     <SideBarTab label={'Recommended'}>
                         <Like1 />
                     </SideBarTab>
-                    <hr className="h-px my-4 bg-gray-400 "></hr>
+                    <hr className="h-px my-4 bg-gray-400"></hr>
                     <SideBarTab to='community' label={'Communities'}>
                         <People />
                     </SideBarTab>

@@ -4,6 +4,8 @@ export const CommunityPage = () => {
 
   
   return (
-   <CreateCommunity/>
+      <>
+      <CreateCommunity/>
+      </>
   );
 };

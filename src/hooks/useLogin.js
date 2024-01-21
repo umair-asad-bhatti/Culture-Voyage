@@ -17,7 +17,6 @@ export const useLogin = () => {
         e.preventDefault()
         //perform the zod validation
         try {
-
             ZodLoginSchema.parse({ email, password });
 
         } catch (errors) {

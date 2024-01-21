@@ -1,7 +1,7 @@
 import CommunityLogo from '../../assets/Community.png'
 import postImage from '../../assets/postImage.png'
 import { Heart, MedalStar, Message } from "iconsax-react";
-
+import Button from '../Button/Button.component.jsx'
 // import { Card, CardBody, Image, Heading, Stack, Text, CardFooter, Button } from '@chakra-ui/react'
 const PostCardComponent = () => {
 
@@ -12,13 +12,16 @@ const PostCardComponent = () => {
                 <div className={'flex gap-2 items-center justify-center'}>
                     <img src={CommunityLogo} alt="community image" />
                     <div>
-                        <h1 className='dark:text-primary'>StarsNStripesHub</h1>
-                        <h3 className='dark:text-primary'>by @josh_01</h3>
+                        <h1 className='dark:text-textPrimary text-textSecondary'>StarsNStripesHub</h1>
+                        <h3 className='dark:text-textPrimary text-textSecondary'>by @josh_01</h3>
                     </div >
                 </div >
-                <div className={'flex items-center justify-center gap-2'}>
-                    <div className={' py-1 px-4 bg-accent text-white rounded-lg hover:bg-blue-500 cursor-pointer'}>Join</div>
-                    <div className={'text-center dark:text-primary'}>34 m</div>
+                <div className={'flex items-center justify-start  gap-4'}>
+                    {/*<div className={' py-1 px-4 bg-accent text-white rounded-lg hover:bg-blue-500 cursor-pointer'}>Join</div>*/}
+                        <div className={'w-24'}>
+                                <Button isDisabled={false} onClickHandler={()=>{}}>Join</Button>
+                        </div>
+                    <div className={'text-center dark:text-textPrimary text-textSecondary'}>34m</div>
                 </div>
             </div >
             {/*   end top section*/}
@@ -28,7 +31,7 @@ const PostCardComponent = () => {
             {/*    post card main title ends*/}
             {/*    post card main section with image*/}
             <div className={'flex justify-center items-start my-4'}>
-                <h2 className={'dark:text-primary text-xl'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit sed veritatis? Adipisci commodi ea esse, et facere modi molestias, quas quis, recusandae reiciendis sint temporibus totam.</h2>
+                <h2 className={'dark:text-textPrimary text-xl text-textSecondary'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit sed veritatis? Adipisci commodi ea esse, et facere modi molestias, quas quis, recusandae reiciendis sint temporibus totam.</h2>
                 <img src={postImage} alt="post image" />
             </div>
             {/*    post card main section with image ends*/}
@@ -39,24 +42,24 @@ const PostCardComponent = () => {
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
                         <Heart
                             size="32"
-                            className='dark:text-primary'
+                            className='dark:text-textPrimary text-textSecondary'
                         />
-                        <p className='dark:text-primary'>41</p>
+                        <p className='dark:text-textPrimary text-textSecondary'>41</p>
                     </div>
 
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
                         <MedalStar
                             size="32"
-                            className='dark:text-primary'
+                            className='dark:text-textPrimary text-textSecondary'
                         />
-                        <p className='dark:text-primary'>41</p>
+                        <p className='dark:text-textPrimary text-textSecondary'>41</p>
                     </div>
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
                         <Message
                             size="32"
-                            className='dark:text-primary'
+                            className='dark:text-textPrimary text-textSecondary'
                         />
-                        <p className='dark:text-primary'>41</p>
+                        <p className='dark:text-textPrimary text-textSecondary'>41</p>
                     </div>
                 </div>
             </div>

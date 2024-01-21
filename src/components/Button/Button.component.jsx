@@ -5,7 +5,7 @@ export default function Button({ children, onClickHandler, isDisabled }) {
         <button
             disabled={isDisabled}
             onClick={onClickHandler}
-            className="w-full bg-accent text-white font-bold p-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+            className="w-full bg-accent text-textLight font-bold p-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline-accent"
         >
             {children}
         </button>

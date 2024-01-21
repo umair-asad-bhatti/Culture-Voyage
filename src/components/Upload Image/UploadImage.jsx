@@ -2,13 +2,6 @@ import { useState } from "react";
 import { Trash, DocumentUpload } from "iconsax-react";
 import axios from "axios";
 export const UploadImage = ({imageAsset,setImageAsset}) => {
-  
-  //TODO upload the imageAsset to cloudinary and it will return the url to image
-  //TODO then upload the url of image to firebase firestore
-  //TODO then take name and description of the community
-  //TODO make final document in firestore
-
-
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -28,17 +21,17 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
 
   };
   return (
-    <div className={"h-full w-full border rounded p-2 inline-block mx-auto"}>
+    <div className={"h-full w-full border p-4 rounded-lg shadow inline-block mx-auto"}>
       {!imageAsset ? (
         <label>
           <div className="flex flex-col items-center justify-center h-full">
             <div className="flex flex-col justify-center items-center">
-              <p className="font-bold text-2xl">
+              <p className="font-bold text-2xl my-2">
                 <DocumentUpload size="25" color="#FF8A65" />
               </p>
-              <p className="text-sm w-full dark:text-primary"> click to upload</p>
+              <p className="text-sm w-full dark:text-primary"> click to upload Community logo</p>
             </div>
-            <p className="mt-4 text-sm text-gray-400 ">
+            <p className="mt-4 text-sm text-gray-400  text-center">
               Use high-quality jpeg, mp4, png image
             </p>
           </div>
@@ -54,7 +47,7 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
           <img
             src={URL.createObjectURL(imageAsset)}
             alt="uploaded-image"
-            className="h-full w-full object-cover"
+            className="h-[150px] w-[150px] object-cover rounded-full mx-auto"
           />
           <button
             type="button"

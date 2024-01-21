@@ -7,6 +7,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false)
   return (
     <div className={`${darkMode ? "dark" : ""}`}>
+
       <ThemeController darkMode={darkMode} setDarkMode={setDarkMode} />
       <RoutesContainer />
     </div >

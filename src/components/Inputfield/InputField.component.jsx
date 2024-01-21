@@ -14,7 +14,7 @@ export default function InputField({ type, value, setValue, children, maxLength 
           name={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='outline-none border-none dark:text-primary w-full bg-transparent resize-none'
+          className='outline-none border-none dark:text-textPrimary w-full bg-transparent resize-none'
           maxLength={maxLength}
         />
       ) : (
@@ -24,7 +24,7 @@ export default function InputField({ type, value, setValue, children, maxLength 
           name={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='outline-none border-none dark:text-primary w-full bg-transparent'
+          className='outline-none border-none dark:text-textPrimary w-full bg-transparent'
         />
       )}
       {isTextarea && (

@@ -14,7 +14,7 @@ const Colors={
     buttonDisabled: 'rgba(147, 147, 147, 0.3)',
     borderPrimary: '#D9D9D9',
     borderSecondary: '#E6E6E6',
-    error: '#D32F2F',
+    error: '#FF8A65',
     success: '#388E3C',
     warning: '#F57C00',
     info: '#1976D2',

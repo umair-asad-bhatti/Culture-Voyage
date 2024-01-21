@@ -7,7 +7,7 @@ const SideBarTab = ({ children, label, to }) => {
         <Link
             style={{ transition: '0.1s ease' }}
             to={to}
-            className="text-secondary hover:text-white p-4 flex items-center gap-3 bg-gray-100 dark:bg-gray-700 dark:text-primary rounded-xl  hover:bg-accent "
+            className="text-textSecondary hover:text-textLight p-4 flex items-center gap-3 bg-gray-100 dark:bg-gray-700 dark:text-textPrimary rounded-xl  hover:bg-accent "
         >
             {children}
             <h2>{label}</h2>

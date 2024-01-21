@@ -14,13 +14,14 @@ export default function HomePage() {
 
     const navigation = useNavigate();
     const { user, isLoading } = useContext(UserContext);
-    // const [isScrolled, setIsScrolled] = useState(false)
-    // const { checkIsEmailVerified, isAdditionalInformationComplete } = useCheckUserInformation()
+
+    const { checkIsEmailVerified, isAdditionalInformationComplete } = useCheckUserInformation()
     useEffect(() => {
         // Wait for user data to be loaded before redirecting
         // TODO apply following checks in production
-        if (!isLoading && !user)
-            navigation('/login');
+        //
+        if(!isLoading && !user)
+            navigation('/login')
         // else if(!isLoading && !user?.emailVerified)
         // checkIsEmailVerified(user)
         // else if(!isLoading && user && user?.emailVerified)
@@ -30,19 +31,11 @@ export default function HomePage() {
     if (isLoading)
         return <div className={'flex items-center justify-center h-screen w-screen'}><LoadingSpinner size={'lg'} /></div>
 
-    // const checkIfScrolled = () => {
-    //     const amountScrolled = window.scrollY
-    //     if (amountScrolled > 50) {
-    //         setIsScrolled(true)
-    //     } else
-    //         setIsScrolled(false)
-    // }
-    // window.addEventListener('scroll', checkIfScrolled)
 
     return (
         <>
-            <div className="sticky top-0  z-10 shadow-sm text-dark  flex justify-center">
-                <div className='w-screen xl:w-[1500px] justify-center px-4 dark:bg-secondary bg-white '>
+            <div className="sticky top-0  z-10 shadow-sm text-dark dark:bg-secondary  flex justify-center">
+                <div className='w-screen  xl:w-[1500px] justify-center px-4 dark:bg-secondary bg-white '>
                     <Navbar />
                 </div>
             </div>
@@ -56,14 +49,17 @@ export default function HomePage() {
                     <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
                         <Routes>
                             <Route exact path={'/'} element={<PostCardComponent />} />
-                            <Route path={'/community'} element={<CommunityPage />} />
+                            <Route exact path={'/community'} element={<CommunityPage />} />
+
                         </Routes>
                     </div>
-                    <div className='w-1/5 p-4 md:block hidden  shadow-lg'>
+                    <div className='w-1/5 p-4 md:block hidden  shadow-xl'>
                         <div className='fixed z-50'>
                             <h1 className='dark:text-primary '>Visited Communities</h1>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </>

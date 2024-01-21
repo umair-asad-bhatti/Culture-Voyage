@@ -12,7 +12,7 @@ export const useCheckUserInformation=()=> {
         if (response.exists()) {
             const userData = response.data();
             if (userData['First Name'] && userData['Last Name'] && userData['Username'] && userData['Country'] && userData['Country Code'] && userData['Country Dial Code'] && userData['National Number'] && userData['Phone Number'] && userData['Gender'] && userData['Date Of Birth']) {
-                navigate('/home')
+                navigate('/')
             } else {
                 console.log('in information if not exists')
                 navigate('/additionalinformation')

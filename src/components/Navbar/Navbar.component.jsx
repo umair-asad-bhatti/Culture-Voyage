@@ -18,7 +18,7 @@ export default function Navbar() {
         <div className={'flex items-center justify-between py-2'}>
             <div className="flex items-center lg:order-none order-last">
                 {/* <img className="ml-3" src={Logo} width={80} height={80} /> */}
-                <div className="ml-3 text-accent font-bold text-2xl">
+                <div className="ml-3 text-accent  font-bold text-2xl">
                     Culture Voyage
                 </div>
             </div>
@@ -34,7 +34,7 @@ export default function Navbar() {
                 </InputField>
                 <button
                     onClick={signout}
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-error focus:outline-none focus:shadow-outline-red"
+                    className="bg-error text-white px-4 py-2 rounded hover:bg-error focus:outline-none focus:shadow-outline-red"
                 >
                     Logout
                 </button >

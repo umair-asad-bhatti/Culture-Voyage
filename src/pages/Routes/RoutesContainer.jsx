@@ -15,7 +15,7 @@ export default function RoutesContainer() {
             <Route path='/emailverification' element={<EmailVerificationPage />} exact />
             <Route path='/additionalinformation' element={<AdditionalInformationPage />} exact />
             <Route path='/forgetpassword' element={<ForgetPasswordPage />} exact />
-            <Route path='/home/*' element={<HomePage />} />
+            <Route path='/*' element={<HomePage />} />
         </Routes>
     )
 }
