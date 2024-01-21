@@ -1,5 +1,5 @@
 class CommunityModel {
-  constructor( logo,title, description,createdBy,logoPublicID) {
+  constructor( logo,title, description,createdBy,logoPublicID,communityType) {
     this["Created By"]=createdBy
     this["Created At"]=new Date() //change format
     this["Community ID"] = null;
@@ -14,7 +14,7 @@ class CommunityModel {
     this["Banner Public Id"]=null
     this["Logo Public Id"]=logoPublicID
     this['Tags']=[]
-    this['Community Type']=null
+    this['Community Type']=communityType
   }
 }
 export { CommunityModel };

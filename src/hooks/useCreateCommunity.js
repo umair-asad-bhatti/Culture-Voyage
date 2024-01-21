@@ -16,6 +16,7 @@ export const useCreateCommunity = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [type,setType]=useState('')
   const [imageAsset, setImageAsset] = useState(null);
   const [error,setError]=useState(null)
   const handleCreateCommunity = async () => {
@@ -50,7 +51,7 @@ export const useCreateCommunity = () => {
           const logoURL=data.secure_url;
           const logoID=data.public_id;
           const createdBy=user?.uid;
-          const communityModel = new CommunityModel(logoURL,title, description,createdBy,logoID);
+          const communityModel = new CommunityModel(logoURL,title, description,createdBy,logoID,type);
           const communityCollectionRef = collection(db, "Communities");
           // Converting the communityModel to a JavaScript object
           const communityData = { ...communityModel};
@@ -76,9 +77,10 @@ export const useCreateCommunity = () => {
       setImageAsset(null)
       setTitle("")
       setDescription("")
+      setType("Select the community type")
       setIsCreating(false);
     }
   };
 
-  return { handleCreateCommunity, error,isCreating, setIsCreating,title,setTitle,description,setDescription,imageAsset,setImageAsset };
+  return { handleCreateCommunity,type,setType, error,isCreating, setIsCreating,title,setTitle,description,setDescription,imageAsset,setImageAsset };
 };

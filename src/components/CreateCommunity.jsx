@@ -6,7 +6,7 @@ import { useCreateCommunity } from "../hooks/useCreateCommunity.js";
 import Button from '../components/Button/Button.component.jsx'
 export const CreateCommunity = () => {
 
-    const { handleCreateCommunity,error, isCreating, title, setTitle, description, setDescription, imageAsset, setImageAsset } = useCreateCommunity();
+    const { handleCreateCommunity,error,type,setType, isCreating, title, setTitle, description, setDescription, imageAsset, setImageAsset } = useCreateCommunity();
 
     return (
         <>
@@ -46,6 +46,14 @@ export const CreateCommunity = () => {
                                 setValue={setDescription}
                                 maxLength={300}
                             ></InputField>
+                        </div>
+                        <div className={'my-2 border-2 dark:border-borderPrimary rounded-lg border-borderSecondary focus-within:border-accent'}>
+                            <select value={type} onChange={(e)=>setType(e.target.value)} className="select outline-none border-none w-full   dark:bg-secondary  dark:text-textPrimary">
+                                <option  selected>Select the community type</option>
+                                <option>Sports</option>
+                                <option>Food</option>
+                                <option>Law</option>
+                            </select>
                         </div>
 
                         <button className="dark:text-primary btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
