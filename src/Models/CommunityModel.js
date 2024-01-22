@@ -1,7 +1,7 @@
 import {formatDate} from "../utils/index.js";
 
 class CommunityModel {
-  constructor( logo,title, description,createdBy,logoPublicID,communityType) {
+  constructor( logo,title, description,createdBy,logoPublicID,communityType,tags,userCountry) {
     this["Created By"]=createdBy
     this["Created At"]=formatDate(new Date()) //change format
     this["Community ID"] = '';
@@ -15,7 +15,7 @@ class CommunityModel {
     this["Rules"] = "";//doc id of Rules collection
     this["Banner Public ID"]=''
     this["Logo Public Id"]=logoPublicID
-    this['Tags']=[]
+    this['Tags']=[...tags,communityType,userCountry,title]
     this['Community Type']=communityType
     this["Guidelines"]=''
   }

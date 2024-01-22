@@ -11,8 +11,8 @@ export const docExistsOrNot=async (collectionName,docField,operator,toBeCompared
 
 
 
-export const getUserCreatedCommunities=async(userId)=>{
+export const getUserData=async(userId,dataField=null)=>{
     const querySnapshot=await getDoc(doc(db,'Users',userId))
     const data= querySnapshot.data();
-    return data["User Created Communities"]
+    return dataField?data[dataField]:data
 }

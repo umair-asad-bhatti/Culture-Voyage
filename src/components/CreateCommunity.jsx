@@ -4,9 +4,11 @@ import { Spinner } from "@chakra-ui/react";
 import { Colors } from "../constants/Colors.js";
 import { useCreateCommunity } from "../hooks/useCreateCommunity.js";
 import Button from '../components/Button/Button.component.jsx'
+import {TagsInput} from "./TagsInput/TagsInput.jsx";
+
 export const CreateCommunity = () => {
 
-    const { handleCreateCommunity,error,type,setType, isCreating, title, setTitle, description, setDescription, imageAsset, setImageAsset } = useCreateCommunity();
+    const { handleCreateCommunity,error,tags,setTags,tagInputValue,setTagInputValue,type,setType, isCreating, title, setTitle, description, setDescription, imageAsset, setImageAsset } = useCreateCommunity();
 
     return (
         <>
@@ -53,6 +55,9 @@ export const CreateCommunity = () => {
                                 <option>Food</option>
                                 <option>Law</option>
                             </select>
+                        </div>
+                        <div>
+                            <TagsInput tags={tags} type={type} setTags={setTags} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue}/>
                         </div>
 
                         <button className="dark:text-primary btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
