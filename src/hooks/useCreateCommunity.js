@@ -14,7 +14,7 @@ export const useCreateCommunity = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [type,setType]=useState('')
+  const [type,setType]=useState('Select the community type')
   const [imageAsset, setImageAsset] = useState(null);
   const [error,setError]=useState(null)
   const handleCreateCommunity = async () => {
@@ -24,8 +24,8 @@ export const useCreateCommunity = () => {
       setTimeout(()=>setError(null),3000)
       return;
     }
-    setIsCreating(true);
     try {
+        setIsCreating(true);
         const userHasAlreadyCreatedACommunity= await getDocIfExists("Communities","Created By","==",user.uid)
         const communityNameAlreadyExists= await getDocIfExists("Communities","Community Name","==",title)
         if(userHasAlreadyCreatedACommunity){

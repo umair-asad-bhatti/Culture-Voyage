@@ -6,7 +6,7 @@ import Button from '../Button/Button.component.jsx'
 const PostCardComponent = () => {
 
     return (
-        <div className="border border-grey p-6 rounded-lg">
+        <div className="border border-borderPrimary p-6 rounded-lg">
             {/*top section*/}
             <div className={'flex justify-between items-center'}>
                 <div className={'flex gap-2 items-center justify-center'}>
@@ -17,8 +17,8 @@ const PostCardComponent = () => {
                     </div >
                 </div >
                 <div className={'flex items-center justify-start  gap-4'}>
-                    {/*<div className={' py-1 px-4 bg-accent text-white rounded-lg hover:bg-blue-500 cursor-pointer'}>Join</div>*/}
                         <div className={'w-24'}>
+                                {/*TODO implement the jon community feature*/}
                                 <Button isDisabled={false} onClickHandler={()=>{}}>Join</Button>
                         </div>
                     <div className={'text-center dark:text-textPrimary text-textSecondary'}>34m</div>

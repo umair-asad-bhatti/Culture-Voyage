@@ -49,7 +49,7 @@ export const CreateCommunity = () => {
                         </div>
                         <div className={'my-2 border-2 dark:border-borderPrimary rounded-lg border-borderSecondary focus-within:border-accent'}>
                             <select value={type} onChange={(e)=>setType(e.target.value)} className="select outline-none border-none w-full   dark:bg-secondary  dark:text-textPrimary">
-                                <option  selected>Select the community type</option>
+                                <option >Select the community type</option>
                                 <option>Sports</option>
                                 <option>Food</option>
                                 <option>Law</option>
