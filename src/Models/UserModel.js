@@ -12,6 +12,7 @@ class UserModel {
         this["Gender"] = "";
         this["Date Of Birth"] = "";
         this["Phone Verified"] = false;
+        this["User Created Communities"]=[]
     }
 }
 export {UserModel}

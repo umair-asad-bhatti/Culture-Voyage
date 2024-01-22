@@ -29,6 +29,20 @@ const ZodSignupSchema = z.object({
         message: 'Invalid password format. It must contain at least one uppercase letter, one lowercase letter, one special character, no spaces, and at least one number.',
     })
 })
+export const  formatDate=(inputDate)=> {
+    const months = [
+        "January", "February", "March",
+        "April", "May", "June",
+        "July", "August", "September",
+        "October", "November", "December"
+    ];
+
+    const day = inputDate.getDate();
+    const month = months[inputDate.getMonth()];
+    const year = inputDate.getFullYear();
+
+    return `${day} ${month}, ${year}`;
+}
 const FireBaseErrorHandler=(errorCode)=>{
     switch (errorCode){
         case "auth/user-not-found":

@@ -1,11 +1,11 @@
 import { CommunityModel } from "../Models/CommunityModel.js";
-import {collection, addDoc} from "firebase/firestore";
+import {collection, addDoc, updateDoc, doc} from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import {useContext, useState} from "react";
 import { ToastStrings } from "../constants/ToastStrings.js";
 import {UserContext} from "../context/AuthContext.jsx";
-import {getDocIfExists} from "../utils/Firebase Utils Functions/index.js";
+import {docExistsOrNot,getUserCreatedCommunities} from "../utils/Firebase Utils Functions/index.js";
 import {uploadImageAssetToCloudinary} from "../cloudinary/Cloudinary.js";
 
 export const useCreateCommunity = () => {
@@ -18,7 +18,7 @@ export const useCreateCommunity = () => {
   const [imageAsset, setImageAsset] = useState(null);
   const [error,setError]=useState(null)
   const handleCreateCommunity = async () => {
-
+    setError(null)
     if(!imageAsset || !title || !description){
       setError("Image, Title and description cannot be empty")
       setTimeout(()=>setError(null),3000)
@@ -26,9 +26,10 @@ export const useCreateCommunity = () => {
     }
     try {
         setIsCreating(true);
-        const userHasAlreadyCreatedACommunity= await getDocIfExists("Communities","Created By","==",user.uid)
-        const communityNameAlreadyExists= await getDocIfExists("Communities","Community Name","==",title)
-        if(userHasAlreadyCreatedACommunity){
+        const userCreatedCommunities= await getUserCreatedCommunities(user?.uid)
+        console.log(userCreatedCommunities.length)
+        const communityNameAlreadyExists= await docExistsOrNot("Communities","Community Name","==",title)
+        if(userCreatedCommunities.length===1){
           setError("You have already created a community.You cannot create more than one community")
           setIsCreating(false);
           setTimeout(()=>setError(null),3000)
@@ -39,17 +40,24 @@ export const useCreateCommunity = () => {
           setTimeout(()=>setError(null),3000)
         }
         else{
-          setError(null)
-          const {secure_url, public_id}=await uploadImageAssetToCloudinary(imageAsset)
-          const createdBy=user?.uid;
-          const communityModel = new CommunityModel(secure_url,title, description,createdBy,public_id,type);
-          await addDoc(collection(db, "Communities"), {...communityModel});
-          toast({
-            title: "Community created successfully!",
-            status: "success",
-            duration: ToastStrings.duration,
-            isClosable: true,
-          });
+
+            const {secure_url, public_id}=await uploadImageAssetToCloudinary(imageAsset)
+            const createdBy=user?.uid;
+            const communityModel = new CommunityModel(secure_url,title, description,createdBy,public_id,type);
+            const {id}=await addDoc(collection(db, "Communities"), {...communityModel});
+            //update the communities field inside users collection
+            userCreatedCommunities.push(id)
+            const toBeUpdated={
+                ["User Created Communities"]:userCreatedCommunities
+            }
+            await updateDoc(doc(db,'Users',user.uid),toBeUpdated)
+            userCreatedCommunities.push(id)
+            toast({
+              title: "Community created successfully!",
+              status: "success",
+              duration: ToastStrings.duration,
+              isClosable: true,
+            });
         }
     } catch (error) {
       console.error("Error creating community:", error);

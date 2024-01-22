@@ -16,7 +16,7 @@ import axios from "axios";
 import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
 import {Spinner} from "@chakra-ui/react";
 import {Colors} from "../../constants/Colors.js";
-
+import {formatDate} from "../../utils/index.js";
 // eslint-disable-next-line react/prop-types
 
 const AdditionalInformationPage = () => {
@@ -37,12 +37,8 @@ const AdditionalInformationPage = () => {
     return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const DOB = new Date(dob).toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      });
-
+    console.log(dob)
+    const DOB = formatDate(new Date(dob))
     const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
     const countryCode = `+${parsedPhoneNumber?.countryCallingCode || ""}`;
     const countryDialCode = parsedPhoneNumber?.country || "";

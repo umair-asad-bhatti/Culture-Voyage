@@ -12,7 +12,6 @@ export const CreateCommunity = () => {
         <>
             {/* Open the modal using document.getElementById('ID').showModal() method */}
             <Button
-
                 isDisabled={false}
                 onClickHandler={() => document.getElementById("my_modal_1").showModal()}
             >
@@ -44,7 +43,7 @@ export const CreateCommunity = () => {
                                 type="textarea"
                                 value={description}
                                 setValue={setDescription}
-                                maxLength={300}
+                                maxLength={100}
                             ></InputField>
                         </div>
                         <div className={'my-2 border-2 dark:border-borderPrimary rounded-lg border-borderSecondary focus-within:border-accent'}>
