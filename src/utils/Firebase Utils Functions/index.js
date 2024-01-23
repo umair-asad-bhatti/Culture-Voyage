@@ -9,8 +9,6 @@ export const docExistsOrNot=async (collectionName,docField,operator,toBeCompared
     return querySnapshot.size > 0;
 }
 
-
-
 export const getUserData=async(userId,dataField=null)=>{
     const querySnapshot=await getDoc(doc(db,'Users',userId))
     const data= querySnapshot.data();
