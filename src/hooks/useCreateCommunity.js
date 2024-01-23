@@ -22,20 +22,20 @@ export const useCreateCommunity = () => {
   const [tagInputValue,setTagInputValue]=useState('')
   const handleCreateCommunity = async () => {
     setError(null)
-    if(!imageAsset || !title || !description || !type){
-      setError("Please provide all the information and make sure no field is empty")
+    if(!imageAsset || !title || !description){
+      setError("Logo image, name and  description cannot be empty!!!")
       setTimeout(()=>setError(null),3000)
       return;
     }
     try {
         setIsCreating(true);
-        const userData=await getUserData(user?.uid)
-        const userCreatedCommunities= userData['User Created Communities']
+        const userData=await getUserData(user?.uid)//this can be replaced with local storage for better efficientcy
+        const userCreatedCommunities= userData['User Created Communities']??[]
         const communityNameAlreadyExists= await docExistsOrNot("Communities","Community Name","==",title)
         if(userCreatedCommunities.length===1){
           setError("You have already created a community.You cannot create more than one community")
           setIsCreating(false);
-          setTimeout(()=>setError(null),3000)
+          setTimeout(()=>setError(null),3000);
         }
         else if(communityNameAlreadyExists){
           setError("Community name already exists")
@@ -54,7 +54,6 @@ export const useCreateCommunity = () => {
                 ["User Created Communities"]:userCreatedCommunities
             }
             await updateDoc(doc(db,'Users',user.uid),toBeUpdated)
-            userCreatedCommunities.push(id)
             toast({
               title: "Community created successfully!",
               status: "success",

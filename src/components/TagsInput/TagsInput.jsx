@@ -10,7 +10,7 @@ export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue,type})=>
 
     const addTag = () => {
             // eslint-disable-next-line react/prop-types
-        if(!tags.includes(tagInputValue.trim()) && tags.length<=5 && tagInputValue){
+        if(!tags.includes(tagInputValue.trim()) && tags.length<5 && tagInputValue){
             setTags([...tags, tagInputValue.trim()]);
             setTagInputValue('');
         }
@@ -27,7 +27,7 @@ export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue,type})=>
             {tags.map((tag) => (
                 <div
                     key={tag}
-                    className="bg-blue-500 text-white px-2 py-2 rounded-full cursor-pointer"
+                    className="border-borderPrimary dark:border-borderSecondary border-2 shadow text-textSecondary dark:text-textPrimary px-2 py-2 rounded-full cursor-pointer"
                     onClick={() => handleTagRemove(tag)}
                 >
                     {tag}

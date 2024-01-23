@@ -50,16 +50,13 @@ export default function HomePage() {
                         <Routes>
                             <Route exact path={'/'} element={<PostCardComponent />} />
                             <Route exact path={'/community'} element={<CommunityPage />} />
-
                         </Routes>
                     </div>
                     <div className='w-1/5 p-4 md:block hidden  shadow-xl'>
                         <div className='fixed z-50'>
-                            <h1 className='dark:text-primary '>Visited Communities</h1>
+                            <h1 className='dark:text-primary '>Recommended Communities</h1>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </>

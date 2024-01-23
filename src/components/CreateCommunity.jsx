@@ -56,7 +56,7 @@ export const CreateCommunity = () => {
                                 <option>Law</option>
                             </select>
                         </div>
-                        <div>
+                        <div className={'my-4'}>
                             <TagsInput tags={tags} type={type} setTags={setTags} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue}/>
                         </div>
 

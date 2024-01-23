@@ -25,16 +25,15 @@ export default function LoginPage() {
   const { handleGoogleLogin, isGoogleLoading } = useGoogleLogin()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigation = useNavigate();
+  // const navigation = useNavigate();
   const { isAdditionalInformationComplete, checkIsEmailVerified } = useCheckUserInformation()
   useEffect(() => {
     if (!isLoading && user) {
       checkIsEmailVerified(user)
       if (user.emailVerified && !isGoogleLoading)
         isAdditionalInformationComplete(user)
-
     }
-  }, [user, isLoading, isGoogleLoading]);
+  }, [user, isLoading, isGoogleLoading, checkIsEmailVerified, isAdditionalInformationComplete]);
   return (
     <>
       {!isLoading && !user && (

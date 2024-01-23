@@ -9,7 +9,7 @@ import {parsePhoneNumber} from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import AdditionalInfo from "../../assets/AdditionalInfo.png";
 import strings from "../../constants/Strings";
-import {doc, getDoc, updateDoc} from "firebase/firestore";
+import {doc, updateDoc} from "firebase/firestore";
 import { db } from "../../firebase/Firebase.js";
 import { UserContext } from "../../context/AuthContext.jsx";
 import axios from "axios";
@@ -37,7 +37,7 @@ const AdditionalInformationPage = () => {
     return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(dob)
+
     const DOB = formatDate(new Date(dob))
     const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
     const countryCode = `+${parsedPhoneNumber?.countryCallingCode || ""}`;
@@ -65,7 +65,7 @@ const AdditionalInformationPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen bg-primary text-text flex items-center justify-center bg-gray-100">
       <div className="w-[50%]  p-8  ">
         <h2 className="text-2xl font-semibold mb-4">Profile Information</h2>
         <form onSubmit={handleSubmit}>
