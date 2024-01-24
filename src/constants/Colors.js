@@ -1,9 +1,9 @@
 const Colors={
-    primary: '#FFFFFF',
-    secondary: '#292D32',
-    accent: '#3991F8',
-    textPrimary: '#D5D5D5',
-    textSecondary: '#101010',
+    primary: '#FFFFFF',//light mode bg
+    secondary: '#292D32', //dark mode bg
+    accent: '#3991F8', //this is accent color and remain same in both theme modes
+    textPrimary: '#D5D5D5', //dark mode text color
+    textSecondary: '#101010', //light mode text color
     textLight: '#FFFFFF',
     textDark: '#000000',
     lightContainer: '#F6F6F6',
