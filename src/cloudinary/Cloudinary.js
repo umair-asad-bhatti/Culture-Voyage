@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const uploadImageAssetToCloudinary=async (imageAsset)=>{
-    const preset_key = "culture voyage";
-    const cloud_name = "dxudpps7i";
+    const preset_key = "culturevoyage";
+    const cloud_name = "du2kwgdxc";
     const formData = new FormData();
     formData.append('file',imageAsset);
     formData.append("upload_preset",preset_key);
