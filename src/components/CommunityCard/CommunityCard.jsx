@@ -8,7 +8,6 @@ export const CommunityCard = ({ community }) => {
     const {user}=useContext(UserContext)
     return (
         <Link to={'/community/45435jj34j5j4'}>
-
         <div className={'border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer  shadow p-4 rounded-lg'}>
         <div className="flex items-center gap-4 ">
             <img
