@@ -10,7 +10,7 @@ const SideBarComponent = () => {
 
     return (
         <>
-            <div className=" w-full px-3 ">
+            <div className="w-full px-2 ">
                 <div className="mt-4 flex flex-col gap-5 relative  ">
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Home'} to={'/'}>
                         <Home />

@@ -12,8 +12,8 @@ const PostCardComponent = () => {
                 <div className={'flex gap-2 items-center justify-center'}>
                     <img src={CommunityLogo} alt="community image" />
                     <div>
-                        <h1 className='dark:text-textPrimary text-textSecondary'>StarsNStripesHub</h1>
-                        <h3 className='dark:text-textPrimary text-textSecondary'>by @josh_01</h3>
+                        <p className='dark:text-textPrimary text-textSecondary'>StarsNStripesHub</p>
+                        <p className='dark:text-textPrimary text-textSecondary'>by @josh_01</p>
                     </div >
                 </div >
                 <div className={'flex items-center justify-start  gap-4'}>
@@ -27,11 +27,11 @@ const PostCardComponent = () => {
             {/*   end top section*/}
 
             {/*    post card main title*/}
-            <h1 className={'text-3xl text-accent font-bold my-6 '}>A Slice of Americana: Sunday BBQ Tradition</h1>
+            <p className={'text-xl text-accent font-bold my-6 '}>A Slice of Americana: Sunday BBQ Tradition</p>
             {/*    post card main title ends*/}
             {/*    post card main section with image*/}
             <div className={'flex justify-center items-start my-4'}>
-                <h2 className={'dark:text-textPrimary text-xl text-textSecondary'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit sed veritatis? Adipisci commodi ea esse, et facere modi molestias, quas quis, recusandae reiciendis sint temporibus totam.</h2>
+                <h2 className={'dark:text-textPrimary text-lg text-textSecondary'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit sed veritatis? Adipisci commodi ea esse, et facere modi molestias, quas quis, recusandae reiciendis sint temporibus totam.</h2>
                 <img src={postImage} alt="post image" />
             </div>
             {/*    post card main section with image ends*/}

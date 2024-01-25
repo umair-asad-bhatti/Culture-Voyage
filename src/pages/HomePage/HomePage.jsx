@@ -30,12 +30,12 @@ export default function HomePage() {
             </div>
             <div className='flex justify-center items-center dark:bg-secondary'>
                 <div className='w-screen  min-h-screen xl:w-[1500px] flex'>
-                    <div className='w-[250px]  lg:block hidden '>
+                    <div className='w-[20%]  lg:block hidden '>
                         <div className='fixed  z-50 w-[250px] '>
                             <SideBarComponent />
                         </div>
                     </div>
-                    <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
+                    <div className='xl:max-w-[80%] lg:w-[80%] md:w-full flex flex-col gap-4 p-4'>
                         <Routes>
                             <Route element={<PrivateRoutes/>}>
                                 <Route exact path={''}  element={<PostPage />} />
@@ -43,11 +43,11 @@ export default function HomePage() {
                             </Route>
                         </Routes>
                     </div>
-                    <div className='w-1/5 p-4 md:block hidden  shadow-xl'>
-                        <div className='fixed z-50'>
-                            <h1 className='dark:text-primary '>Recommended Communities</h1>
-                        </div>
-                    </div>
+                    {/*<div className='w-1/5 p-4 md:block hidden  shadow-xl'>*/}
+                    {/*    <div className='fixed z-50'>*/}
+                    {/*        <h1 className='dark:text-primary '>Recommended Communities</h1>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </>

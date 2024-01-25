@@ -6,7 +6,6 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
   const fileRef=useRef(null)
   const uploadImage = (e) => {
     const file = e.target.files[0];
-    console.log('in funcs')
     if (file) {
       const fileExtension = file.name.split(".").pop().toLowerCase();
       const fileSize=file.size/1000000
