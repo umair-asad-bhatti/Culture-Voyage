@@ -49,7 +49,7 @@ export default function HomePage() {
                     <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
                         <Routes>
                             <Route exact path={'/'} element={<PostCardComponent />} />
-                            <Route exact path={'/community'} element={<CommunityPage />} />
+                            <Route exact path={'/communities'} element={<CommunityPage />} />
                         </Routes>
                     </div>
                     <div className='w-1/5 p-4 md:block hidden  shadow-xl'>

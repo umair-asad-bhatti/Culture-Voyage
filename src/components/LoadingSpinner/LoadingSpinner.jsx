@@ -1,8 +1,9 @@
-import {Colors} from "../../constants/Colors.js";
+
 import {Spinner} from "@chakra-ui/react";
 
+// eslint-disable-next-line react/prop-types
 export const LoadingSpinner=({size})=>{
     return (
-        <Spinner className={'dark:text-primary text-darkGrey'} size={size} />
+        <Spinner className={'dark:text-textPrimary text-textSecondary'} size={size} />
     )
 }
