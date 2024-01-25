@@ -7,7 +7,7 @@ const SideBarTab = ({ children, label, to, activeTab, setActiveTab }) => {
         <Link
             onClick={()=>setActiveTab(label)}
             to={to}
-            className={`dark:text-textPrimary rounded-xl hover:bg-accent text-textSecondary hover:text-textLight p-4 flex items-center gap-3  ${
+            className={`dark:text-textPrimary rounded-xl dark:hover:bg-darkerGrey hover:bg-softGrey hover:text-textSecondary  text-textSecondary dark:hover:text-textPrimary p-4 flex items-center gap-3  ${
                 activeTab.toLowerCase() === label.toLowerCase() ? 'dark:bg-info bg-accent text-white' : ''
             } `}
         >

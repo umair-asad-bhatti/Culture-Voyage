@@ -19,7 +19,7 @@ const Colors={
     warning: '#F57C00',
     info: '#1976D2',
     black: '#232323',
-    darkerGrey: '#4F4F4F', //dark mode hover card bg color
+    darkerGrey: '#3a3a3a', //dark mode hover card bg color
     darkGrey: '#939393',
     grey: '#E0E0E0',
     softGrey: '#F4F4F4', //light mode hover card bg color

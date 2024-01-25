@@ -6,8 +6,10 @@ export default function InputField({ type, value, setValue, children, maxLength 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const isTextarea = type === 'textarea';
   return (
-    <div className={`flex items-center gap-2 bg-transparent w-full py-1 px-4 text-lg  border-2 border-borderPrimary dark:border-borderSecondary focus-within:border-accent rounded-lg ${isTextarea ? 'flex-col' : ''}`}>
-      {children}
+    <div className={`flex items-center gap-2 bg-transparent w-full py-1 px-4 text-lg  border-2 border-borderPrimary dark:border-borderSecondary focus-within:border-accent  rounded-lg ${isTextarea ? 'flex-col' : ''}`}>
+
+        {children}
+
       {isTextarea ? (
         <textarea
           placeholder={type}

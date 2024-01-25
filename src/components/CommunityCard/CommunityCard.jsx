@@ -2,11 +2,14 @@ import Button from '../Button/Button.component.jsx'
 import {Divider} from "@chakra-ui/react";
 import {UserContext} from "../../context/AuthContext.jsx";
 import {useContext} from "react";
+import {Link} from 'react-router-dom'
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
     const {user}=useContext(UserContext)
     return (
-        <div className={'border border-borderPrimary dark:border-borderSecondary my-2  shadow p-4 rounded-lg'}>
+        <Link to={'/community/45435jj34j5j4'}>
+
+        <div className={'border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer  shadow p-4 rounded-lg'}>
         <div className="flex items-center gap-4 ">
             <img
                 className="w-20 h-20 rounded-full"
@@ -36,5 +39,6 @@ export const CommunityCard = ({ community }) => {
                 </div>
             </div>
         </div>
+        </Link>
     );
 };

@@ -8,6 +8,8 @@ import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.j
 import {CommunityPage} from "../Community/CommunityPage.jsx";
 import {PostPage} from "../PostPage/PostPage.jsx";
 import {PrivateRoutes} from "../Routes/PrivateRoutes.jsx";
+import {PostDetailPage} from "../PostDetailPage/PostDetailPage.jsx";
+import {CommunityDetailPage} from "../CommunityDetailPage/CommunityDetailPage.jsx";
 
 
 export default function HomePage() {
@@ -40,6 +42,8 @@ export default function HomePage() {
                             <Route element={<PrivateRoutes/>}>
                                 <Route exact path={''}  element={<PostPage />} />
                                 <Route exact path="communities" element={<CommunityPage />} />
+                                <Route exact path="post/:id" element={<PostDetailPage />} />
+                                <Route exact path="community/:id" element={<CommunityDetailPage />} />
                             </Route>
                         </Routes>
                     </div>
