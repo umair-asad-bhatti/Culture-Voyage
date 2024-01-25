@@ -22,9 +22,7 @@ const EmailVerificationPage = () => {
     const [isSending,setIsSending]=useState(false)
     const {isAdditionalInformationComplete}=useCheckUserInformation()
     useEffect(()=>{
-        if(!user)
-            navigation('/login')
-        if(!isLoading && user && user.emailVerified){
+        if(user.emailVerified){
             (async()=>{
                 await isAdditionalInformationComplete(user)
             })()

@@ -1,12 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import {Outlet, useNavigate} from "react-router-dom";
 import Navbar from '../../components/Navbar/Navbar.component.jsx';
 import { UserContext } from '../../context/AuthContext';
-import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx";
 import SideBarComponent from "../../components/SideBar/SideBar.component.jsx";
-import { Route, Routes } from 'react-router-dom'
 import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
-import { CommunityPage } from "../Community/CommunityPage.jsx";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 
@@ -16,17 +13,6 @@ export default function HomePage() {
     const { user, isLoading } = useContext(UserContext);
 
     const { checkIsEmailVerified, isAdditionalInformationComplete } = useCheckUserInformation()
-    useEffect(() => {
-        // Wait for user data to be loaded before redirecting
-        // TODO apply following checks in production
-        //
-        if(!isLoading && !user)
-            navigation('/login')
-        // else if(!isLoading && !user?.emailVerified)
-        // checkIsEmailVerified(user)
-        // else if(!isLoading && user && user?.emailVerified)
-        //     isAdditionalInformationComplete(user)
-    }, [user, isLoading, navigation]);
 
     if (isLoading)
         return <div className={'flex items-center justify-center h-screen w-screen'}><LoadingSpinner size={'lg'} /></div>
@@ -47,10 +33,7 @@ export default function HomePage() {
                         </div>
                     </div>
                     <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
-                        <Routes>
-                            <Route exact path={'/'} element={<PostCardComponent />} />
-                            <Route exact path={'/communities'} element={<CommunityPage />} />
-                        </Routes>
+                       <Outlet/>
                     </div>
                     <div className='w-1/5 p-4 md:block hidden  shadow-xl'>
                         <div className='fixed z-50'>
