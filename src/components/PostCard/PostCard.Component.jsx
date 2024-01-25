@@ -1,12 +1,12 @@
 import CommunityLogo from '../../assets/Community.png'
-import postImage from '../../assets/postImage.png'
+import postImage from '../../assets/postImage.jpg'
 import { Heart, MedalStar, Message } from "iconsax-react";
 import Button from '../Button/Button.component.jsx'
 // import { Card, CardBody, Image, Heading, Stack, Text, CardFooter, Button } from '@chakra-ui/react'
 const PostCardComponent = () => {
 
     return (
-        <div className="border border-borderPrimary dark:border-borderSecondary p-6 rounded-lg">
+        <div style={{transition:'0.1s ease'}} className="border border-borderPrimary dark:border-borderSecondary p-6 rounded-lg hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer">
             {/*top section*/}
             <div className={'flex justify-between items-center'}>
                 <div className={'flex gap-2 items-center justify-center'}>
@@ -30,9 +30,9 @@ const PostCardComponent = () => {
             <p className={'text-xl text-accent font-bold my-6 '}>A Slice of Americana: Sunday BBQ Tradition</p>
             {/*    post card main title ends*/}
             {/*    post card main section with image*/}
-            <div className={'flex justify-center items-start my-4'}>
-                <h2 className={'dark:text-textPrimary text-lg text-textSecondary'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit sed veritatis? Adipisci commodi ea esse, et facere modi molestias, quas quis, recusandae reiciendis sint temporibus totam.</h2>
-                <img src={postImage} alt="post image" />
+            <div className={'flex justify-center flex-col items-start my-4'}>
+                <h2 className={'dark:text-textPrimary text-lg text-textSecondary'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias commodi iste non reprehenderit....</h2>
+                <img className={' my-2 rounded-lg shadow w-full h-60'} src={postImage} alt="post image" />
             </div>
             {/*    post card main section with image ends*/}
             {/*    post card footer section starts here*/}
