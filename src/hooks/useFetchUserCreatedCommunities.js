@@ -21,6 +21,8 @@ export const useFetchUserCreatedCommunities=()=>{
                             smallDescription: communityData["Small Description"],
                             communityType: communityData["Community Type"],
                             communityLogoUrl: communityData["Community Logo URL"],
+                            createdAt:communityData['Created At'],
+                            createdBy:communityData['Created By']
                         });
                     }
                 })

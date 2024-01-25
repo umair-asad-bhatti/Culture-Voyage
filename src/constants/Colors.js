@@ -13,7 +13,7 @@ const Colors={
     buttonDarkTextColor: '#8FA6E5',
     buttonDisabled: 'rgba(147, 147, 147, 0.3)',
     borderPrimary: '#D9D9D9',
-    borderSecondary: '#E6E6E6',
+    borderSecondary: '#6d6d6d',
     error: '#FF8A65',
     success: '#388E3C',
     warning: '#F57C00',

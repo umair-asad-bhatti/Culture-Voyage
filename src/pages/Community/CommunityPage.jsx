@@ -18,11 +18,11 @@ export const CommunityPage = () => {
   }, []);
   return (
     <>
-      <CreateCommunity />
-      <p className="py-2 text-center font-bold text-lg dark:text-primary">Your Own Community</p>
-      <CommunityListing communities={userCreatedCommunities} isFetching={isFetchingUserCreatedCommunities}/>
-      <p className="py-2 text-center font-bold text-lg dark:text-primary">All Communities</p>
-        <CommunityListing communities={communities} isFetching={isFetchingAllCommunities}/>
+          <CreateCommunity />
+          <p className="py-2 text-center font-bold text-lg dark:text-primary">Your Own Community</p>
+          <CommunityListing  communities={userCreatedCommunities} isFetching={isFetchingUserCreatedCommunities}/>
+          <p className="py-2 text-center font-bold text-lg dark:text-primary">All Communities</p>
+          <CommunityListing  communities={communities} isFetching={isFetchingAllCommunities}/>
     </>
   );
 };

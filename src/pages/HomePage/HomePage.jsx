@@ -1,10 +1,13 @@
 import { useContext } from 'react';
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, Route, Routes, useNavigate} from "react-router-dom";
 import Navbar from '../../components/Navbar/Navbar.component.jsx';
 import { UserContext } from '../../context/AuthContext';
 import SideBarComponent from "../../components/SideBar/SideBar.component.jsx";
 import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+import {CommunityPage} from "../Community/CommunityPage.jsx";
+import {PostPage} from "../PostPage/PostPage.jsx";
+import {PrivateRoutes} from "../Routes/PrivateRoutes.jsx";
 
 
 export default function HomePage() {
@@ -33,7 +36,12 @@ export default function HomePage() {
                         </div>
                     </div>
                     <div className='lg:w-3/5 flex flex-col gap-4 p-4'>
-                       <Outlet/>
+                        <Routes>
+                            <Route element={<PrivateRoutes/>}>
+                                <Route exact path={''}  element={<PostPage />} />
+                                <Route exact path="communities" element={<CommunityPage />} />
+                            </Route>
+                        </Routes>
                     </div>
                     <div className='w-1/5 p-4 md:block hidden  shadow-xl'>
                         <div className='fixed z-50'>

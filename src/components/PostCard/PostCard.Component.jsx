@@ -6,7 +6,7 @@ import Button from '../Button/Button.component.jsx'
 const PostCardComponent = () => {
 
     return (
-        <div className="border border-borderPrimary p-6 rounded-lg">
+        <div className="border border-borderPrimary dark:border-borderSecondary p-6 rounded-lg">
             {/*top section*/}
             <div className={'flex justify-between items-center'}>
                 <div className={'flex gap-2 items-center justify-center'}>
@@ -19,7 +19,7 @@ const PostCardComponent = () => {
                 <div className={'flex items-center justify-start  gap-4'}>
                         <div className={'w-24'}>
                                 {/*TODO implement the jon community feature*/}
-                                <Button isDisabled={false} onClickHandler={()=>{}}>Join</Button>
+                                <Button py={1} isDisabled={false} onClickHandler={()=>{}}>Join</Button>
                         </div>
                     <div className={'text-center dark:text-textPrimary text-textSecondary'}>34m</div>
                 </div>
@@ -36,7 +36,7 @@ const PostCardComponent = () => {
             </div>
             {/*    post card main section with image ends*/}
             {/*    post card footer section starts here*/}
-            <div className={'mt-2 p-4 border border-x-0 border-b-0 border-t-1 border-grey'}>
+            <div className={'mt-2 p-4 border border-x-0 border-b-0 border-t-1 border-borderPrimary dark:border-borderSecondary'}>
                 <div className={'flex justify-between items-center'}>
                     {/*likes icon and likes information*/}
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
@@ -46,7 +46,6 @@ const PostCardComponent = () => {
                         />
                         <p className='dark:text-textPrimary text-textSecondary'>41</p>
                     </div>
-
                     <div className={'cursor-pointer flex justify-center items-center gap-2'}>
                         <MedalStar
                             size="32"

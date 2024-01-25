@@ -36,7 +36,7 @@ export default function LoginPage() {
   }, [user, isLoading, isGoogleLoading, checkIsEmailVerified, isAdditionalInformationComplete]);
   return (
     <>
-      {!isLoading && !user && (
+      { (
         <>
           <div className="min-h-screen flex justify-between">
             <div className="w-[50%] bg-accent dark:bg-info min-h-screen flex flex-col items-center justify-center">

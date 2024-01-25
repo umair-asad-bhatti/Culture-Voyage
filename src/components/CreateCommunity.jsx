@@ -13,12 +13,13 @@ export const CreateCommunity = () => {
     return (
         <>
             {/* Open the modal using document.getElementById('ID').showModal() method */}
-            <Button
-                isDisabled={false}
-                onClickHandler={() => document.getElementById("my_modal_1").showModal()}
-            >
-                Create Community
-            </Button>
+
+                <Button
+                    isDisabled={false}
+                    onClickHandler={() => document.getElementById("my_modal_1").showModal()}
+                >
+                    Create Community
+                </Button>
             <dialog id="my_modal_1" className="modal">
                 <div className="modal-box max-w-3xl dark:bg-secondary">
                     {/* <h3 className="font-bold text-lg">Hello!</h3> */}
