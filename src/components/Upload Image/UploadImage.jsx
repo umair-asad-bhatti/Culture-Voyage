@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Trash, DocumentUpload } from "iconsax-react";
 
-export const UploadImage = ({imageAsset,setImageAsset}) => {
+export const UploadImage = ({imageAsset,setImageAsset,fullSize=false}) => {
 
   const fileRef=useRef(null)
   const uploadImage = (e) => {
@@ -24,7 +24,7 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
     }
   };
   return (
-    <div className={"h-full w-full border p-4 rounded-lg shadow inline-block mx-auto"}>
+    <div className={"h-full w-full border-2 border-borderPrimary dark:border-borderSecondary p-4 rounded-lg shadow inline-block mx-auto"}>
       {!imageAsset ? (
         <label>
           <div className="flex flex-col items-center justify-center h-full">
@@ -51,7 +51,7 @@ export const UploadImage = ({imageAsset,setImageAsset}) => {
           <img
             src={URL.createObjectURL(imageAsset)}
             alt="uploaded-image"
-            className="h-[150px] w-[150px] object-cover rounded-full mx-auto"
+            className={`${fullSize?'w-full h-full object-cover':'h-[150px] w-[150px] object-cover rounded-full mx-auto'}`}
           />
           <button
             type="button"

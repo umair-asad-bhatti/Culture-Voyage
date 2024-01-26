@@ -27,13 +27,13 @@ export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue,type})=>
             {tags.map((tag) => (
                 <div
                     key={tag}
-                    className="border-borderPrimary dark:border-borderSecondary border-2 shadow text-textSecondary dark:text-textPrimary px-2 py-2 rounded-full cursor-pointer"
+                    className="dark:border-borderSecondary border-borderPrimary border-2 shadow text-textSecondary dark:text-textPrimary px-2 py-2 rounded-full cursor-pointer"
                     onClick={() => handleTagRemove(tag)}
                 >
                     {tag}
                 </div>
             ))}
-            <div className={'flex  bg-primary dark:bg-secondary  border-2 rounded-lg shadow px-2 py-1'}>
+            <div className={'flex  bg-primary dark:bg-secondary  border-2 dark:border-borderSecondary border-borderPrimary rounded-lg shadow px-2 py-1'}>
             <input
                 type="text"
                 value={tagInputValue}

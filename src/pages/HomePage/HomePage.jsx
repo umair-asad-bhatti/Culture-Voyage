@@ -44,6 +44,7 @@ export default function HomePage() {
                                 <Route exact path="communities" element={<CommunityPage />} />
                                 <Route exact path="post/:id" element={<PostDetailPage />} />
                                 <Route exact path="communities/:id" element={<CommunityDetailPage />} />
+                                {/*<Route exact path="profile/:id" element={<CommunityDetailPage />} />*/}
                             </Route>
                         </Routes>
                     </div>
