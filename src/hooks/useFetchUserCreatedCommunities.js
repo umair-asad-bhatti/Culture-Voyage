@@ -17,6 +17,7 @@ export const useFetchUserCreatedCommunities=()=>{
                     if(doc.exists()){
                         const communityData = doc.data();
                         data.push({
+                            id:doc.id,
                             communityName: communityData["Community Name"],
                             smallDescription: communityData["Small Description"],
                             communityType: communityData["Community Type"],

@@ -8,6 +8,10 @@ export const docExistsOrNot=async (collectionName,docField,operator,toBeCompared
     const querySnapshot=await getDocs(q)
     return querySnapshot.size > 0;
 }
+export const getFirebaseDoc=async (collectionsName,id)=>{
+    const docSnapshot=await getDoc(doc(db,collectionsName,id))
+    return docSnapshot.data()
+}
 
 export const getUserData=async(userId,dataField=null)=>{
     const querySnapshot=await getDoc(doc(db,'Users',userId))

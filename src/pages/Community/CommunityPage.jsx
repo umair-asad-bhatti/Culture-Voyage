@@ -13,7 +13,7 @@ export const CommunityPage = () => {
   useEffect(() => {
 
           fetchUserCreatedCommunities(user.uid); //fetch all communities created by user
-         fetchAllCommunities(user.uid);//except user created communities
+          fetchAllCommunities(user.uid);//except user created communities
 
   }, []);
   return (
