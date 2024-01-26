@@ -43,7 +43,7 @@ export default function HomePage() {
                                 <Route exact path={''}  element={<PostPage />} />
                                 <Route exact path="communities" element={<CommunityPage />} />
                                 <Route exact path="post/:id" element={<PostDetailPage />} />
-                                <Route exact path="community/:id" element={<CommunityDetailPage />} />
+                                <Route exact path="communities/:id" element={<CommunityDetailPage />} />
                             </Route>
                         </Routes>
                     </div>
