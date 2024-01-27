@@ -1,11 +1,42 @@
 import {useParams} from 'react-router-dom'
 import {useEffect, useState} from 'react'
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from '../../firebase/Firebase.js';
+import { useToast } from '@chakra-ui/react';
+import { ToastStrings } from '../../constants/ToastStrings.js';
+import Button from '../../components/Button/Button.component.jsx';
 import {useFetchCommunityDetails} from "../../hooks/useFetchCommunityDetails.js";
 import {UploadImage} from "../../components/Upload Image/UploadImage.jsx";
+import { uploadImageAssetToCloudinary } from '../../cloudinary/Cloudinary.js';
 export const CommunityDetailPage=()=>{
-    const {id}=useParams()
+    const {id}=useParams();
+    const toast = useToast();
     const {CommunityData,isFetching,getCommunityDetails}=useFetchCommunityDetails();
     const [Banner,setBanner] = useState(null)
+
+    const handleImageUpload = async (id) => {
+        try {
+          if (Banner) {
+            const { secure_url ,public_id} = await uploadImageAssetToCloudinary(Banner);
+            await updateDoc(doc(db, "Communities", id), {
+              ['Banner URL']: secure_url,
+              ['Banner Public ID']: public_id,
+            });
+            toast({
+              title: "Banner uploaded successfully!",
+              status: "success",
+              duration: ToastStrings.duration,
+              isClosable: true,
+            });
+            setBanner((prevUserData) => ({
+              ...prevUserData,
+              ['Banner URL']: secure_url,
+            }));
+          }
+        } catch (error) {
+          console.log("Error uploading profile picture:", error.message);
+        }
+      };
 
     useEffect(()=>{
       getCommunityDetails(id)
@@ -26,6 +57,7 @@ export const CommunityDetailPage=()=>{
                     }
                         <img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} alt=""/>
                 </div>
+                
                 <div className={'w-full dark:text-textPrimary text-textSecondary'}>
                     <h1 className={'font-extrabold  text-2xl text-accent my-2'}>{CommunityData['Community Name']}</h1>
                     <h1><span className={'font-extrabold my-2'}>Created At :</span>{CommunityData['Created At']}</h1>
@@ -49,6 +81,7 @@ export const CommunityDetailPage=()=>{
                     </div>
                     <span className={'divider'}></span>
                 </div>
+                <Button onClickHandler={() => handleImageUpload(id)}>Save Banner</Button>
         </>
 
 }

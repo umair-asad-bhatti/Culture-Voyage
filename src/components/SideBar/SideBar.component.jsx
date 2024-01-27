@@ -1,10 +1,12 @@
 
 import { AddCircle, Home, Like1, People, Star, User } from "iconsax-react";
 import { SideBarTab } from "../SideBarTab/SideBarTab.jsx";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useLocation} from 'react-router-dom'
+import { UserContext } from "../../context/AuthContext.jsx";
 const SideBarComponent = () => {
     const location=useLocation()
+    const {user } = useContext(UserContext);
     console.log(location.pathname.slice(1))
     const [activeTab,setActiveTab]=useState(location.pathname==='/'?'home':location.pathname.slice(1))
 
@@ -29,7 +31,7 @@ const SideBarComponent = () => {
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Favourites'}>
                         <Star />
                     </SideBarTab>
-                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'} to={'profile'}>
+                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'} to={`/profile/${user?.uid}`}>
                         <User />
                     </SideBarTab>
                     <hr className="h-px my-4 bg-gray-400 "></hr>

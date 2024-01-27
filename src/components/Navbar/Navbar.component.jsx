@@ -45,7 +45,7 @@ export default function Navbar() {
         <InputField type="search" value={search} setValue={setSearch}>
           <SearchNormal className={"dark:text-primary text-textPrimary"} />
         </InputField>
-        <Link to="/profile">
+        <Link to={`/profile/${user?.uid}`}>
           <img
             src={userData?.Avatar || Logo}
             alt="Profile"

@@ -1,27 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
-import { updateDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase/Firebase.js";
-import { Spinner } from "@chakra-ui/react";
-import { useToast } from "@chakra-ui/react";
-import { ToastStrings } from "../../constants/ToastStrings.js";
+import { useNavigate, useParams } from "react-router-dom";
 import { auth } from "../../firebase/Firebase.js";
-import { Colors } from "../../constants/Colors.js";
-import { getUserData } from "../../utils/Firebase Utils Functions/index.js";
 import Logo from "../../assets/Logo.png";
 import Button from "../../components/Button/Button.component.jsx";
 import { signOut } from "firebase/auth";
-import { uploadImageAssetToCloudinary } from "../../cloudinary/Cloudinary.js";
+
+import { useGetUserProfileData } from "../../hooks/useGetUserProfileData.js";
 
 export const UserProfile = () => {
   const { user, isLoading } = useContext(UserContext);
-  const navigate = useNavigate();
-  const toast = useToast();
-  const [userData, setUserData] = useState();
-  const [imageFile, setImageFile] = useState();
-  const [loading, setLoading] = useState(true);
-
+  const {
+    userData,
+    isFetching,
+    getUserDetails,
+    handleImageUpload,
+    setImageFile,
+  } = useGetUserProfileData();
+  const {id} = useParams();
+  console.log(id)
   const signout = () => {
     signOut(auth)
       .then(() => {
@@ -32,55 +29,17 @@ export const UserProfile = () => {
       });
   };
 
-  const handleImageUpload = async () => {
-    try {
-      if (imageFile) {
-        const { secure_url } = await uploadImageAssetToCloudinary(imageFile);
-        await updateDoc(doc(db, "Users", user.uid), {
-          Avatar: secure_url,
-        });
-        toast({
-          title: "pic uploded successfully!",
-          status: "success",
-          duration: ToastStrings.duration,
-          isClosable: true,
-        });
-        setUserData((prevUserData) => ({
-          ...prevUserData,
-          Avatar: secure_url,
-        }));
-      }
-    } catch (error) {
-      console.log("Error uploading profile picture:", error.message);
-    }
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (user) {
-          const data = await getUserData(user.uid);
-          setUserData(data);
-        } else {
-          navigate("/login");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [user, navigate]);
-
-  if (isLoading || loading) {
-    return <Spinner color={Colors.white} size={"lg"} />;
-  }
+    getUserDetails(user.uid);
+    handleImageUpload();
+   
+  }, [id]);
+  if (isFetching) return <h1>Loading....</h1>;
+  if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
   return (
     <>
-      <div className="bg-primary dark:bg-secondary border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey shadow p-4 rounded-lg">
+      <div className="bg-primary dark:bg-secondary border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey shadow p-4 rounded-lg ">
         <div className="flex items-center mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden">
             <img
@@ -114,7 +73,7 @@ export const UserProfile = () => {
           </div>
         </div>
       </div>
-      <Button onClickHandler={handleImageUpload}>Save Image</Button>
+      <Button onClickHandler={() => handleImageUpload(user.uid)}>Save Image</Button>
       <Button onClickHandler={signout}>Logout</Button>
     </>
   );
