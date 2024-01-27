@@ -29,7 +29,7 @@ const SideBarComponent = () => {
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Favourites'}>
                         <Star />
                     </SideBarTab>
-                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'}>
+                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'} to={'profile'}>
                         <User />
                     </SideBarTab>
                     <hr className="h-px my-4 bg-gray-400 "></hr>
