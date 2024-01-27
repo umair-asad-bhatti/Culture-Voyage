@@ -10,6 +10,7 @@ class UserModel {
         this["National Number"] = "";
         this["Phone Number"] = "";
         this["Gender"] = "";
+        this["Avatar"] = "";
         this["Date Of Birth"] = "";
         this["Phone Verified"] = false;
         this["User Created Communities"]=[]

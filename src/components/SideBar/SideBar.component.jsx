@@ -1,5 +1,5 @@
 
-import { AddCircle, Home, Like1, People, Star } from "iconsax-react";
+import { AddCircle, Home, Like1, People, Star, User } from "iconsax-react";
 import { SideBarTab } from "../SideBarTab/SideBarTab.jsx";
 import {useState} from "react";
 import {useLocation} from 'react-router-dom'
@@ -28,6 +28,9 @@ const SideBarComponent = () => {
                     </SideBarTab>
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Favourites'}>
                         <Star />
+                    </SideBarTab>
+                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'}>
+                        <User />
                     </SideBarTab>
                     <hr className="h-px my-4 bg-gray-400 "></hr>
                 </div>

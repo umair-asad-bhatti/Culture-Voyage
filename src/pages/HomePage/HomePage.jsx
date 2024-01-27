@@ -10,6 +10,7 @@ import {PostPage} from "../PostPage/PostPage.jsx";
 import {PrivateRoutes} from "../Routes/PrivateRoutes.jsx";
 import {PostDetailPage} from "../PostDetailPage/PostDetailPage.jsx";
 import {CommunityDetailPage} from "../CommunityDetailPage/CommunityDetailPage.jsx";
+import { UserProfile } from '../Profile/UserProfile.jsx';
 
 
 export default function HomePage() {
@@ -44,7 +45,7 @@ export default function HomePage() {
                                 <Route exact path="communities" element={<CommunityPage />} />
                                 <Route exact path="post/:id" element={<PostDetailPage />} />
                                 <Route exact path="communities/:id" element={<CommunityDetailPage />} />
-                                {/*<Route exact path="profile/:id" element={<CommunityDetailPage />} />*/}
+                                <Route exact path="profile" element={<UserProfile />} />
                             </Route>
                         </Routes>
                     </div>
