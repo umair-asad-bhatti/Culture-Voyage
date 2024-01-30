@@ -1,42 +1,59 @@
 import {useParams} from 'react-router-dom'
-import {useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from '../../firebase/Firebase.js';
+import { UserContext } from '../../context/AuthContext.jsx';
 import { useToast } from '@chakra-ui/react';
 import { ToastStrings } from '../../constants/ToastStrings.js';
 import Button from '../../components/Button/Button.component.jsx';
 import {useFetchCommunityDetails} from "../../hooks/useFetchCommunityDetails.js";
 import {UploadImage} from "../../components/Upload Image/UploadImage.jsx";
 import { uploadImageAssetToCloudinary } from '../../cloudinary/Cloudinary.js';
+
+import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
+
 export const CommunityDetailPage=()=>{
     const {id}=useParams();
+    const {user} = useContext(UserContext);
+    const [Banner,setBanner] = useState(null)
     const toast = useToast();
     const {CommunityData,isFetching,getCommunityDetails}=useFetchCommunityDetails();
-    const [Banner,setBanner] = useState(null)
 
-    const handleImageUpload = async (id) => {
-        try {
-          if (Banner) {
-            const { secure_url ,public_id} = await uploadImageAssetToCloudinary(Banner);
-            await updateDoc(doc(db, "Communities", id), {
-              ['Banner URL']: secure_url,
-              ['Banner Public ID']: public_id,
-            });
-            toast({
-              title: "Banner uploaded successfully!",
-              status: "success",
-              duration: ToastStrings.duration,
-              isClosable: true,
-            });
-            setBanner((prevUserData) => ({
-              ...prevUserData,
-              ['Banner URL']: secure_url,
-            }));
-          }
-        } catch (error) {
-          console.log("Error uploading profile picture:", error.message);
-        }
-      };
+    const {leaveCommunity} = useLeaveCommunity();
+    
+
+   
+  const handleImageUpload = async (id) => {
+    try {
+      if ( user.uid === CommunityData['Creator UID']) {
+        const { secure_url, public_id } = await uploadImageAssetToCloudinary(Banner);
+        await updateDoc(doc(db, "Communities", id), {
+          ['Banner URL']: secure_url,
+          ['Banner Public ID']: public_id,
+        });
+        toast({
+          title: "Banner uploaded successfully!",
+          status: "success",
+          duration: ToastStrings.duration,
+          isClosable: true,
+        });
+        setBanner((prevUserData) => ({
+          ...prevUserData,
+          ['Banner URL']: secure_url,
+        }));
+      } else {
+        
+        toast({
+          title: "Banner Cannot be updated!",
+          status: "info",
+          duration: ToastStrings.duration,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log("Error uploading profile picture:", error.message);
+    }
+  };
 
     useEffect(()=>{
       getCommunityDetails(id)
@@ -82,6 +99,7 @@ export const CommunityDetailPage=()=>{
                     <span className={'divider'}></span>
                 </div>
                 <Button onClickHandler={() => handleImageUpload(id)}>Save Banner</Button>
+                <Button onClickHandler={() => leaveCommunity(id)}>Leave Community</Button>
         </>
 
 }
