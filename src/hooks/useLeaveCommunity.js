@@ -16,7 +16,9 @@ const useLeaveCommunity = () => {
       const joinedCommunities = userData["Joined Communities"] ?? [];
       const userDocRef = doc(db, "Users", user.uid);
 
-      const updatedJoinedCommunities = joinedCommunities.filter((id) => id !== id);
+      const updatedJoinedCommunities = joinedCommunities.filter(
+        (id) => id !== id
+      );
       await updateDoc(userDocRef, {
         ["Joined Communities"]: updatedJoinedCommunities,
       });
@@ -43,7 +45,6 @@ const useLeaveCommunity = () => {
         duration: ToastStrings.duration,
         isClosable: true,
       });
-      
     }
   };
 
