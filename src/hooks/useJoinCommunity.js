@@ -47,7 +47,8 @@ const useJoinCommunity = () => {
       });
 
       const communityDocRef = doc(db, "Communities", community.id);
-      const communityMembers = community['Memebers'] ?? [];
+      const communityMembers = community.members ?? [];
+     
 
       await updateDoc(communityDocRef, {
         ["Members"]: [...communityMembers, user.uid],

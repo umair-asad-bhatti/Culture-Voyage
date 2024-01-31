@@ -20,7 +20,8 @@ export const useFetchAllCommunities=()=>{
                         communityType: communityData["Community Type"],
                         communityLogoUrl: communityData["Community Logo URL"],
                         createdAt:communityData['Created At'],
-                        createdBy:communityData['Created By']
+                        createdBy:communityData['Created By'],
+                        members:communityData['Members']
                     });
                 }
             });
