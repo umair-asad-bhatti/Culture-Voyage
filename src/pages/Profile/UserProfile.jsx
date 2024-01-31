@@ -17,8 +17,9 @@ export const UserProfile = () => {
     handleImageUpload,
     setImageFile,
   } = useGetUserProfileData();
-  const {id} = useParams();
-  console.log(id)
+  const [imagePreview, setImagePreview] = useState();
+  const { id } = useParams();
+  console.log(id);
   const signout = () => {
     signOut(auth)
       .then(() => {
@@ -29,10 +30,21 @@ export const UserProfile = () => {
       });
   };
 
+  const handleImageChange = (e) => {
+  const file = e.target.files[0];
+
+  if (file) {
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  } else {
+    setImageFile(null);
+    setImagePreview(null);
+  }
+};
+
   useEffect(() => {
     getUserDetails(user.uid);
     handleImageUpload();
-   
   }, [id]);
   if (isFetching) return <h1>Loading....</h1>;
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
@@ -43,14 +55,14 @@ export const UserProfile = () => {
         <div className="flex items-center mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden">
             <img
-              src={userData?.Avatar || Logo}
+              src={imagePreview || userData?.Avatar || Logo}
               alt="Profile Pic"
               className="w-full h-full object-cover"
             />
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => setImageFile(e.target.files[0])}
+              onChange={handleImageChange}
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
           </div>
@@ -73,7 +85,9 @@ export const UserProfile = () => {
           </div>
         </div>
       </div>
-      <Button onClickHandler={() => handleImageUpload(user.uid)}>Save Image</Button>
+      <Button onClickHandler={() => handleImageUpload(user.uid)}>
+        Save Image
+      </Button>
       <Button onClickHandler={signout}>Logout</Button>
     </>
   );
