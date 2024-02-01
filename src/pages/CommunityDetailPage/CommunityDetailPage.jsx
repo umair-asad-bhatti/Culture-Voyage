@@ -21,7 +21,7 @@ export const CommunityDetailPage = () => {
 
   const handleImageUpload = async (id) => {
     try {
-      if (user.uid === CommunityData['Created By']) {
+
         const { secure_url, public_id } = await uploadImageAssetToCloudinary(Banner);
         await updateDoc(doc(db, "Communities", id), {
           ['Banner URL']: secure_url,
@@ -33,15 +33,7 @@ export const CommunityDetailPage = () => {
           duration: ToastStrings.duration,
           isClosable: true,
         });
-        getCommunityDetails(id)
-      } else {
-        toast({
-          title: "Banner Cannot be updated!",
-          status: "info",
-          duration: ToastStrings.duration,
-          isClosable: true,
-        });
-      }
+        await getCommunityDetails(id)
     } catch (error) {
       console.log("Error uploading profile picture:", error.message);
     }
@@ -92,7 +84,9 @@ export const CommunityDetailPage = () => {
       </div>
       <span className={'divider'}></span>
     </div>
-    <Button onClickHandler={() => handleImageUpload(id)}>Save Banner</Button>
+    {
+      user.uid===CommunityData['Created By'] &&  <Button onClickHandler={() => handleImageUpload(id)}>Save Banner</Button>
+    }
     {
       (CommunityData['Members'] && CommunityData['Members'].includes(user.uid)) ? <Button onClickHandler={() => leaveCommunity(id)}>Leave Community</Button> : ''
     }
