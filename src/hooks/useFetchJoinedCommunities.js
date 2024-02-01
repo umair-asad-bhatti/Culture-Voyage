@@ -2,6 +2,7 @@ import { collection, getDocs, query, where, documentId } from "firebase/firestor
 import { db } from "../firebase/Firebase.js";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 import { useState, useEffect } from 'react';
+import {CommunityDto} from "../dto/CommunityDto.js";
 
 export const useFetchJoinedCommunities = () => {
   const [joinedCommunities, setJoinedCommunities] = useState([]);
@@ -21,16 +22,8 @@ export const useFetchJoinedCommunities = () => {
         communityDocsSnapshot.forEach((doc) => {
           if (doc.exists()) {
             const communityData = doc.data();
-            data.push({
-              id: doc.id,
-              communityName: communityData["Community Name"],
-              smallDescription: communityData["Small Description"],
-              communityType: communityData["Community Type"],
-              communityLogoUrl: communityData["Community Logo URL"],
-              createdAt: communityData['Created At'],
-              createdBy: communityData['Created By'],
-              members:communityData['Members']
-            });
+            const community_dto=new CommunityDto(communityData)
+            data.push({ id: doc.id,...community_dto});
           }
         });
 

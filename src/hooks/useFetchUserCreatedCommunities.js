@@ -2,6 +2,7 @@ import {collection, documentId, getDocs, query, where} from "firebase/firestore"
 import {db} from "../firebase/Firebase.js";
 import {getUserData} from "../utils/Firebase Utils Functions/index.js";
 import {useState} from 'react'
+import {CommunityDto} from "../dto/CommunityDto.js";
 export const useFetchUserCreatedCommunities=()=>{
     const [userCreatedCommunities, setUserCreatedCommunities] = useState([]);
     const [isFetchingUserCreatedCommunities , setIsFetchingUserCreatedCommunities] = useState(false);
@@ -14,19 +15,9 @@ export const useFetchUserCreatedCommunities=()=>{
                 const communityDocRef = query(collection(db,'Communities'),where(documentId(),'in',userCreatedCommunitiesIds))
                 const communityDocsSnapshot = await getDocs(communityDocRef);
                 communityDocsSnapshot?.forEach(doc=>{
-                    if(doc.exists()){
                         const communityData = doc.data();
-                        data.push({
-                            id:doc.id,
-                            communityName: communityData["Community Name"],
-                            smallDescription: communityData["Small Description"],
-                            communityType: communityData["Community Type"],
-                            communityLogoUrl: communityData["Community Logo URL"],
-                            createdAt:communityData['Created At'],
-                            createdBy:communityData['Created By'],
-                            members:communityData['Members']
-                        });
-                    }
+                        const community_dto=new CommunityDto(communityData)
+                        data.push({ id:doc.id,...community_dto});
                 })
                 setUserCreatedCommunities(data)
             } catch (error) {

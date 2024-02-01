@@ -1,28 +1,20 @@
-import {useState} from 'react'
-import {collection, getDocs} from "firebase/firestore";
-import {db} from "../firebase/Firebase.js";
-export const useFetchAllCommunities=()=>{
+import { useState } from 'react'
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/Firebase.js";
+import {CommunityDto} from "../dto/CommunityDto.js";
+export const useFetchAllCommunities = () => {
     const [communities, setCommunities] = useState([]);
-    const [isFetchingAllCommunities,setIsFetchingAllCommunities]=useState(false)
+    const [isFetchingAllCommunities, setIsFetchingAllCommunities] = useState(false)
     const fetchAllCommunities = async (userId) => {
         setIsFetchingAllCommunities(true)
         try {
             const communitiesSnapshot = await getDocs(collection(db, "Communities"));
             const communitiesData = [];
-
             communitiesSnapshot.forEach((doc) => {
                 const communityData = doc.data();
                 if (communityData['Created By'] !== userId) {
-                    communitiesData.push({
-                        id: doc.id,
-                        communityName: communityData["Community Name"],
-                        smallDescription: communityData["Small Description"],
-                        communityType: communityData["Community Type"],
-                        communityLogoUrl: communityData["Community Logo URL"],
-                        createdAt:communityData['Created At'],
-                        createdBy:communityData['Created By'],
-                        members:communityData['Members']
-                    });
+                    const community_dto=new CommunityDto(communityData)
+                    communitiesData.push({id: doc.id,...community_dto});
                 }
             });
 
@@ -35,5 +27,5 @@ export const useFetchAllCommunities=()=>{
         }
     };
 
-    return {fetchAllCommunities,communities,isFetchingAllCommunities}
+    return { fetchAllCommunities, communities, isFetchingAllCommunities }
 }
