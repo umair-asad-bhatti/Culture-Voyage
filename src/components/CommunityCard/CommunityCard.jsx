@@ -27,7 +27,6 @@ export const CommunityCard = ({ community }) => {
   };
 
   return (
-    // <Link to={`/communities/${community.id}`}>
     <div
       className={
         "border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer  shadow p-4 rounded-lg"
@@ -41,10 +40,11 @@ export const CommunityCard = ({ community }) => {
         />
         <div className="flex-col gap-2 w-full">
           <div className={"flex justify-between w-full"}>
-            <p className="text-xl font-bold text-accent">
-              {" "}
-              {community.communityName}
-            </p>
+            <Link to={`/communities/${community.id}`}>
+              <p className="text-xl font-bold text-accent hover:underline">
+                {community.communityName}
+              </p>
+            </Link>
             <p className={"dark:text-textPrimary text-textSecondary"}>
               Create At:{" "}
               <span className={"text-accent"}>{community.createdAt}</span>
@@ -72,6 +72,5 @@ export const CommunityCard = ({ community }) => {
         </div>
       </div>
     </div>
-    //</Link>
   );
 };

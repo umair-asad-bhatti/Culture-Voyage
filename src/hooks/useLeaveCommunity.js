@@ -1,4 +1,4 @@
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { useContext } from "react";
 import { UserContext } from "../context/AuthContext.jsx";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
@@ -10,21 +10,24 @@ const useLeaveCommunity = () => {
   const toast = useToast();
   const { user } = useContext(UserContext);
 
-  const leaveCommunity = async (id) => {
+  const leaveCommunity = async (communityId) => {
     try {
-      const userData = await getUserData(user?.uid);
-      const joinedCommunities = userData["Joined Communities"] ?? [];
       const userDocRef = doc(db, "Users", user.uid);
 
+      //updaing the user joined communities
+      const userData = await getUserData(user?.uid);
+      const joinedCommunities = userData["Joined Communities"] ?? [];
       const updatedJoinedCommunities = joinedCommunities.filter(
-        (id) => id !== id
+        (id) => id !== communityId
       );
       await updateDoc(userDocRef, {
         ["Joined Communities"]: updatedJoinedCommunities,
       });
 
-      const communityDocRef = doc(db, "Communities", id);
-      const communityMembers = id.members ?? [];
+      //updating the community
+      const communityDocRef = doc(db, "Communities", communityId);
+      const community = await getDoc(communityDocRef)
+      const communityMembers = community['Members'] ?? [];
 
       const updatedMembers = communityMembers.filter((id) => id !== user.uid);
       await updateDoc(communityDocRef, {

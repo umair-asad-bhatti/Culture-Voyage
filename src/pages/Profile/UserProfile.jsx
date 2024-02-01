@@ -5,11 +5,12 @@ import { auth } from "../../firebase/Firebase.js";
 import Logo from "../../assets/Logo.png";
 import Button from "../../components/Button/Button.component.jsx";
 import { signOut } from "firebase/auth";
-
+import { useFetchJoinedCommunities } from "../../hooks/useFetchJoinedCommunities.js";
 import { useGetUserProfileData } from "../../hooks/useGetUserProfileData.js";
-
+import { CommunityListing } from "../../components/CommunityListing/CommunityListing.jsx";
 export const UserProfile = () => {
-  const { user, isLoading } = useContext(UserContext);
+  const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
+  const { user } = useContext(UserContext);
   const {
     userData,
     isFetching,
@@ -31,19 +32,19 @@ export const UserProfile = () => {
   };
 
   const handleImageChange = (e) => {
-  const file = e.target.files[0];
-
-  if (file) {
-    setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
-  } else {
-    setImageFile(null);
-    setImagePreview(null);
-  }
-};
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setImageFile(null);
+      setImagePreview(null);
+    }
+  };
 
   useEffect(() => {
     getUserDetails(user.uid);
+    fetchJoinedCommunities(user.uid)
     handleImageUpload();
   }, [id]);
   if (isFetching) return <h1>Loading....</h1>;
@@ -89,6 +90,8 @@ export const UserProfile = () => {
         Save Image
       </Button>
       <Button onClickHandler={signout}>Logout</Button>
+      <p className="py-2 text-center font-bold text-lg dark:text-primary">Joined Communities</p>
+      <CommunityListing communities={joinedCommunities} isFetching={isFetchingJoinedCommunities} />
     </>
   );
 };
