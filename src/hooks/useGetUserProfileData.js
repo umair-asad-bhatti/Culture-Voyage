@@ -1,15 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { uploadImageAssetToCloudinary } from "../cloudinary/Cloudinary.js";
 import { getFirebaseDoc } from "../utils/Firebase Utils Functions/index.js";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
-import { UserContext } from "../context/AuthContext.jsx";
 import { useToast } from "@chakra-ui/react";
 import { ToastStrings } from "../constants/ToastStrings.js";
 
 export const useGetUserProfileData = () => {
   const toast = useToast();
-  const { user, isLoading } = useContext(UserContext);
+
   const [userData, setUserData] = useState({});
   const [isFetching, setIsFetching] = useState(false);
   const [imageFile, setImageFile] = useState();

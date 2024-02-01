@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useContext, useEffect } from "react";
 import Button from "../Button/Button.component.jsx";
 import { Divider } from "@chakra-ui/react";
 import { UserContext } from "../../context/AuthContext.jsx";

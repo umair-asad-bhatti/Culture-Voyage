@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { auth } from "../../firebase/Firebase.js";
 import Logo from "../../assets/Logo.png";
 import Button from "../../components/Button/Button.component.jsx";
