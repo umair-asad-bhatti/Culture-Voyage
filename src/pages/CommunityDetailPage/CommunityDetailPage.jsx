@@ -33,7 +33,7 @@ export const CommunityDetailPage = () => {
           duration: ToastStrings.duration,
           isClosable: true,
         });
-        setBanner(Banner);
+        getCommunityDetails(id)
       } else {
         toast({
           title: "Banner Cannot be updated!",
