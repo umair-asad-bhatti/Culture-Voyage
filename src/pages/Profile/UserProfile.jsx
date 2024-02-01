@@ -17,7 +17,8 @@ export const UserProfile = () => {
     getUserDetails(user.uid);
     fetchJoinedCommunities(user.uid);
     const unSub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
-      setUser({ uid: user.uid, ...doc.data() })
+      setUser({ uid: user.uid, ...doc.data() });
+      fetchJoinedCommunities(user.uid)
     })
     return () => unSub()
     // handleImageUpload();
