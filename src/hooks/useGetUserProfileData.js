@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { uploadImageAssetToCloudinary } from "../cloudinary/Cloudinary.js";
-import { getFirebaseDoc } from "../utils/Firebase Utils Functions/index.js";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import { ToastStrings } from "../constants/ToastStrings.js";
+import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 
 export const useGetUserProfileData = () => {
   const toast = useToast();
-
   const [userData, setUserData] = useState({});
   const [isFetching, setIsFetching] = useState(false);
   const [imageFile, setImageFile] = useState();
@@ -16,8 +15,7 @@ export const useGetUserProfileData = () => {
   const getUserDetails = async (id) => {
     setIsFetching(true);
     try {
-      const data = await getFirebaseDoc("Users", id);
-      //console.log(data)
+      const data = await getUserData(id)
       setUserData(data);
     } catch (error) {
       console.log(error.message);
@@ -25,7 +23,6 @@ export const useGetUserProfileData = () => {
       setIsFetching(false);
     }
   };
-
   const handleImageUpload = async (id) => {
     try {
       if (imageFile) {
@@ -39,10 +36,6 @@ export const useGetUserProfileData = () => {
           duration: ToastStrings.duration,
           isClosable: true,
         });
-        setUserData((prevUserData) => ({
-          ...prevUserData,
-          Avatar: secure_url,
-        }));
       }
     } catch (error) {
       console.log("Error uploading profile picture:", error.message);
@@ -55,5 +48,6 @@ export const useGetUserProfileData = () => {
     userData,
     handleImageUpload,
     setImageFile,
+    imageFile
   };
 };

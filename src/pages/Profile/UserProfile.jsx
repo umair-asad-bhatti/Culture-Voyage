@@ -1,52 +1,35 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
 import { useParams } from "react-router-dom";
-import { auth } from "../../firebase/Firebase.js";
 import Logo from "../../assets/Logo.png";
 import Button from "../../components/Button/Button.component.jsx";
-import { signOut } from "firebase/auth";
 import { useFetchJoinedCommunities } from "../../hooks/useFetchJoinedCommunities.js";
 import { useGetUserProfileData } from "../../hooks/useGetUserProfileData.js";
 import { CommunityListing } from "../../components/CommunityListing/CommunityListing.jsx";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
+  const { userData, isFetching, getUserDetails, handleImageUpload, setImageFile, imageFile } = useGetUserProfileData();
   const { user } = useContext(UserContext);
-  const {
-    userData,
-    isFetching,
-    getUserDetails,
-    handleImageUpload,
-    setImageFile,
-  } = useGetUserProfileData();
-  const [imagePreview, setImagePreview] = useState();
   const { id } = useParams();
-  console.log(id);
-  const signout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("logged out");
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    } else {
-      setImageFile(null);
-      setImagePreview(null);
-    }
-  };
-
   useEffect(() => {
     getUserDetails(user.uid);
     fetchJoinedCommunities(user.uid)
-    handleImageUpload();
+    // handleImageUpload();
   }, [id]);
+  const [isChanged, setIsChanged] = useState(false)
+  const handleImageChange = (e) => {
+    setIsChanged(true)
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+    } else {
+      setImageFile(null);
+    }
+  };
+  const uploadImage = async () => {
+    await handleImageUpload(user.uid)
+    setIsChanged(false)
+  }
   if (isFetching) return <h1>Loading....</h1>;
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
@@ -56,7 +39,7 @@ export const UserProfile = () => {
         <div className="flex items-center mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden">
             <img
-              src={imagePreview || userData?.Avatar || Logo}
+              src={imageFile && URL.createObjectURL(imageFile) || userData?.Avatar || Logo}
               alt="Profile Pic"
               className="w-full h-full object-cover"
             />
@@ -86,10 +69,9 @@ export const UserProfile = () => {
           </div>
         </div>
       </div>
-      <Button onClickHandler={() => handleImageUpload(user.uid)}>
+      {isChanged && <Button onClickHandler={uploadImage}>
         Save Image
-      </Button>
-      <Button onClickHandler={signout}>Logout</Button>
+      </Button >}
       <p className="py-2 text-center font-bold text-lg dark:text-primary">Joined Communities</p>
       <CommunityListing communities={joinedCommunities} isFetching={isFetchingJoinedCommunities} />
     </>

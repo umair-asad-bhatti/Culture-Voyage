@@ -1,18 +1,27 @@
 import { Link } from "react-router-dom";
-import { auth } from "../../firebase/Firebase";
 import InputField from "../Inputfield/InputField.component";
 import { useState, useContext, useEffect } from "react";
 import { SearchNormal, HambergerMenu } from "iconsax-react";
 import Logo from "../../assets/Logo.png";
 import { UserContext } from "../../context/AuthContext";
 import { getUserData } from "../../utils/Firebase Utils Functions";
-
+import { auth } from "../../firebase/Firebase";
+import { signOut } from "firebase/auth";
+import Button from '../Button/Button.component'
 export default function Navbar() {
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [userData, setUserData] = useState();
-
+  const signout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("logged out");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,10 +39,10 @@ export default function Navbar() {
 
   return (
     <div className="flex items-center justify-between py-2">
-      <div className="flex items-center lg:order-none order-last">
-        <div className="ml-3 text-accent font-bold text-2xl">
+      <div className="flex items-center lg:order-none order-last ">
+        <h2 className="ml-3 text-accent font-bold text-2xl">
           Culture Voyage
-        </div>
+        </h2>
       </div>
       <div
         className="lg:hidden block"
@@ -41,15 +50,21 @@ export default function Navbar() {
       >
         <HambergerMenu size="32" color="black" />
       </div>
-      <div className="items-center mr-3 w-96 gap-2 lg:flex hidden">
-        <InputField type="search" value={search} setValue={setSearch}>
-          <SearchNormal className={"dark:text-primary text-textPrimary"} />
-        </InputField>
+      <div className="items-center   lg:flex hidden gap-4">
+        <div className="w-[300px]">
+          <InputField type="search" value={search} setValue={setSearch}>
+            <SearchNormal className={"dark:text-primary text-textPrimary"} />
+          </InputField>
+        </div>
+        <div className="w-[100px]">
+          <Button onClickHandler={signout}>Logout</Button>
+        </div>
         <Link to={`/profile/${user?.uid}`}>
           <img
+            style={{ width: 50, height: 50 }}
             src={userData?.Avatar || Logo}
             alt="Profile"
-            className="h-10 w-10 rounded-full object-cover cursor-pointer"
+            className="rounded-full object-cover cursor-pointer"
           />
         </Link>
       </div>
