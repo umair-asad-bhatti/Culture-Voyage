@@ -21,7 +21,7 @@ export const CommunityDetailPage = () => {
 
   const handleImageUpload = async (id) => {
     try {
-      if (user.uid === CommunityData['Creator UID']) {
+      if (user.uid === CommunityData['Created By']) {
         const { secure_url, public_id } = await uploadImageAssetToCloudinary(Banner);
         await updateDoc(doc(db, "Communities", id), {
           ['Banner URL']: secure_url,
@@ -33,12 +33,8 @@ export const CommunityDetailPage = () => {
           duration: ToastStrings.duration,
           isClosable: true,
         });
-        setBanner((prevUserData) => ({
-          ...prevUserData,
-          ['Banner URL']: secure_url,
-        }));
+        setBanner(Banner);
       } else {
-
         toast({
           title: "Banner Cannot be updated!",
           status: "info",
@@ -66,7 +62,9 @@ export const CommunityDetailPage = () => {
           <img className={'object-cover rounded-lg w-full h-full'} src={CommunityData['Banner URL']} alt="" />
 
           :
-          <UploadImage fullSize={true} imageAsset={Banner} setImageAsset={setBanner} />
+              CommunityData['Created By'] === user.uid &&
+                  <UploadImage fullSize={true} imageAsset={Banner} setImageAsset={setBanner}/>
+
       }
       <img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} alt="" />
     </div>
