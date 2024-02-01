@@ -61,7 +61,7 @@ export const CommunityCard = ({ community }) => {
       </div>
       <div className={"flex justify-between items-center w-full"}>
         <p className={"dark:text-textPrimary text-textSecondary"}>
-          Online Users: 0
+          Total Members: {community.members.length}
         </p>
         <div className={"w-[120px]"}>
           {community.createdBy !== user.uid && (
