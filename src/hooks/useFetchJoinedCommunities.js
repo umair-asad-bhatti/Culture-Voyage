@@ -1,8 +1,8 @@
 import { collection, getDocs, query, where, documentId } from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
-import { useState, useEffect } from 'react';
-import {CommunityDto} from "../dto/CommunityDto.js";
+import { useState } from 'react';
+import { CommunityDto } from "../dto/CommunityDto.js";
 
 export const useFetchJoinedCommunities = () => {
   const [joinedCommunities, setJoinedCommunities] = useState([]);
@@ -12,7 +12,7 @@ export const useFetchJoinedCommunities = () => {
     setIsFetchingJoinedCommunities(true);
 
     const joinedCommunitiesIds = await getUserData(userId, 'Joined Communities') ?? [];
-    
+
     if (joinedCommunitiesIds) {
       try {
         const data = [];
@@ -22,11 +22,10 @@ export const useFetchJoinedCommunities = () => {
         communityDocsSnapshot.forEach((doc) => {
           if (doc.exists()) {
             const communityData = doc.data();
-            const community_dto=new CommunityDto(communityData)
-            data.push({ id: doc.id,...community_dto});
+            const community_dto = new CommunityDto(communityData)
+            data.push({ id: doc.id, ...community_dto });
           }
         });
-
         setJoinedCommunities(data);
       } catch (error) {
         console.log("Error fetching joined community data:", error.message);
@@ -36,6 +35,6 @@ export const useFetchJoinedCommunities = () => {
     }
   };
 
- 
-  return { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities };
+
+  return { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities, setJoinedCommunities };
 };

@@ -10,12 +10,12 @@ import useLeaveCommunity from "../../hooks/useLeaveCommunity.js";
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
   const { user } = useContext(UserContext);
-  const { joinCommunity, isJoined, checkJoinedStatus, setIsJoined } =
-    useJoinCommunity();
+  const { joinCommunity, isJoined, checkJoinedStatus, setIsJoined } = useJoinCommunity();
   const { leaveCommunity } = useLeaveCommunity();
 
   useEffect(() => {
     checkJoinedStatus(community);
+
   }, [community.id]);
 
   const handleJoinLeave = () => {

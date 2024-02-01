@@ -6,14 +6,20 @@ import Button from "../../components/Button/Button.component.jsx";
 import { useFetchJoinedCommunities } from "../../hooks/useFetchJoinedCommunities.js";
 import { useGetUserProfileData } from "../../hooks/useGetUserProfileData.js";
 import { CommunityListing } from "../../components/CommunityListing/CommunityListing.jsx";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase/Firebase.js";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
   const { userData, isFetching, getUserDetails, handleImageUpload, setImageFile, imageFile } = useGetUserProfileData();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
   useEffect(() => {
     getUserDetails(user.uid);
-    fetchJoinedCommunities(user.uid)
+    fetchJoinedCommunities(user.uid);
+    const unSub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
+      setUser({ uid: user.uid, ...doc.data() })
+    })
+    return () => unSub()
     // handleImageUpload();
   }, [id]);
   const [isChanged, setIsChanged] = useState(false)
