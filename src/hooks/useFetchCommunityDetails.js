@@ -14,5 +14,5 @@ export const useFetchCommunityDetails = () => {
             setIsFetching(false)
         }
     }
-    return { getCommunityDetails, isFetching, CommunityData };
+    return { getCommunityDetails, isFetching, CommunityData,setCommunityData };
 }

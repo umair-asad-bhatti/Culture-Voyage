@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
-import { updateDoc, doc } from "firebase/firestore";
+import {updateDoc, doc, onSnapshot} from "firebase/firestore";
 import { db } from '../../firebase/Firebase.js';
 import { UserContext } from '../../context/AuthContext.jsx';
 import { useToast } from '@chakra-ui/react';
@@ -10,37 +10,22 @@ import { useFetchCommunityDetails } from "../../hooks/useFetchCommunityDetails.j
 import { UploadImage } from "../../components/Upload Image/UploadImage.jsx";
 import { uploadImageAssetToCloudinary } from '../../cloudinary/Cloudinary.js';
 import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
+import {useUpdateImage} from "../../hooks/useUpdateImage.js";
 
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
   const [Banner, setBanner] = useState(null)
   const toast = useToast();
-  const { CommunityData, isFetching, getCommunityDetails } = useFetchCommunityDetails();
+  const { CommunityData, isFetching, getCommunityDetails,setCommunityData } = useFetchCommunityDetails();
   const { leaveCommunity } = useLeaveCommunity();
-
-  const handleImageUpload = async (id) => {
-    try {
-
-        const { secure_url, public_id } = await uploadImageAssetToCloudinary(Banner);
-        await updateDoc(doc(db, "Communities", id), {
-          ['Banner URL']: secure_url,
-          ['Banner Public ID']: public_id,
-        });
-        toast({
-          title: "Banner uploaded successfully!",
-          status: "success",
-          duration: ToastStrings.duration,
-          isClosable: true,
-        });
-        await getCommunityDetails(id)
-    } catch (error) {
-      console.log("Error uploading profile picture:", error.message);
-    }
-  };
+  const {uploadImageAssetAndUpdateDoc,imageAsset,setImageAsset,isImageUpdating}=useUpdateImage()
 
   useEffect(() => {
     getCommunityDetails(id)
+    const unSub = onSnapshot(doc(db, 'Communities', id), async(doc) => {
+      setCommunityData({ id, ...doc.data() });
+    })
   }, [])
   if (isFetching)
     return <h1>Loading....</h1>
@@ -55,8 +40,7 @@ export const CommunityDetailPage = () => {
 
           :
               CommunityData['Created By'] === user.uid &&
-                  <UploadImage fullSize={true} imageAsset={Banner} setImageAsset={setBanner}/>
-
+                  <UploadImage fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset}/>
       }
       <img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} alt="" />
     </div>
@@ -85,7 +69,14 @@ export const CommunityDetailPage = () => {
       <span className={'divider'}></span>
     </div>
     {
-      user.uid===CommunityData['Created By'] &&  <Button onClickHandler={() => handleImageUpload(id)}>Save Banner</Button>
+      imageAsset&&user.uid===CommunityData['Created By'] &&  <Button isDisabled={isImageUpdating} onClickHandler={async () => {
+          await uploadImageAssetAndUpdateDoc('Communities', id);
+          setImageAsset(null)
+        }}>
+          {
+            isImageUpdating?'updating':'Save Banner'
+          }
+        </Button>
     }
     {
       (CommunityData['Members'] && CommunityData['Members'].includes(user.uid)) ? <Button onClickHandler={() => leaveCommunity(id)}>Leave Community</Button> : ''

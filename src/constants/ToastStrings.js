@@ -1,4 +1,5 @@
 const ToastStrings={
-    duration:3000
+    duration:3000,
+
 }
 export {ToastStrings}
