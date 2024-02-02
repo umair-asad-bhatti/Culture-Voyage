@@ -16,9 +16,9 @@ export const UserProfile = () => {
   useEffect(() => {
     getUserDetails(user.uid);
     fetchJoinedCommunities(user.uid);
-    const unSub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
+    const unSub = onSnapshot(doc(db, 'Users', user.uid), async(doc) => {
       setUser({ uid: user.uid, ...doc.data() });
-      fetchJoinedCommunities(user.uid)
+      await fetchJoinedCommunities(user.uid)
     })
     return () => unSub()
     // handleImageUpload();
