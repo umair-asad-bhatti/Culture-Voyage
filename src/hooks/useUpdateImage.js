@@ -1,24 +1,24 @@
-import {uploadImageAssetToCloudinary} from "../cloudinary/Cloudinary.js";
-import {doc, updateDoc} from "firebase/firestore";
-import {db} from '../firebase/Firebase.js'
-import {useState} from "react";
-import {useToast} from "@chakra-ui/react";
-import {ToastStrings} from "../constants/ToastStrings.js";
+import { uploadImageAssetToCloudinary } from "../cloudinary/Cloudinary.js";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from '../firebase/Firebase.js'
+import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { ToastStrings } from "../constants/ToastStrings.js";
 
-export const useUpdateImage=()=>{
+export const useUpdateImage = () => {
     const [imageAsset, setImageAsset] = useState(null);
-    const [isImageChanged,setIsImageChanged]=useState(false)
-    const [isImageUpdating,setIsImageUpdating]=useState(false)
-    const toast=useToast()
-    const uploadImageAssetAndUpdateDoc=async(collectionNameToUpdate,docId)=>{
+    const [isImageChanged, setIsImageChanged] = useState(false)
+    const [isImageUpdating, setIsImageUpdating] = useState(false)
+    const toast = useToast()
+    const uploadImageAssetAndUpdateDoc = async (collectionNameToUpdate, docId) => {
         setIsImageUpdating(true)
-        const {secure_url,public_id}=await uploadImageAssetToCloudinary(imageAsset)
-        if(collectionNameToUpdate==='Communities'){
+        const { secure_url, public_id } = await uploadImageAssetToCloudinary(imageAsset)
+        if (collectionNameToUpdate === 'Communities') {
             await updateDoc(doc(db, "Communities", docId), {
                 ['Banner URL']: secure_url,
                 ['Banner Public ID']: public_id,
             });
-        }else if(collectionNameToUpdate==='Users'){
+        } else if (collectionNameToUpdate === 'Users') {
             await updateDoc(doc(db, "Users", docId), {
                 Avatar: secure_url,
             });
@@ -42,5 +42,5 @@ export const useUpdateImage=()=>{
         }
     };
 
-    return {imageAsset, uploadImageAssetAndUpdateDoc,handleImageChange,isImageChanged,isImageUpdating,setImageAsset}
+    return { imageAsset, uploadImageAssetAndUpdateDoc, handleImageChange, isImageChanged, isImageUpdating, setImageAsset, setIsImageChanged }
 }

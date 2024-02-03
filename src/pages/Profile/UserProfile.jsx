@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
 import { useParams } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
@@ -8,78 +8,119 @@ import { useGetUserProfileData } from "../../hooks/useGetUserProfileData.js";
 import { CommunityListing } from "../../components/CommunityListing/CommunityListing.jsx";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/Firebase.js";
-import {useUpdateImage} from "../../hooks/useUpdateImage.js";
+import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
   const { userData, isFetching, getUserDetails } = useGetUserProfileData();
-  const {isImageChanged,uploadImageAssetAndUpdateDoc,imageAsset,handleImageChange,isImageUpdating}=useUpdateImage()
+  const { isImageChanged, setIsImageChanged, uploadImageAssetAndUpdateDoc, imageAsset, handleImageChange, isImageUpdating, setImageAsset } = useUpdateImage()
   const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
   useEffect(() => {
-    (async()=>{
+    (async () => {
       await getUserDetails(id);
       await fetchJoinedCommunities(id);
     })()
-    const unSub = onSnapshot(doc(db, 'Users', user.uid), async(doc) => {
+    const unSub = onSnapshot(doc(db, 'Users', user.uid), async (doc) => {
       setUser({ uid: user.uid, ...doc.data() });
     })
     return () => unSub()
     // handleImageUpload();
-  }, [id]);
+  }, []);
 
   if (isFetching) return <h1>Loading....</h1>;
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
   return (
-    <>
-      <div className="bg-primary dark:bg-secondary border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey shadow p-4 rounded-lg ">
+    <div className=''>
+      <div className="bg-primary dark:bg-secondary  border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey shadow p-4 rounded-lg ">
         <div className="flex items-center mb-4">
-          <div className="relative w-32 h-32 rounded-full overflow-hidden">
+          <div className="relative w-48 h-48 rounded-full overflow-hidden">
             <img
               src={imageAsset && URL.createObjectURL(imageAsset) || userData?.Avatar || Logo}
               alt="Profile Pic"
               className="w-full h-full object-cover"
             />
+            {/*show the update of user profile only if id of params is equal to logged in user*/}
             {
-              id===user.uid && <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                />
+              id === user.uid && <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
             }
           </div>
-          <div className="ml-4">
-            <h1 className="dark:text-primary text-textSecondary text-2xl font-semibold">{`${userData?.["First Name"]} ${userData?.["Last Name"]}`}</h1>
-            <p className="dark:text-primary text-textSecondary">{userData?.Username}</p>
-            <p className="dark:text-primary ">{userData?.['Phone Number']}</p>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p className="dark:text-primary">Email</p>
-            <p className="font-semibold dark:text-primary">{userData?.Email}</p>
-          </div>
-          <div>
-            <p className="dark:text-primary">Country</p>
-            <p className="font-semibold dark:text-primary">
-              {userData?.Country}
+        </div>
+        <div className={'my-4'}>
+          {isImageChanged &&
+            <div className="flex">
+              <div className="">
+                <Button isDisabled={isImageUpdating} onClickHandler={() => uploadImageAssetAndUpdateDoc('Users', user.uid)}>
+                  {isImageUpdating ? 'Updating...' : 'save image'}
+                </Button >
+              </div>
+              <div className=" ml-2">
+                <Button isDisabled={false} onClickHandler={() => { setImageAsset(null); setIsImageChanged(false) }}>Cancel </Button>
+              </div>
+            </div>
+          }
+        </div>
+        <div className="bg-primary dark:bg-secondary w-full shadow overflow-hidden sm:rounded-lg  ">
+          <div className="px-4 py-5 sm:px-6">
+            <h3 className="text-lg leading-6 font-medium text-textSecondary dark:text-textPrimary">
+              User Information
+            </h3>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              Details and informations about user.
             </p>
+          </div>
+          <div className="border-t border-gray-200">
+            <dl className="bg-primary dark:bg-secondary">
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
+                <dt className="text-sm font-medium dark:text-textPrimary text-textSecondary">
+                  Full name
+                </dt>
+                <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2 dark:text-primary text-textSecondary">
+                  {`${userData?.["First Name"]} ${userData?.["Last Name"]}`}
+                </dd>
+              </div>
+              <div className="bg-gray-50 dark:bg-secondary px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium dark:text-primary text-textSecondary">
+                  Email address
+                </dt>
+                <dd className="mt-1 text-sm dark:text-primary text-textSecondary sm:mt-0 sm:col-span-2">
+                  {userData?.Email}
+                </dd>
+              </div>
+              <div className="bg-white dark:bg-secondary px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium dark:text-primary text-textSecondary">
+                  User Name
+                </dt>
+                <dd className="mt-1 text-sm dark:text-primary text-textSecondary sm:mt-0 sm:col-span-2">
+                  {userData?.Username}
+                </dd>
+              </div>
+              <div className="bg-gray-50 dark:bg-secondary px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium dark:text-primary text-textSecondary">
+                  About
+                </dt>
+                <dd className="mt-1 text-sm dark:text-primary text-textSecondary sm:mt-0 sm:col-span-2">
+                  To get social media testimonials like these, keep your customers engaged with your social media accounts by posting regularly yourself
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
       </div>
-      {isImageChanged && <Button isDisabled={isImageUpdating} onClickHandler={()=>uploadImageAssetAndUpdateDoc('Users',user.uid)}>
-        {isImageUpdating?'Updating...':'save image'}
-       </Button >
-      }
-      {
-
-          user.uid===id && <div>
-                <p className="py-2 text-center font-bold text-lg dark:text-primary">Joined Communities</p>
-                <CommunityListing communities={joinedCommunities} isFetching={isFetchingJoinedCommunities} />
+      <div>
+        {
+          user.uid === id && <div>
+            <p className="py-2 font-bold text-lg dark:text-primary">Joined Communities</p>
+            <CommunityListing communities={joinedCommunities} isFetching={isFetchingJoinedCommunities} />
           </div>
-      }
-    </>
+        }
+      </div>
+    </div>
   );
 };
