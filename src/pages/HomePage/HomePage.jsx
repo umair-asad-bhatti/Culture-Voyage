@@ -1,9 +1,8 @@
-import { useContext, useEffect } from 'react';
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { Route, Routes } from "react-router-dom";
 import Navbar from '../../components/Navbar/Navbar.component.jsx';
 import { UserContext } from '../../context/AuthContext';
 import SideBarComponent from "../../components/SideBar/SideBar.component.jsx";
-import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { CommunityPage } from "../Community/CommunityPage.jsx";
 import { PostPage } from "../PostPage/PostPage.jsx";
@@ -11,21 +10,19 @@ import { PrivateRoutes } from "../Routes/PrivateRoutes.jsx";
 import { PostDetailPage } from "../PostDetailPage/PostDetailPage.jsx";
 import { CommunityDetailPage } from "../CommunityDetailPage/CommunityDetailPage.jsx";
 import { UserProfile } from '../Profile/UserProfile.jsx';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../../firebase/Firebase.js';
+
 
 
 export default function HomePage() {
 
-    const navigation = useNavigate();
-    const { user, isLoading, setUser } = useContext(UserContext);
-    const { checkIsEmailVerified, isAdditionalInformationComplete } = useCheckUserInformation()
+    const { isLoading } = useContext(UserContext);
+
 
     if (isLoading)
         return <div className={'flex items-center justify-center h-screen w-screen'}><LoadingSpinner size={'lg'} /></div>
     return (
         <>
-            <div className="sticky top-0  z-10 shadow-sm text-dark dark:bg-secondary  flex justify-center">
+            <div className="sticky top-0  z-10 shadow-sm text-dark dark:bg-secondary bg-primary  flex justify-center">
                 <div className='w-screen  xl:w-[1500px] justify-center px-4 dark:bg-secondary bg-white '>
                     <Navbar />
                 </div>

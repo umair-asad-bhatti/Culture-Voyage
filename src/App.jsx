@@ -4,7 +4,9 @@ import RoutesContainer from "./pages/Routes/RoutesContainer"
 import { ThemeController } from "./components/DaktToggler/DarkToggler"
 import { useState } from 'react'
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false)
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  const [darkMode, setDarkMode] = useState(prefersDark)
   return (
     <div className={`${darkMode ? "dark" : ""}`}>
       <ThemeController darkMode={darkMode} setDarkMode={setDarkMode} />

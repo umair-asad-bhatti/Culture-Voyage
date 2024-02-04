@@ -10,6 +10,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/Firebase.js";
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+import { CreateCommunity } from "../../components/CreateCommunity.jsx";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
   const { userData, isFetching, getUserDetails } = useGetUserProfileData();
@@ -54,8 +55,13 @@ export const UserProfile = () => {
 
         </div>
         <div className={'my-4'}>
+          <div className="lg:flex items-center lg:justify-start">
+            <div className="lg:w-72 w-full"  >
+              <CreateCommunity />
+            </div>
+          </div>
           {isImageChanged &&
-            <div className="flex">
+            <div className="flex my-4">
               <div className="">
                 <Button isDisabled={isImageUpdating} onClickHandler={() => uploadImageAssetAndUpdateDoc('Users', user.uid)}>
                   {isImageUpdating ? 'Updating...' : 'save image'}
