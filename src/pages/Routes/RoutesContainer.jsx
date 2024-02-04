@@ -6,8 +6,6 @@ import EmailVerificationPage from "../EmailVerificatioinPage/EmailVerificationPa
 import AdditionalInformationPage from "../AdditionalInformationPage/AdditionalInformationPage.jsx";
 import ForgetPasswordPage from "../ForgetPassword/ForgetPasswordPage.jsx";
 import HomePage from "../HomePage/HomePage.jsx";
-import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx";
-import {CommunityPage} from "../Community/CommunityPage.jsx";
 export default function RoutesContainer() {
 
     return (

@@ -9,6 +9,7 @@ import { CommunityListing } from "../../components/CommunityListing/CommunityLis
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/Firebase.js";
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
+import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
   const { userData, isFetching, getUserDetails } = useGetUserProfileData();
@@ -27,12 +28,12 @@ export const UserProfile = () => {
     // handleImageUpload();
   }, []);
 
-  if (isFetching) return <h1>Loading....</h1>;
+  if (isFetching) return <div className="flex items-center justify-center h-full"><LoadingSpinner size={'lg'} /></div>;
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
   return (
-    <div className=''>
-      <div className="bg-primary dark:bg-secondary  border border-borderPrimary dark:border-borderSecondary my-2 hover:bg-softGrey dark:hover:bg-darkerGrey shadow p-4 rounded-lg ">
+    <div >
+      <div className="bg-primary dark:bg-secondary shadow-accent  border border-borderPrimary dark:border-borderSecondary my-2  shadow-md p-4 rounded-lg ">
         <div className="flex items-center mb-4">
           <div className="relative w-48 h-48 rounded-full overflow-hidden">
             <img

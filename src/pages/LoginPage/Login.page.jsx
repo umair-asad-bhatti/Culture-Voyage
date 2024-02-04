@@ -39,7 +39,7 @@ export default function LoginPage() {
       { (
         <>
           <div className="min-h-screen flex justify-between">
-            <div className="w-[50%] bg-accent dark:bg-info min-h-screen flex flex-col items-center justify-center">
+            <div className="w-[50%] bg-accent  min-h-screen flex flex-col items-center justify-center">
               <img src={Logo} width={300} height={300} />
               <h3 className="text-primary text-2xl">{strings.loginHeading1}</h3>
               <h3 className="text-primary text-2xl text-center mt-4">

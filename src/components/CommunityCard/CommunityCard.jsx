@@ -15,7 +15,6 @@ export const CommunityCard = ({ community }) => {
 
   useEffect(() => {
     checkJoinedStatus(community);
-
   }, [community.id]);
 
   const handleJoinLeave = () => {

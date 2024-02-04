@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import InputField from "../Inputfield/InputField.component";
 import { useState, useContext, useEffect } from "react";
-import { SearchNormal, HambergerMenu } from "iconsax-react";
+import { SearchNormal, HambergerMenu, CloseCircle } from "iconsax-react";
 import Logo from "../../assets/Logo.png";
 import { UserContext } from "../../context/AuthContext";
 import { getUserData } from "../../utils/Firebase Utils Functions";
 import { auth } from "../../firebase/Firebase";
 import { signOut } from "firebase/auth";
 import Button from '../Button/Button.component'
+import SideBarComponent from "../SideBar/SideBar.component";
+import { Colors } from "../../constants/Colors";
 export default function Navbar() {
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");
@@ -48,7 +50,7 @@ export default function Navbar() {
         className="lg:hidden block"
         onClick={() => setToggleSidebar(!toggleSidebar)}
       >
-        <HambergerMenu size="32" color="black" />
+        <HambergerMenu size="32" className="dark:text-primary text-secondary" />
       </div>
       <div className="items-center   lg:flex hidden gap-4">
         <div className="w-[300px]">
@@ -71,8 +73,11 @@ export default function Navbar() {
 
       {/* Sidebar for mobile breakpoint */}
       {toggleSidebar && (
-        <div className="z-50 h-[100vh] animate-slide-in lg:hidden fixed gap-4 dark:bg-blue-darkmd bg-blue-lightmd right-0 transition-all duration-300 ease-in-out top-0 w-4/5 f-full bg-primary overflow-hidden shadow-md">
-          {/* Add your mobile sidebar content here */}
+        <div className="z-50 h-[100vh] animate-slide-in lg:hidden fixed gap-4 dark:bg-blue-darkmd bg-blue-lightmd right-0 transition-all duration-300 ease-in-out top-0 w-4/5 f-full bg-primary dark:bg-secondary overflow-hidden shadow-md">
+          <div className="flex justify-end items-center p-8">
+            <CloseCircle onClick={() => setToggleSidebar(!toggleSidebar)} size="32" color={Colors.warning} />
+          </div>
+          <SideBarComponent />
         </div>
       )}
     </div>

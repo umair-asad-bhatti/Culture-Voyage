@@ -1,31 +1,27 @@
 import { useParams } from 'react-router-dom'
-import { useContext, useEffect, useState } from 'react'
-import {updateDoc, doc, onSnapshot} from "firebase/firestore";
+import { useContext, useEffect } from 'react'
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from '../../firebase/Firebase.js';
 import { UserContext } from '../../context/AuthContext.jsx';
-import { useToast } from '@chakra-ui/react';
-import { ToastStrings } from '../../constants/ToastStrings.js';
 import Button from '../../components/Button/Button.component.jsx';
 import { useFetchCommunityDetails } from "../../hooks/useFetchCommunityDetails.js";
 import { UploadImage } from "../../components/Upload Image/UploadImage.jsx";
-import { uploadImageAssetToCloudinary } from '../../cloudinary/Cloudinary.js';
 import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
-import {useUpdateImage} from "../../hooks/useUpdateImage.js";
+import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
-  const [Banner, setBanner] = useState(null)
-  const toast = useToast();
-  const { CommunityData, isFetching, getCommunityDetails,setCommunityData } = useFetchCommunityDetails();
+  const { CommunityData, isFetching, getCommunityDetails, setCommunityData } = useFetchCommunityDetails();
   const { leaveCommunity } = useLeaveCommunity();
-  const {uploadImageAssetAndUpdateDoc,imageAsset,setImageAsset,isImageUpdating}=useUpdateImage()
+  const { uploadImageAssetAndUpdateDoc, imageAsset, setImageAsset, isImageUpdating } = useUpdateImage()
 
   useEffect(() => {
     getCommunityDetails(id)
-    const unSub = onSnapshot(doc(db, 'Communities', id), async(doc) => {
+    const unSub = onSnapshot(doc(db, 'Communities', id), async (doc) => {
       setCommunityData({ id, ...doc.data() });
     })
+    return () => unSub()
   }, [])
   if (isFetching)
     return <h1>Loading....</h1>
@@ -39,9 +35,10 @@ export const CommunityDetailPage = () => {
           <img className={'object-cover rounded-lg w-full h-full'} src={CommunityData['Banner URL']} alt="" />
 
           :
-              CommunityData['Created By'] === user.uid &&
-                  <UploadImage fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset}/>
+          CommunityData['Created By'] === user.uid &&
+          <UploadImage fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset} />
       }
+      {/* community logo */}
       <img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} alt="" />
     </div>
 
@@ -69,14 +66,14 @@ export const CommunityDetailPage = () => {
       <span className={'divider'}></span>
     </div>
     {
-      imageAsset&&user.uid===CommunityData['Created By'] &&  <Button isDisabled={isImageUpdating} onClickHandler={async () => {
-          await uploadImageAssetAndUpdateDoc('Communities', id);
-          setImageAsset(null)
-        }}>
-          {
-            isImageUpdating?'updating':'Save Banner'
-          }
-        </Button>
+      imageAsset && user.uid === CommunityData['Created By'] && <Button isDisabled={isImageUpdating} onClickHandler={async () => {
+        await uploadImageAssetAndUpdateDoc('Communities', id);
+        setImageAsset(null)
+      }}>
+        {
+          isImageUpdating ? 'updating' : 'Save Banner'
+        }
+      </Button>
     }
     {
       (CommunityData['Members'] && CommunityData['Members'].includes(user.uid)) ? <Button onClickHandler={() => leaveCommunity(id)}>Leave Community</Button> : ''
