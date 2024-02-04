@@ -25,7 +25,7 @@ const SideBarComponent = () => {
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} to='communities' label={'Communities'}>
                         <People />
                     </SideBarTab>
-                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Create Post'}>
+                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Create Post'} to={'create-post'}>
                         <AddCircle />
                     </SideBarTab>
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Favourites'}>

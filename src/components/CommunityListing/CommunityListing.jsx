@@ -12,7 +12,7 @@ export const CommunityListing = ({ communities, isFetching = false }) => {
         return <div className={'flex items-center justify-center w-full'}><SadAnimation size={'lg'} /></div>
 
     else
-        return <div>
+        return <div className="grid grid-cols-2 gap-4">
             {communities.map((communityData, index) => <CommunityCard key={index} community={communityData} />)}
         </div>
 }

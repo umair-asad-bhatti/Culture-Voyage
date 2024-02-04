@@ -29,7 +29,8 @@ export const UserProfile = () => {
     // handleImageUpload();
   }, []);
 
-  if (isFetching) return <div className="flex items-center justify-center h-full"><LoadingSpinner size={'lg'} /></div>;
+  if (isFetching)
+    return <div className="flex items-center justify-center h-full"><LoadingSpinner size={'lg'} /></div>;
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
   return (
