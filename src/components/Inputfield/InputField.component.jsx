@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { EyeSlash, Eye } from "iconsax-react";
 import { useState } from "react";
 
@@ -8,7 +9,7 @@ export default function InputField({ type, value, setValue, children, maxLength 
   return (
     <div className={`flex items-center gap-2 bg-transparent w-full py-1 px-4 text-lg  border-2 border-borderPrimary dark:border-borderSecondary focus-within:border-accent  rounded-lg ${isTextarea ? 'flex-col' : ''}`}>
 
-        {children}
+      {children}
 
       {isTextarea ? (
         <textarea
