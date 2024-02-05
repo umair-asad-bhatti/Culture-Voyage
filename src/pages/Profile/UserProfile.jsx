@@ -117,16 +117,13 @@ export const UserProfile = () => {
             </dl>
           </div>
         </div>
+        <Link to={`${AppRoutes.editProfile.baseRoute}/${id}`} state={{ id: user.uid, ...userData }} className="text-accent px-6 py-8 underline font-bold text-lg">Edit Profile Information</Link>
+        <div className="my-8">
+          <CreateCommunity />
+        </div>
       </div>
       <div>
-        <div className="lg:flex items-center lg:justify-between my-8">
-          <div className="lg:w-72 w-full"  >
-            <Link to={`${AppRoutes.editProfile.baseRoute}/${id}`} state={{ id: user.uid, ...userData }} className="text-accent underline font-bold text-lg">Edit Profile</Link>
-          </div>
-          <div className="lg:w-72 w-full"  >
-            <CreateCommunity />
-          </div>
-        </div>
+
         {
           user.uid === id && <div>
             <p className="py-2 font-bold text-lg dark:text-primary">Joined Communities</p>
