@@ -6,6 +6,7 @@ import { UserContext } from "../../context/AuthContext.jsx";
 import { Link } from "react-router-dom";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import useLeaveCommunity from "../../hooks/useLeaveCommunity.js";
+import { AppRoutes } from "../../constants/AppRoutes.js";
 
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
@@ -40,7 +41,7 @@ export const CommunityCard = ({ community }) => {
         />
         <div className="flex-col gap-2 w-full">
           <div className={"flex justify-between w-full"}>
-            <Link to={`/communities/${community.id}`}>
+            <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
               <p className="text-xl font-bold text-accent hover:underline">
                 {community.communityName}
               </p>

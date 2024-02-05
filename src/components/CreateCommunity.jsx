@@ -5,6 +5,7 @@ import { Colors } from "../constants/Colors.js";
 import { useCreateCommunity } from "../hooks/useCreateCommunity.js";
 import Button from '../components/Button/Button.component.jsx'
 import { TagsInput } from "./TagsInput/TagsInput.jsx";
+import { LoadingSpinner } from "./LoadingSpinner/LoadingSpinner.jsx";
 
 export const CreateCommunity = () => {
 
@@ -70,7 +71,7 @@ export const CreateCommunity = () => {
                                 isDisabled={isCreating}
                             >
                                 {isCreating ? (
-                                    <Spinner color={Colors.white} size={"sm"} />
+                                    <LoadingSpinner size={'8'} />
                                 ) : (
                                     "Create Community"
                                 )}

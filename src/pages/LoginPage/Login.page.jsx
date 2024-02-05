@@ -1,6 +1,5 @@
 import strings from "../../constants/Strings";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Send } from "iconsax-react";
 import { PasswordCheck } from "iconsax-react";
 import Logo from "../../assets/Logo.png";
@@ -17,6 +16,9 @@ import { useLogin } from "../../hooks/useLogin.js";
 import { useGoogleLogin } from "../../hooks/useGoogleLogin.js";
 import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+import Lottie from "lottie-react";
+
+import hello from '../../assets/hello.json'
 
 export default function LoginPage() {
   // const toast = useToast()
@@ -36,11 +38,14 @@ export default function LoginPage() {
   }, [user, isLoading, isGoogleLoading, checkIsEmailVerified, isAdditionalInformationComplete]);
   return (
     <>
-      { (
+      {(
         <>
           <div className="min-h-screen flex justify-between">
             <div className="w-[50%] bg-accent  min-h-screen flex flex-col items-center justify-center">
               <img src={Logo} width={300} height={300} />
+              {/* <div className="w-[300px] h-[300px]  rounded-full">
+                <Lottie animationData={hello} loop={true} />
+              </div> */}
               <h3 className="text-primary text-2xl">{strings.loginHeading1}</h3>
               <h3 className="text-primary text-2xl text-center mt-4">
                 {strings.loginHeading2}

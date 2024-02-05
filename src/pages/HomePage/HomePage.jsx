@@ -11,15 +11,14 @@ import { PostDetailPage } from "../PostDetailPage/PostDetailPage.jsx";
 import { CommunityDetailPage } from "../CommunityDetailPage/CommunityDetailPage.jsx";
 import { UserProfile } from '../Profile/UserProfile.jsx';
 import { CreatePost } from '../CreatePost/CreatePost.jsx'
+import { AppRoutes } from '../../constants/AppRoutes.js';
 
 
 export default function HomePage() {
 
     const { isLoading } = useContext(UserContext);
-
-
     if (isLoading)
-        return <div className={'flex items-center justify-center h-screen w-screen'}><LoadingSpinner size={'lg'} /></div>
+        return <div className={'flex items-center justify-center h-screen w-screen'}><LoadingSpinner size={'16'} /></div>
     return (
         <>
             <div className="sticky top-0  z-10 shadow-sm text-dark dark:bg-secondary bg-primary  flex justify-center">
@@ -37,12 +36,12 @@ export default function HomePage() {
                     <div className='xl:max-w-[80%] lg:w-[80%] md:w-full w-screen flex flex-col gap-4 p-4'>
                         <Routes>
                             <Route element={<PrivateRoutes />}>
-                                <Route exact path={''} element={<PostPage />} />
-                                <Route exact path="communities" element={<CommunityPage />} />
-                                <Route exact path="post/:id" element={<PostDetailPage />} />
-                                <Route exact path="communities/:id" element={<CommunityDetailPage />} />
-                                <Route exact path="profile/:id" element={<UserProfile />} />
-                                <Route exact path="create-post" element={<CreatePost />} />
+                                <Route exact path={AppRoutes.home.route} element={<PostPage />} />
+                                <Route exact path={AppRoutes.communities.route} element={<CommunityPage />} />
+                                <Route exact path={AppRoutes.postDetailPage.route} element={<PostDetailPage />} />
+                                <Route exact path={AppRoutes.communityDetailPage.route} element={<CommunityDetailPage />} />
+                                <Route exact path={AppRoutes.profile.route} element={<UserProfile />} />
+                                <Route exact path={AppRoutes.createPost.route} element={<CreatePost />} />
                             </Route>
                         </Routes>
                     </div>

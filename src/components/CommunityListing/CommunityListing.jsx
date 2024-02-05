@@ -7,12 +7,12 @@ import { SadAnimation } from "../SadAnimation/SadAnimation.jsx";
 export const CommunityListing = ({ communities, isFetching = false }) => {
 
     if (isFetching)
-        return <div className={'flex items-center justify-center w-full'}><LoadingSpinner size={'lg'} /></div>
+        return <div className={'flex items-center justify-center w-full'}><LoadingSpinner size={'16'} /></div>
     if (!isFetching && communities.length === 0)
-        return <div className={'flex items-center justify-center w-full'}><SadAnimation size={'lg'} /></div>
+        return <div className={'flex items-center justify-center w-full'}><SadAnimation size={'16'} /></div>
 
     else
-        return <div className="grid grid-cols-2 gap-4">
+        return <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
             {communities.map((communityData, index) => <CommunityCard key={index} community={communityData} />)}
         </div>
 }

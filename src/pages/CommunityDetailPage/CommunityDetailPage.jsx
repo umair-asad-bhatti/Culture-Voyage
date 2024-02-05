@@ -8,6 +8,7 @@ import { useFetchCommunityDetails } from "../../hooks/useFetchCommunityDetails.j
 import { UploadImage } from "../../components/Upload Image/UploadImage.jsx";
 import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
+import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner.jsx';
 
 export const CommunityDetailPage = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ export const CommunityDetailPage = () => {
     return () => unSub()
   }, [])
   if (isFetching)
-    return <h1>Loading....</h1>
+    return <div className='w-full h-full flex items-center justify-center'><LoadingSpinner size={16} /></div>
   if (!isFetching && !CommunityData)
     return <h1>Error occurred</h1>
   //implement the edit community functionality

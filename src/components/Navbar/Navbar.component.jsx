@@ -10,6 +10,7 @@ import { signOut } from "firebase/auth";
 import Button from '../Button/Button.component'
 import SideBarComponent from "../SideBar/SideBar.component";
 import { Colors } from "../../constants/Colors";
+import { AppRoutes } from "../../constants/AppRoutes";
 export default function Navbar() {
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");
@@ -61,7 +62,7 @@ export default function Navbar() {
         <div className="w-[100px]">
           <Button onClickHandler={signout}>Logout</Button>
         </div>
-        <Link to={`/profile/${user?.uid}`}>
+        <Link to={`${AppRoutes.profile.baseRoute}/${user?.uid}`}>
           <img
             style={{ width: 50, height: 50 }}
             src={userData?.Avatar || Logo}
