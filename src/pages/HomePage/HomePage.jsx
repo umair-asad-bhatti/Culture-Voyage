@@ -12,6 +12,7 @@ import { CommunityDetailPage } from "../CommunityDetailPage/CommunityDetailPage.
 import { UserProfile } from '../Profile/UserProfile.jsx';
 import { CreatePost } from '../CreatePost/CreatePost.jsx'
 import { AppRoutes } from '../../constants/AppRoutes.js';
+import { EditProfilePage } from '../EditProfile/EditProfilePage.jsx';
 
 
 export default function HomePage() {
@@ -21,7 +22,7 @@ export default function HomePage() {
         return <div className={'flex items-center justify-center h-screen w-screen'}><LoadingSpinner size={'16'} /></div>
     return (
         <>
-            <div className="sticky top-0  z-10 shadow-sm text-dark dark:bg-secondary bg-primary  flex justify-center">
+            <div className="sticky top-0  z-10 shadow-sm  text-dark dark:bg-secondary bg-primary  flex justify-center">
                 <div className='w-screen  xl:w-[1500px] justify-center px-4 dark:bg-secondary bg-white '>
                     <Navbar />
                 </div>
@@ -42,6 +43,7 @@ export default function HomePage() {
                                 <Route exact path={AppRoutes.communityDetailPage.route} element={<CommunityDetailPage />} />
                                 <Route exact path={AppRoutes.profile.route} element={<UserProfile />} />
                                 <Route exact path={AppRoutes.createPost.route} element={<CreatePost />} />
+                                <Route exact path={AppRoutes.editProfile.route} element={<EditProfilePage />} />
                             </Route>
                         </Routes>
                     </div>

@@ -26,8 +26,12 @@ const AppRoutes = {
         label: 'profile',
         route: 'profile/:id',
         baseRoute: 'profile'
+    },
+    editProfile: {
+        label: 'Edit Profile',
+        route: '/edit/profile/:id',
+        baseRoute: '/edit/profile'
     }
-
 
 }
 export { AppRoutes }

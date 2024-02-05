@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
 import Button from "../../components/Button/Button.component.jsx";
 import { useFetchJoinedCommunities } from "../../hooks/useFetchJoinedCommunities.js";
@@ -11,6 +11,7 @@ import { db } from "../../firebase/Firebase.js";
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { CreateCommunity } from "../../components/CreateCommunity.jsx";
+import { AppRoutes } from "../../constants/AppRoutes.js";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
   const { userData, isFetching, getUserDetails } = useGetUserProfileData();
@@ -41,7 +42,7 @@ export const UserProfile = () => {
             <img
               src={imageAsset && URL.createObjectURL(imageAsset) || userData?.Avatar || Logo}
               alt="Profile Pic"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover group"
             />
             {/*show the update of user profile only if id of params is equal to logged in user*/}
             {
@@ -56,11 +57,7 @@ export const UserProfile = () => {
 
         </div>
         <div className={'my-4'}>
-          <div className="lg:flex items-center lg:justify-start">
-            <div className="lg:w-72 w-full"  >
-              <CreateCommunity />
-            </div>
-          </div>
+
           {isImageChanged &&
             <div className="flex my-4">
               <div className="">
@@ -114,7 +111,7 @@ export const UserProfile = () => {
                   About
                 </dt>
                 <dd className="mt-1 text-sm dark:text-primary text-textSecondary sm:mt-0 sm:col-span-2">
-                  To get social media testimonials like these, keep your customers engaged with your social media accounts by posting regularly yourself
+                  {userData?.About || 'Not about defiend yet'}
                 </dd>
               </div>
             </dl>
@@ -122,6 +119,14 @@ export const UserProfile = () => {
         </div>
       </div>
       <div>
+        <div className="lg:flex items-center lg:justify-between my-8">
+          <div className="lg:w-72 w-full"  >
+            <Link to={`${AppRoutes.editProfile.baseRoute}/${id}`} state={{ id: user.uid, ...userData }} className="text-accent underline font-bold text-lg">Edit Profile</Link>
+          </div>
+          <div className="lg:w-72 w-full"  >
+            <CreateCommunity />
+          </div>
+        </div>
         {
           user.uid === id && <div>
             <p className="py-2 font-bold text-lg dark:text-primary">Joined Communities</p>
@@ -129,6 +134,6 @@ export const UserProfile = () => {
           </div>
         }
       </div>
-    </div>
+    </div >
   );
 };

@@ -1,10 +1,11 @@
 class UserModel {
     constructor(email) {
-        this["Email"]=email;
+        this['New User'] = true
+        this["Email"] = email;
         this["First Name"] = "";
-        this["Last Name"] =  "";
-        this["Username"] =  "";
-        this["Country"] =  "";
+        this["Last Name"] = "";
+        this["Username"] = "";
+        this["Country"] = "";
         this["Country Code"] = "";
         this["Country Dial Code"] = "";
         this["National Number"] = "";
@@ -13,7 +14,7 @@ class UserModel {
         this["Avatar"] = "";
         this["Date Of Birth"] = "";
         this["Phone Verified"] = false;
-        this["User Created Communities"]=[]
+        this["User Created Communities"] = []
     }
 }
-export {UserModel}
+export { UserModel }

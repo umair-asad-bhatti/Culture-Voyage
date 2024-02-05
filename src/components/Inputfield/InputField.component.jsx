@@ -13,11 +13,12 @@ export default function InputField({ type, value = '', setValue, children, maxLe
 
       {isTextarea ? (
         <textarea
+          rows={5}
           placeholder={placeholder}
           name={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='outline-none border-none dark:text-textPrimary w-full bg-transparent resize-none'
+          className='outline-none border-none dark:text-textPrimary w-full bg-transparent resize-none overflow-hidden'
           maxLength={maxLength}
         />
       ) : (
