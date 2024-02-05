@@ -3,7 +3,7 @@ import { EyeSlash, Eye } from "iconsax-react";
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
-export default function InputField({ type, value, setValue, children, maxLength }) {
+export default function InputField({ type, value = '', setValue, children, maxLength, placeholder = '' }) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const isTextarea = type === 'textarea';
   return (
@@ -13,7 +13,7 @@ export default function InputField({ type, value, setValue, children, maxLength 
 
       {isTextarea ? (
         <textarea
-          placeholder={type}
+          placeholder={placeholder}
           name={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}

@@ -36,10 +36,11 @@ export const CreateCommunity = () => {
                         <div className="my-4 ">
                             <InputField
                                 type="Community Title..."
+
                                 value={title}
                                 setValue={setTitle}
                             >
-                            </InputField>
+                            </InputField >
 
                         </div>
                         <div className="mb-4">
@@ -48,6 +49,7 @@ export const CreateCommunity = () => {
                                 value={description}
                                 setValue={setDescription}
                                 maxLength={100}
+                                placeholder="Community Short Description"
                             ></InputField>
                         </div>
                         <div className={'my-2 border-2  dark:border-borderSecondary rounded-lg border-borderPrimary focus-within:border-accent'}>

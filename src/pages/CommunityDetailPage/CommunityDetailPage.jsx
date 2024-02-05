@@ -33,17 +33,21 @@ export const CommunityDetailPage = () => {
     <div className={'w-full relative  rounded-lg shadow-lg h-[300px]'}>
       {
         CommunityData['Banner URL'] ?
-          <img className={'object-cover rounded-lg w-full h-full'} src={CommunityData['Banner URL']} alt="" />
-
+          <>
+            <img className={'object-cover rounded-lg w-full h-full'} src={CommunityData['Banner URL']} alt="" />
+            {user.uid === CommunityData['Created By'] && <Button>Change Banner</Button>}
+          </>
           :
           CommunityData['Created By'] === user.uid &&
           <UploadImage fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset} />
+
       }
       {/* community logo */}
+
       <img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} alt="" />
     </div>
 
-    <div className={'w-full dark:text-textPrimary text-textSecondary'}>
+    <div className={'w-full dark:text-textPrimary text-textSecondary my-8'}>
       <h1 className={'font-extrabold  text-2xl text-accent my-2'}>{CommunityData['Community Name']}</h1>
       <h1><span className={'font-extrabold my-2'}>Created At :</span>{CommunityData['Created At']}</h1>
       <h1 className={'font-extrabold mt-2'}>Description: </h1>

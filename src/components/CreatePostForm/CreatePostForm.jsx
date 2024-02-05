@@ -10,9 +10,8 @@ export function CreatePostForm() {
             <div className="editor mx-auto w-full h-full flex flex-col text-gray-800 border border-accent rounded shadow-accent p-4 shadow-md dark:shadow-sm max-w-2xl">
                 <InputField type={'Title'} />
                 <div className="my-4">
-                    <InputField type={'textarea'} maxLength={'200'} value={'Description'} />
+                    <InputField type={'textarea'} maxLength={'200'} placeholder="Description" />
                 </div>
-
                 <div className="icons flex text-gray-500 m-2">
 
                 </div>
