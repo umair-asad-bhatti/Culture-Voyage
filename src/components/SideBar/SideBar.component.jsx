@@ -7,8 +7,9 @@ import { UserContext } from "../../context/AuthContext.jsx";
 const SideBarComponent = () => {
     const location = useLocation()
     const { user } = useContext(UserContext);
-    const [activeTab, setActiveTab] = useState(location.pathname == '/' ? '/' : location.pathname.slice(1))
-    console.log(location.pathname);
+    const [activeTab, setActiveTab] = useState(location.pathname === '/' ? '/' : location.pathname.slice(1))
+    console.log('pathname', location.pathname.slice(1));
+    console.log('ac', activeTab);
     return (
         <>
             <div className="w-full px-2 ">
@@ -30,8 +31,8 @@ const SideBarComponent = () => {
                     {/* <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Favourites'} to={'sdf'}>
                         <Star />
                     </SideBarTab> */}
-                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'} to={`/profile/${user?.uid}`}>
-                        <User variant={activeTab.includes('/profile') ? 'Bold' : 'Outline'} />
+                    <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'} to={`profile/${user?.uid}`}>
+                        <User variant={activeTab === (`profile/${user?.uid}`) ? 'Bold' : 'Outline'} />
                     </SideBarTab>
                     <hr className="h-px my-4 bg-gray-400 "></hr>
                 </div>
