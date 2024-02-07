@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
+import { Img } from 'react-image'
 import { UserContext } from "../../context/AuthContext.jsx";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
 import Button from "../../components/Button/Button.component.jsx";
 import { useFetchJoinedCommunities } from "../../hooks/useFetchJoinedCommunities.js";
@@ -12,6 +13,7 @@ import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { CreateCommunity } from "../../components/CreateCommunity.jsx";
 import { AppRoutes } from "../../constants/AppRoutes.js";
+import NavigateLink from "../../components/NavigateLink/NavigateLink.component.jsx";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
   const { userData, isFetching, getUserDetails } = useGetUserProfileData();
@@ -39,10 +41,10 @@ export const UserProfile = () => {
       <div className="bg-primary dark:bg-secondary shadow-accent  border border-borderPrimary dark:border-borderSecondary my-2  shadow-md p-4 rounded-lg ">
         <div className="flex items-center mb-4">
           <div className="relative w-48 h-48 rounded-full overflow-hidden">
-            <img
+            <Img
               src={imageAsset && URL.createObjectURL(imageAsset) || userData?.Avatar || Logo}
-              alt="Profile Pic"
               className="w-full h-full object-cover group"
+              loader={() => <h1>Loading...</h1>}
             />
             {/*show the update of user profile only if id of params is equal to logged in user*/}
             {
@@ -117,7 +119,9 @@ export const UserProfile = () => {
             </dl>
           </div>
         </div>
-        <Link to={`${AppRoutes.editProfile.baseRoute}/${id}`} state={{ id: user.uid, ...userData }} className="text-accent px-6 py-8 underline font-bold text-lg">Edit Profile Information</Link>
+        <NavigateLink toURL={`${AppRoutes.editProfile.baseRoute}/${id}`} data={{ id: user.uid, ...userData }}>
+          Edit  Profile Information
+        </NavigateLink>
         <div className="my-8">
           <CreateCommunity />
         </div>

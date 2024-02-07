@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import useLeaveCommunity from "../../hooks/useLeaveCommunity.js";
 import { AppRoutes } from "../../constants/AppRoutes.js";
+import { Img } from 'react-image'
 
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
@@ -34,7 +35,8 @@ export const CommunityCard = ({ community }) => {
       }
     >
       <div className="flex items-center gap-4">
-        <img
+        <Img
+          loader={() => <h1>Loading...</h1>}
           className="w-20 h-20 rounded-full"
           src={community.communityLogoUrl}
           alt={`Logo for ${community.communityName}`}

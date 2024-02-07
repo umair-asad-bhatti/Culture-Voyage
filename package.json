@@ -22,6 +22,7 @@
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-image": "^4.1.0",
     "react-password-checklist": "^1.5.0",
     "react-phone-number-input": "^3.3.7",
     "react-router-dom": "^6.21.1",
