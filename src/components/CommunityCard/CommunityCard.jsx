@@ -34,30 +34,30 @@ export const CommunityCard = ({ community }) => {
         "border border-borderPrimary dark:border-borderSecondary shadow-sm shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer   p-8 rounded-lg"
       }
     >
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap  items-center gap-4">
+
         <Img
           loader={() => <h1>Loading...</h1>}
           className="w-20 h-20 rounded-full"
           src={community.communityLogoUrl}
           alt={`Logo for ${community.communityName}`}
         />
-        <div className="flex-col gap-2 w-full">
-          <div className={"flex justify-between w-full"}>
-            <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
-              <p className="text-xl font-bold text-accent hover:underline">
-                {community.communityName}
-              </p>
-            </Link>
-            <p className={"dark:text-textPrimary text-textSecondary"}>
-              Create At:{" "}
-              <span className={"text-accent"}>{community.createdAt}</span>
-            </p>
-          </div>
-          <p className="text-lg dark:text-textPrimary text-textSecondary ">
-            {community.smallDescription}
+
+        <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
+          <p className="md:text-xl text-lg font-bold text-accent hover:underline">
+            {community.communityName}
           </p>
-          <p className="text-lg dark:text-textPrimary text-textSecondary "></p>
-        </div>
+        </Link>
+      </div>
+      <div className="flex justify-between my-4 flex-wrap gap-6">
+        <p className="text-lg dark:text-textPrimary text-textSecondary ">
+          {community.smallDescription}
+        </p>
+        <p className={"dark:text-textPrimary  text-textSecondary"}>
+          Create At:{" "}
+          <span className={"text-accent"}>{community.createdAt}</span>
+        </p>
+
       </div>
       <div className={"mt-12 mb-4"}>
         <Divider />

@@ -99,11 +99,11 @@ export const CommunityDetailPage = () => {
             {
               allMembers && allMembers.map((member, index) => {
                 return <div key={index} className='flex p-4 gap-4 items-center justify-start '>
-                  <div style={{ width: 50, height: 50, borderRadius: 50 }}>
+                  <div style={{ width: 70, height: 70, borderRadius: 50 }}>
                     <img src={member.Avatar} className='rounded-full w-full h-full object-cover' />
                   </div>
                   <div>
-                    <h1 key={index} className='dark:text-primary text-secondary'>{member.Username}</h1>
+                    <h1 key={index} className='dark:text-primary text-secondary'>@{member.Username}</h1>
                   </div>
                 </div>
               })
