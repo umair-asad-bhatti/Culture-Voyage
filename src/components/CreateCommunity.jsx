@@ -1,7 +1,6 @@
 import { UploadImage } from "./Upload Image/UploadImage.jsx";
 import InputField from "./Inputfield/InputField.component.jsx";
-import { Spinner } from "@chakra-ui/react";
-import { Colors } from "../constants/Colors.js";
+
 import { useCreateCommunity } from "../hooks/useCreateCommunity.js";
 import Button from '../components/Button/Button.component.jsx'
 import { TagsInput } from "./TagsInput/TagsInput.jsx";
@@ -30,7 +29,7 @@ export const CreateCommunity = () => {
                     <form method="dialog"  >
                         <div className={'flex flex-col items-center'}>
 
-                            <UploadImage imageAsset={imageAsset} setImageAsset={setImageAsset} />
+                            <UploadImage imgCompressionSize="sm" imageAsset={imageAsset} setImageAsset={setImageAsset} />
 
                         </div>
                         <div className="my-4 ">

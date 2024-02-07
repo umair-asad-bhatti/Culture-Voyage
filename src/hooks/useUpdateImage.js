@@ -4,7 +4,7 @@ import { db } from '../firebase/Firebase.js'
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { ToastStrings } from "../constants/ToastStrings.js";
-
+import imageCompression from 'browser-image-compression';
 export const useUpdateImage = () => {
     const [imageAsset, setImageAsset] = useState(null);
     const [isImageChanged, setIsImageChanged] = useState(false)
@@ -32,11 +32,20 @@ export const useUpdateImage = () => {
         setIsImageChanged(false)
         setIsImageUpdating(false)
     }
-    const handleImageChange = (e) => {
-        setIsImageChanged(true)
+    const handleImageChange = async (e, type) => {
         const file = e.target.files[0];
+        if (file.size / 1000000 >= 3)
+            return alert('Image file must be less than 3mb')
+        setIsImageChanged(true)
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: type === 'sm' ? 200 : 10000,
+            useWebWorker: true,
+        }
+        const compressedFile = await imageCompression(file, options);
+
         if (file) {
-            setImageAsset(file);
+            setImageAsset(compressedFile);
         } else {
             setImageAsset(null);
         }

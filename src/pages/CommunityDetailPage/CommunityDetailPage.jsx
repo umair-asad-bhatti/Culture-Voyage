@@ -60,11 +60,8 @@ export const CommunityDetailPage = () => {
           </>
           :
           CommunityData['Created By'] === user.uid &&
-          <UploadImage fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset} />
-
+          <UploadImage imgCompressionSize='lg' fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset} />
       }
-
-
       <img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} alt="" />
     </div>
 

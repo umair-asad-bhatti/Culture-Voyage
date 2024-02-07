@@ -1,21 +1,27 @@
+/* eslint-disable react/prop-types */
 import { useRef } from "react";
 import { Trash, DocumentUpload } from "iconsax-react";
+import imageCompression from "browser-image-compression";
+export const UploadImage = ({ imageAsset, setImageAsset, fullSize = false, imgCompressionSize = 'sm' }) => {
 
-export const UploadImage = ({imageAsset,setImageAsset,fullSize=false}) => {
-
-  const fileRef=useRef(null)
-  const uploadImage = (e) => {
-    const file = e.target.files[0];
+  const fileRef = useRef(null)
+  const handleChange = async (e) => {
+    let file = e.target.files[0];
+    console.log(file.size);
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: imgCompressionSize === 'lg' ? 1000 : 300,
+      useWebWorker: true,
+    }
     if (file) {
       const fileExtension = file.name.split(".").pop().toLowerCase();
-      const fileSize=file.size/1000000
-      console.log(fileSize<=3)
-      if (["png", "jpg", "jpeg", "mp4",].includes(fileExtension) &&  fileSize<=3) {
-        console.log('in if')
-        setImageAsset(file);
+      const fileSize = file.size / 1000000 //get file size in mb
+      if (["png", "jpg", "jpeg", "mp4",].includes(fileExtension) && fileSize <= 3) {
+        const compressedImage = await imageCompression(file, options)
+        setImageAsset(compressedImage);
       } else {
-        fileSize>3? alert("File size must be less than or equal to 3mb"):
-        alert("Invalid file type. Please select a valid image (png, jpg, jpeg) or video (mp4).");
+        fileSize > 3 ? alert("File size must be less than or equal to 3mb") :
+          alert("Invalid file type. Please select a valid image (png, jpg, jpeg) or video (mp4).");
         // Reset the value of the file input if it does not get reset
         if (fileRef.current) {
           fileRef.current.value = null;
@@ -39,10 +45,10 @@ export const UploadImage = ({imageAsset,setImageAsset,fullSize=false}) => {
             </p>
           </div>
           <input
-              ref={fileRef}
+            ref={fileRef}
             type="file"
             name="upload-image"
-            onChange={uploadImage}
+            onChange={handleChange}
             className="w-0 h-0"
           />
         </label>
@@ -51,7 +57,7 @@ export const UploadImage = ({imageAsset,setImageAsset,fullSize=false}) => {
           <img
             src={URL.createObjectURL(imageAsset)}
             alt="uploaded-image"
-            className={`${fullSize?'w-full h-full object-cover':'h-[150px] w-[150px] object-cover rounded-full mx-auto'}`}
+            className={`${fullSize ? 'w-full h-full object-cover' : 'h-[150px] w-[150px] object-cover rounded-full mx-auto'}`}
           />
           <button
             type="button"
