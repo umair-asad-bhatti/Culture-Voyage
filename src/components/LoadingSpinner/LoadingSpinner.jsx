@@ -6,7 +6,7 @@ import loading from '../../assets/loading2.json'
 export const LoadingSpinner = ({ size = 8 }) => {
     return (
         // <Spinner className={'dark:text-textPrimary text-textSecondary'} size={size} />
-        <div className={`w-${size} h-${size} `}>
+        <div className={`w-full h-full `}>
             <Lottie animationData={loading} loop={true} size={size} />
         </div>
     )

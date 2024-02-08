@@ -33,7 +33,9 @@ export const UserProfile = () => {
   }, []);
 
   if (isFetching)
-    return <div className="flex items-center justify-center h-full"><LoadingSpinner size={'16'} /></div>;
+    return <div className="flex items-center justify-center h-full">
+      <div className="w-20 h-20"><LoadingSpinner /></div>
+    </div>;
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
   return (

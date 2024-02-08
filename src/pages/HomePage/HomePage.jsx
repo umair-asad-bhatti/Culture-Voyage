@@ -19,7 +19,9 @@ export default function HomePage() {
 
     const { isLoading } = useContext(UserContext);
     if (isLoading)
-        return <div className={'flex items-center justify-center h-screen w-screen dark:bg-secondary bg-primary'}><LoadingSpinner size={'16'} /></div>
+        return <div className={'flex items-center justify-center h-screen w-screen dark:bg-secondary bg-primary'}>
+            <div className='w-20 h-20'><LoadingSpinner /></div>
+        </div>
     return (
         <>
             <div className="sticky top-0  z-10 shadow-sm  text-dark dark:bg-secondary bg-primary  flex justify-center">

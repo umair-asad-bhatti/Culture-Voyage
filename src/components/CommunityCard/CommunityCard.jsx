@@ -31,18 +31,15 @@ export const CommunityCard = ({ community }) => {
   return (
     <div
       className={
-        "border border-borderPrimary dark:border-borderSecondary shadow-sm shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer   p-8 rounded-lg"
+        "border h-content border-borderPrimary dark:border-borderSecondary shadow-sm shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer   p-8 rounded-lg"
       }
     >
       <div className="flex flex-wrap  items-center gap-4">
-
         <Img
-          loader={() => <h1>Loading...</h1>}
+          loader={<div className="w-20 h-20 rounded-full skeleton"></div>}
           className="w-20 h-20 rounded-full"
           src={community.communityLogoUrl}
-          alt={`Logo for ${community.communityName}`}
         />
-
         <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
           <p className="md:text-xl text-lg font-bold text-accent hover:underline">
             {community.communityName}
@@ -50,7 +47,7 @@ export const CommunityCard = ({ community }) => {
         </Link>
       </div>
       <div className="flex justify-between my-4 flex-wrap gap-6">
-        <p className="text-lg dark:text-textPrimary text-textSecondary ">
+        <p className="text-lg dark:text-textPrimary text-textSecondary  overflow-hidden">
           {community.smallDescription}
         </p>
         <p className={"dark:text-textPrimary  text-textSecondary"}>

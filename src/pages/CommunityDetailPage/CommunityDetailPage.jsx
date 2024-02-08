@@ -10,8 +10,7 @@ import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner.jsx';
 import { useState } from 'react';
-
-
+import { Img } from 'react-image'
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
@@ -46,7 +45,9 @@ export const CommunityDetailPage = () => {
 
 
   if (isFetching)
-    return <div className='w-full h-full flex items-center justify-center'><LoadingSpinner size={16} /></div>
+    return <div className='w-full h-full flex items-center justify-center'>
+      <div className='w-20 h-20'><LoadingSpinner size={16} /></div>
+    </div>
   if (!isFetching && !CommunityData)
     return <h1>Error occurred</h1>
   //implement the edit community functionality
@@ -55,14 +56,14 @@ export const CommunityDetailPage = () => {
       {
         CommunityData['Banner URL'] ?
           <>
-            <img className={'object-cover rounded-lg w-full h-full'} src={CommunityData['Banner URL']} alt="" />
+            <Img className={'object-cover rounded-lg w-full h-full'} src={CommunityData['Banner URL']} loader={<div className='w-full h-full skeleton'></div>} />
             {user.uid === CommunityData['Created By'] && <Button>Change Banner</Button>}
           </>
           :
           CommunityData['Created By'] === user.uid &&
           <UploadImage imgCompressionSize='lg' fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset} />
       }
-      <img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} alt="" />
+      <Img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} loader={<div className={'w-[200px] border h-[200px] object-cover skeleton rounded-full absolute -bottom-20 right-20'}></div>} />
     </div>
 
     <div className={'w-full dark:text-textPrimary text-textSecondary my-12'}>
@@ -100,7 +101,7 @@ export const CommunityDetailPage = () => {
               allMembers && allMembers.map((member, index) => {
                 return <div key={index} className='flex p-4 gap-4 items-center justify-start '>
                   <div style={{ width: 70, height: 70, borderRadius: 50 }}>
-                    <img src={member.Avatar} className='rounded-full w-full h-full object-cover' />
+                    <Img src={member.Avatar} loader={<div className="w-20 h-20 rounded-full skeleton"></div>} className='rounded-full w-full h-full object-cover' />
                   </div>
                   <div>
                     <h1 key={index} className='dark:text-primary text-secondary'>@{member.Username}</h1>

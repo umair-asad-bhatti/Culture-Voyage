@@ -1,22 +1,22 @@
 import "react-phone-number-input/style.css";
 
-import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import InputField from "../../components/Inputfield/InputField.component";
 import { User, CalendarSearch, UserSquare } from "iconsax-react";
 import Button from "../../components/Button/Button.component";
 import PhoneInput from "react-phone-number-input";
-import {parsePhoneNumber} from "react-phone-number-input";
+import { parsePhoneNumber } from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import AdditionalInfo from "../../assets/AdditionalInfo.png";
 import strings from "../../constants/Strings";
-import {doc, updateDoc} from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/Firebase.js";
 import { UserContext } from "../../context/AuthContext.jsx";
 import axios from "axios";
-import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
-import {Spinner} from "@chakra-ui/react";
-import {Colors} from "../../constants/Colors.js";
-import {formatDate} from "../../utils/index.js";
+import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
+import { Spinner } from "@chakra-ui/react";
+import { Colors } from "../../constants/Colors.js";
+import { formatDate } from "../../utils/index.js";
 // eslint-disable-next-line react/prop-types
 
 const AdditionalInformationPage = () => {
@@ -27,13 +27,13 @@ const AdditionalInformationPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const navigation = useNavigate();
-  const { user,isLoading } = useContext(UserContext);
-  const {checkingUserInformation}=useCheckUserInformation()
-  useEffect(()=>{
-    if(!isLoading && !user)
-       navigation('/login')
-  },[user,isLoading])
-  if(isLoading)
+  const { user, isLoading } = useContext(UserContext);
+  const { checkingUserInformation } = useCheckUserInformation()
+  useEffect(() => {
+    if (!isLoading && !user)
+      navigation('/login')
+  }, [user, isLoading])
+  if (isLoading)
     return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,12 +61,12 @@ const AdditionalInformationPage = () => {
       ["Date Of Birth"]: DOB,
       ["Phone Verified"]: false,
     });
-    navigation("/home");
+    navigation("/");
   };
 
   return (
-    <div className="min-h-screen bg-primary text-text flex items-center justify-center bg-gray-100">
-      <div className="w-[50%]  p-8  ">
+    <div className="min-h-screen bg-primary text-text flex items-center justify-center">
+      <div className="w-[50%]  p-8 ">
         <h2 className="text-2xl font-semibold mb-4">Profile Information</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4 flex gap-2 md:flex-row flex-col">

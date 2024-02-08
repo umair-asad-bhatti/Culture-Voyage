@@ -72,7 +72,11 @@ export const CreateCommunity = () => {
                                 isDisabled={isCreating}
                             >
                                 {isCreating ? (
-                                    <LoadingSpinner size={'8'} />
+                                    <div className="w-full flex items-center justify-center">
+                                        <div className="w-8 h-6">
+                                            <LoadingSpinner />
+                                        </div>
+                                    </div>
                                 ) : (
                                     "Create Community"
                                 )}
