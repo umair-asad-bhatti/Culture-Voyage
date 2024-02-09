@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import {AddCircle} from "iconsax-react";
+import { AddCircle } from "iconsax-react";
 
 // eslint-disable-next-line react/prop-types
-export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue})=>{
+export const TagsInput = ({ tags, setTags, tagInputValue, setTagInputValue, placeholder }) => {
 
 
     const handleInputChange = (e) => {
@@ -10,8 +10,8 @@ export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue})=>{
     };
 
     const addTag = () => {
-            // eslint-disable-next-line react/prop-types
-        if(!tags.includes(tagInputValue.trim()) && tags.length<5 && tagInputValue){
+        // eslint-disable-next-line react/prop-types
+        if (!tags.includes(tagInputValue.trim()) && tags.length < 5 && tagInputValue) {
             setTags([...tags, tagInputValue.trim()]);
             setTagInputValue('');
         }
@@ -23,7 +23,7 @@ export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue})=>{
     };
 
     return (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 w-full">
             {/* eslint-disable-next-line react/prop-types */}
             {tags.map((tag) => (
                 <div
@@ -35,15 +35,16 @@ export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue})=>{
                 </div>
             ))}
             <div className={'flex  bg-primary dark:bg-secondary  border-2 dark:border-borderSecondary border-borderPrimary rounded-lg shadow px-2 py-1'}>
-            <input
-                type="text"
-                value={tagInputValue}
-                onChange={handleInputChange}
-                className="border border-none w-auto outline-none bg-transparent dark:text-textPrimary text-textSecondary"
-                placeholder="Add a tag..."
+                <input
+                    placeholder={placeholder}
+                    type="text"
+                    value={tagInputValue}
+                    onChange={handleInputChange}
+                    className="border border-none w-full outline-none bg-transparent dark:text-textPrimary text-textSecondary "
 
-            />
-                <AddCircle onClick={addTag} size="32" color="#FF8A65"/>
+
+                />
+                <AddCircle onClick={addTag} size="32" color="#FF8A65" />
             </div>
         </div>
     );

@@ -1,26 +1,24 @@
-import { useParams } from 'react-router-dom'
-import { useContext, useEffect } from 'react'
 import { collection, doc, documentId, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { db } from '../../firebase/Firebase.js';
-import { UserContext } from '../../context/AuthContext.jsx';
+import { Danger, Information, Receipt1, Setting4 } from 'iconsax-react';
+import { useContext, useEffect, useState } from 'react';
+import { Img } from 'react-image';
+import { useParams } from 'react-router-dom';
 import Button from '../../components/Button/Button.component.jsx';
-import { useFetchCommunityDetails } from "../../hooks/useFetchCommunityDetails.js";
+import InputField from '../../components/Inputfield/InputField.component.jsx';
+import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner.jsx';
+import { TagsInput } from '../../components/TagsInput/TagsInput.jsx';
 import { UploadImage } from "../../components/Upload Image/UploadImage.jsx";
+import { UserContext } from '../../context/AuthContext.jsx';
+import { db } from '../../firebase/Firebase.js';
+import * as useFetchCommunityDetailsJs from "../../hooks/useFetchCommunityDetails.js";
 import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
-import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner.jsx';
-import { useState } from 'react';
-import { Img } from 'react-image'
-import { Setting4 } from 'iconsax-react';
-import { Colors } from '../../constants/Colors.js';
-import InputField from '../../components/Inputfield/InputField.component.jsx';
-import { TagsInput } from '../../components/TagsInput/TagsInput.jsx';
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
-  const { CommunityData, isFetching, getCommunityDetails, setCommunityData } = useFetchCommunityDetails();
+  const { CommunityData, isFetching, getCommunityDetails, setCommunityData } = useFetchCommunityDetailsJs.useFetchCommunityDetails();
   const { leaveCommunity } = useLeaveCommunity();
-  const { uploadImageAssetAndUpdateDoc, imageAsset, setImageAsset, isImageUpdating } = useUpdateImage()
+  const { imageAsset, setImageAsset } = useUpdateImage()
   const [allCommunityMembers, setAllCommunityMembers] = useState([])
   const [communityGuidelines, setCommunityGuidelines] = useState('')
   const [communityRules, setCommunityRules] = useState([])
@@ -60,14 +58,19 @@ export const CommunityDetailPage = () => {
   //implement the edit community functionality
   return <>
     <div className={'w-full relative  rounded-lg shadow-lg h-[300px]'}>
-      <div className='bg-primary dark:bg-secondary h-16 w-16 flex items-center justify-center rounded-full absolute top-2 left-2'>
+      <div className='bg-primary dark:bg-secondary h-12 w-12 flex items-center justify-center rounded-full absolute top-2 left-2'>
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="m-1"><Setting4 size="32" className='dark:text-primary text-secondary' /></div>
+          <div tabIndex={0} role="button" className="m-1"><Setting4 size="20" className='dark:text-primary text-secondary' /></div>
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow dark:bg-secondary bg-primary rounded-box w-52">
             {/* Open the modal using document.getElementById('ID').showModal() method */}
             {/* first item in drop down and will be shown only if the admin of the community is opening the community*/}
 
-            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('guidelines').showModal()} className='dark:text-primary text-secondary'><a>Edit Guidlines</a></li>}
+            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('guidelines').showModal()} className='dark:text-primary text-secondary'>
+              <a>
+                <Information size="20" className='text-secondary dark:text-primary' />
+                Edit Guidlines
+              </a>
+            </li>}
             <dialog id="guidelines" className="modal">
               <div className="modal-box dark:bg-secondary">
                 <InputField value={communityGuidelines} setValue={setCommunityGuidelines} type={'textarea'} placeholder='Edit Guidlines' maxLength={200}></InputField>
@@ -96,10 +99,12 @@ export const CommunityDetailPage = () => {
 
 
             {/* second item in dropdown */}
-            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('rules').showModal()} className='dark:text-primary text-secondary'><a>Edit Rules</a></li>}
+            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('rules').showModal()} className='dark:text-primary text-secondary'><a>
+              <Receipt1 size="20" className='text-secondary dark:text-primary' />
+              Edit Rules</a></li>}
             <dialog id="rules" className="modal">
               <div className="modal-box dark:bg-secondary">
-                <TagsInput tags={communityRules} setTags={setCommunityRules} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue} />
+                <TagsInput placeholder={'Add Community Rules'} tags={communityRules} setTags={setCommunityRules} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue} />
                 <div className="modal-action">
                   <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
@@ -118,10 +123,10 @@ export const CommunityDetailPage = () => {
                 </div>
               </div>
             </dialog>
-
-
-
-
+            <li><a onClick={() => leaveCommunity(id)} className='text-warning'>   {
+              (CommunityData['Members'] && CommunityData['Members'].includes(user.uid)) ? <h1 className="flex items-center justify-center gap-2"><Danger size="20" color="#FF8A65" /> <span>Leave Community</span></h1> : ''
+            }
+            </a></li>
           </ul>
         </div>
       </div>
@@ -141,7 +146,7 @@ export const CommunityDetailPage = () => {
       <h1 className={'font-extrabold  text-2xl text-accent my-2'}>{CommunityData['Community Name']} </h1>
       <h1><span className={'font-extrabold my-2'}>Created At :</span>{CommunityData['Created At']}</h1>
       <h1 className={'font-extrabold mt-2'}>Description: </h1>
-      <h1 className={'dark:text-textPrimary text-textSecondary'}>{CommunityData['Small Description']}</h1>
+      <h1 className={'dark:text-textPrimary text-textSecondary w-96'}>{CommunityData['Small Description']}</h1>
       <h1 className={'my-2'}><span className={'font-extrabold '}>Community Genre : </span>{CommunityData['Community Type']}</h1>
       <div className={'flex items-center justify-start gap-1 flex-wrap'}>
         <h1 className={'font-extrabold'}>Related Tags</h1>
@@ -154,9 +159,9 @@ export const CommunityDetailPage = () => {
         </div>
       </div>
 
-      <div className='flex items-center md:justify-end justify-between my-8 gap-8'>
+      <div className='flex items-center md:justify-end my-8 gap-8'>
         <h1 className='md:text-lg text-sm'>Total Members: {CommunityData['Members']?.length}</h1>
-        <div className='md:w-42 '>
+        <div className=''>
           {allCommunityMembers.length > 0 && <Button isDisabled={false} onClickHandler={() => document.getElementById('allCommunityMembers').showModal()}>
             <h1 className='md:text:lg text-sm'>Show All Members</h1>
           </Button>}
@@ -185,37 +190,35 @@ export const CommunityDetailPage = () => {
         </div>
       </dialog>
       <span className={'divider'}></span>
-      <div className='w-96 '>
+      <div className='w-full '>
         <div className="collapse bg-primary dark:bg-secondary border border-t-0 shadow shadow-accent border-l-0 border-r-0 border-accent">
           <input type="checkbox" />
           <div className="collapse-title md:text-2xl text-accent  font-medium">
             Guidlines
           </div>
           <div className="collapse-content">
-            <p>{CommunityData.Guidelines}</p>
+            <p>{CommunityData.Guidelines?.length > 0 ? CommunityData.Guidelines : 'No Community Guidelines were specified'}</p>
           </div>
         </div>
       </div>
 
 
-      <div className='w-96'>
+      <div className='w-full'>
         <div className="collapse bg-primary dark:bg-secondary border shadow shadow-accent border-t-0 border-l-0 border-r-0 border-accent mt-4">
           <input type="checkbox" />
           <div className="collapse-title md:text-2xl text-accent font-medium">
             Rules
           </div>
           <div className="collapse-content">
-            {communityRules.length > 0 && CommunityData.Rules?.map((rule, index) => {
+            {communityRules.length > 0 ? CommunityData.Rules?.map((rule, index) => {
               return <p key={index}> {index + 1}. {rule}</p>
-            })}
+            }) : 'no Rules are specified'}
           </div>
         </div>
       </div>
       <span className={'divider'}></span>
     </div>
-    {
-      (CommunityData['Members'] && CommunityData['Members'].includes(user.uid)) ? <Button onClickHandler={() => leaveCommunity(id)}>Leave Community</Button> : ''
-    }
+
   </>
 
 }

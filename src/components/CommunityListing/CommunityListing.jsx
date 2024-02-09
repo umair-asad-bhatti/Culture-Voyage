@@ -10,8 +10,8 @@ export const CommunityListing = ({ communities, isFetching = false }) => {
     if (isFetching)
         return <Masonry
             breakpointCols={{
-                default: 3,
-                1100: 2,
+                default: 2,
+                1100: 1,
                 700: 1,
                 500: 1
             }}
@@ -38,7 +38,7 @@ export const CommunityListing = ({ communities, isFetching = false }) => {
 
     else
         return <Masonry breakpointCols={{
-            default: 3,
+            default: 2,
             1100: 2,
             700: 1,
             500: 1

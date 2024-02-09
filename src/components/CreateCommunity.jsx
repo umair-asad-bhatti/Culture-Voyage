@@ -59,8 +59,8 @@ export const CreateCommunity = () => {
                                 <option>Law</option>
                             </select>
                         </div>
-                        <div className={'my-4 flex items-center justify-center '}>
-                            <TagsInput tags={tags} type={type} setTags={setTags} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue} />
+                        <div className={'my-4 flex items-center justify-center w-full'}>
+                            <TagsInput placeholder={'Add Tags'} tags={tags} type={type} setTags={setTags} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue} />
                         </div>
 
                         <button className="dark:text-primary btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
