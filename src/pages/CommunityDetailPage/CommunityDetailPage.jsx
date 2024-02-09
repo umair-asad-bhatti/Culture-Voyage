@@ -1,5 +1,5 @@
 import { collection, doc, documentId, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { Danger, Information, Receipt1, Setting4 } from 'iconsax-react';
+import { Add, AddCircle, Danger, Information, Receipt1, Setting4 } from 'iconsax-react';
 import { useContext, useEffect, useState } from 'react';
 import { Img } from 'react-image';
 import { useParams } from 'react-router-dom';
@@ -13,6 +13,7 @@ import { db } from '../../firebase/Firebase.js';
 import * as useFetchCommunityDetailsJs from "../../hooks/useFetchCommunityDetails.js";
 import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
+import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
@@ -21,9 +22,11 @@ export const CommunityDetailPage = () => {
   const { imageAsset, setImageAsset } = useUpdateImage()
   const [allCommunityMembers, setAllCommunityMembers] = useState([])
   const [communityGuidelines, setCommunityGuidelines] = useState('')
+  const { joinCommunity, checkJoinedStatus, isJoined } = useJoinCommunity()
   const [communityRules, setCommunityRules] = useState([])
   const [tagInputValue, setTagInputValue] = useState('')
   useEffect(() => {
+
     getCommunityDetails(id)
     const unSub = onSnapshot(doc(db, 'Communities', id), async (doc) => {
       setCommunityData({ id, ...doc.data() });
@@ -33,7 +36,7 @@ export const CommunityDetailPage = () => {
   }, [])
   //fetching information of all members
   useEffect(() => {
-
+    checkJoinedStatus(CommunityData)
     const getCommunityMembers = async () => {
       const communityMembersID = CommunityData['Members']
       if (communityMembersID) {
@@ -65,9 +68,9 @@ export const CommunityDetailPage = () => {
             {/* Open the modal using document.getElementById('ID').showModal() method */}
             {/* first item in drop down and will be shown only if the admin of the community is opening the community*/}
 
-            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('guidelines').showModal()} className='dark:text-primary text-secondary'>
-              <a>
-                <Information size="20" className='text-secondary dark:text-primary' />
+            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('guidelines').showModal()}>
+              <a className="dark:hover:bg-darkerGrey hover:bg-softGrey dark:text-primary text-secondary">
+                <Information size="20" className='text-secondary dark:text-primary ' />
                 Edit Guidlines
               </a>
             </li>}
@@ -99,9 +102,10 @@ export const CommunityDetailPage = () => {
 
 
             {/* second item in dropdown */}
-            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('rules').showModal()} className='dark:text-primary text-secondary'><a>
-              <Receipt1 size="20" className='text-secondary dark:text-primary' />
-              Edit Rules</a></li>}
+            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('rules').showModal()}>
+              <a className="dark:hover:bg-darkerGrey hover:bg-softGrey dark:text-primary text-secondary">
+                <Receipt1 size="20" className='text-secondary dark:text-primary' />
+                Edit Rules</a></li>}
             <dialog id="rules" className="modal">
               <div className="modal-box dark:bg-secondary">
                 <TagsInput placeholder={'Add Community Rules'} tags={communityRules} setTags={setCommunityRules} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue} />
@@ -123,9 +127,10 @@ export const CommunityDetailPage = () => {
                 </div>
               </div>
             </dialog>
-            <li><a onClick={() => leaveCommunity(id)} className='text-warning'>   {
-              (CommunityData['Members'] && CommunityData['Members'].includes(user.uid)) ? <h1 className="flex items-center justify-center gap-2"><Danger size="20" color="#FF8A65" /> <span>Leave Community</span></h1> : ''
-            }
+            <li><a className="dark:hover:bg-darkerGrey hover:bg-softGrey ">
+              {
+                isJoined ? <h1 onClick={() => leaveCommunity(id)} className=" text-warning flex items-center justify-center gap-2"><Danger size="20" className="text-warning" /> <span>Leave Community</span></h1> : <h1 onClick={() => { joinCommunity(CommunityData) }} className=" text-accent flex items-center justify-center gap-2 text-bold"><Add size="25" className="text-accent" /> <span>Join Community</span></h1>
+              }
             </a></li>
           </ul>
         </div>
@@ -172,7 +177,7 @@ export const CommunityDetailPage = () => {
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <div className='h-96'>
+          <div className='h-96 w-auto'>
             {
               allCommunityMembers && allCommunityMembers.map((member, index) => {
                 return <div key={index} className='flex p-4 gap-4 items-center justify-start '>
