@@ -26,18 +26,6 @@ const useJoinCommunity = () => {
       setIsJoined(true);
       const userData = await getUserData(user?.uid);
       const joinedCommunities = userData["Joined Communities"] ?? [];
-      //check user already memeber or not
-      // if (joinedCommunities.includes(community.id)) {
-      //   toast({
-      //     title: "Already Joined",
-      //     description: "You are already a member of this community.",
-      //     status: "info",
-      //     duration: ToastStrings.duration,
-      //     isClosable: true,
-      //   });
-      //   return;
-      // }
-
       const userDocRef = doc(db, "Users", user.uid);
 
       await updateDoc(userDocRef, {
@@ -46,7 +34,6 @@ const useJoinCommunity = () => {
 
       const communityDocRef = doc(db, "Communities", community.id);
       const communityMembers = community.members ?? [];
-
 
       await updateDoc(communityDocRef, {
         ["Members"]: [...communityMembers, user.uid],

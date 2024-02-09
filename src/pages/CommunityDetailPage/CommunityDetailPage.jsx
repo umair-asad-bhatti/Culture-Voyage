@@ -1,5 +1,5 @@
 import { collection, doc, documentId, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { Add, AddCircle, Danger, Information, Receipt1, Setting4 } from 'iconsax-react';
+import { Add, Danger, Information, Receipt1, Setting4 } from 'iconsax-react';
 import { useContext, useEffect, useState } from 'react';
 import { Img } from 'react-image';
 import { useParams } from 'react-router-dom';
@@ -26,7 +26,6 @@ export const CommunityDetailPage = () => {
   const [communityRules, setCommunityRules] = useState([])
   const [tagInputValue, setTagInputValue] = useState('')
   useEffect(() => {
-
     getCommunityDetails(id)
     const unSub = onSnapshot(doc(db, 'Communities', id), async (doc) => {
       setCommunityData({ id, ...doc.data() });
@@ -129,7 +128,7 @@ export const CommunityDetailPage = () => {
             </dialog>
             <li><a className="dark:hover:bg-darkerGrey hover:bg-softGrey ">
               {
-                isJoined ? <h1 onClick={() => leaveCommunity(id)} className=" text-warning flex items-center justify-center gap-2"><Danger size="20" className="text-warning" /> <span>Leave Community</span></h1> : <h1 onClick={() => { joinCommunity(CommunityData) }} className=" text-accent flex items-center justify-center gap-2 text-bold"><Add size="25" className="text-accent" /> <span>Join Community</span></h1>
+                isJoined ? <h1 onClick={() => leaveCommunity(id)} className=" text-warning flex items-center justify-center gap-2"><Danger size="20" className="text-warning" /> <span>Leave Community</span></h1> : user.uid != CommunityData['Created By'] && <h1 onClick={() => { joinCommunity(CommunityData) }} className=" text-accent flex items-center justify-center gap-2 text-bold"><Add size="25" className="text-accent" /> <span>Join Community</span></h1>
               }
             </a></li>
           </ul>
