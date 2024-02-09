@@ -40,9 +40,9 @@ export default function LoginPage() {
     <>
       {(
         <>
-          <div className="min-h-screen flex justify-between">
-            <div className="w-[50%] bg-accent  min-h-screen flex flex-col items-center justify-center">
-              <img src={Logo} width={300} height={300} />
+          <div className="min-h-screen flex justify-between md:flex-row flex-col">
+            <div className="md:w-[50%] bg-accent  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
+              <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" />
               {/* <div className="w-[300px] h-[300px]  rounded-full">
                 <Lottie animationData={hello} loop={true} />
               </div> */}
@@ -54,8 +54,12 @@ export default function LoginPage() {
                 {strings.loginHeading3}
               </h3>
             </div>
-            <div className=" p-8 rounded dark:bg-secondary  w-[50%] flex justify-center items-center ">
-              <form className="w-96">
+
+            <div className=" md:h-auto h-screen gap-2 p-8 rounded dark:bg-secondary  md:w-[50%] flex flex-col justify-center items-center ">
+              <h3 className="dark:text-primary md:hidden block text-2xl text-center ">
+                Login
+              </h3>
+              <form className="md:w-96 w-full">
                 <div className="mb-4">
                   <InputField type="email" value={email} setValue={setEmail}>
                     <Send className={'dark:text-primary text-darkGrey'} />

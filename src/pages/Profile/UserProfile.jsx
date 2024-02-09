@@ -8,12 +8,13 @@ import { useFetchJoinedCommunities } from "../../hooks/useFetchJoinedCommunities
 import { useGetUserProfileData } from "../../hooks/useGetUserProfileData.js";
 import { CommunityListing } from "../../components/CommunityListing/CommunityListing.jsx";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase/Firebase.js";
+import { auth, db } from "../../firebase/Firebase.js";
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { CreateCommunity } from "../../components/CreateCommunity.jsx";
 import { AppRoutes } from "../../constants/AppRoutes.js";
 import NavigateLink from "../../components/NavigateLink/NavigateLink.component.jsx";
+import { signOut } from "firebase/auth";
 export const UserProfile = () => {
   const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
   const { userData, isFetching, getUserDetails } = useGetUserProfileData();
@@ -121,11 +122,18 @@ export const UserProfile = () => {
             </dl>
           </div>
         </div>
-        <NavigateLink toURL={`${AppRoutes.editProfile.baseRoute}/${id}`} data={{ id: user.uid, ...userData }}>
-          Edit  Profile Information
-        </NavigateLink>
-        <div className="my-8">
+        <div className="my-2 md:my-4">
+          <NavigateLink toURL={`${AppRoutes.editProfile.baseRoute}/${id}`} data={{ id: user.uid, ...userData }}>
+            Edit  Profile Information
+          </NavigateLink>
+        </div>
+        <div className="md:my-8 my-4">
           <CreateCommunity />
+        </div>
+        <div>
+          <Button onClickHandler={() => signOut(auth)} isDisabled={false}>
+            logout
+          </Button>
         </div>
       </div>
       <div>

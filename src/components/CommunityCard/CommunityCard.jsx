@@ -8,6 +8,7 @@ import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import useLeaveCommunity from "../../hooks/useLeaveCommunity.js";
 import { AppRoutes } from "../../constants/AppRoutes.js";
 import { Img } from 'react-image'
+import { truncateText } from "../../utils/index.js";
 
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
@@ -31,7 +32,7 @@ export const CommunityCard = ({ community }) => {
   return (
     <div
       className={
-        "border h-content border-borderPrimary dark:border-borderSecondary shadow-sm shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer   p-8 rounded-lg"
+        "border h-content border-borderPrimary dark:border-borderSecondary shadow-sm shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer  p-2 md:p-8 rounded-lg"
       }
     >
       <div className="flex flex-wrap  items-center gap-4">
@@ -48,7 +49,7 @@ export const CommunityCard = ({ community }) => {
       </div>
       <div className="flex justify-between my-4 flex-wrap gap-6">
         <p className="text-lg dark:text-textPrimary text-textSecondary  overflow-hidden">
-          {community.smallDescription}
+          {truncateText(community.smallDescription, 50)}
         </p>
         <p className={"dark:text-textPrimary  text-textSecondary"}>
           Create At:{" "}
@@ -59,9 +60,9 @@ export const CommunityCard = ({ community }) => {
       <div className={"mt-12 mb-4"}>
         <Divider />
       </div>
-      <div className={"flex justify-between items-center w-full"}>
+      <div className={"flex justify-between  items-center w-full"}>
         <p className={"dark:text-textPrimary text-textSecondary"}>
-          Total Members: {community.members.length}
+          Members: {community.members.length}
         </p>
         <div className={"w-[120px]"}>
           {community.createdBy !== user.uid && (

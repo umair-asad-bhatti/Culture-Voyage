@@ -17,19 +17,19 @@ export const CommunityListing = ({ communities, isFetching = false }) => {
             }}
             className="my-masonry-grid "
             columnClassName="my-masonry-grid_column">
-            <div className="m-4">
+            <div className="md:m-4 m-2" >
                 <CommunityCardSkelton />
             </div>
-            <div className="m-4">
+            <div className="md:m-4 m-2">
                 <CommunityCardSkelton />
             </div>
-            <div className="m-4">
+            <div className="md:m-4 m-2">
                 <CommunityCardSkelton />
             </div>
-            <div className="m-4">
+            <div className="md:m-4 m-2">
                 <CommunityCardSkelton />
             </div>
-            <div className="m-4">
+            <div className="md:m-4 m-2">
                 <CommunityCardSkelton />
             </div>
         </Masonry >

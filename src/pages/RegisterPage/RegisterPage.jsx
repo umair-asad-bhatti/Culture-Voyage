@@ -36,13 +36,16 @@ export default function RegisterPage() {
   // const navigation = useNavigate()
   return (
     <>
-      <div className="min-h-screen flex  justify-between">
-        <div className="w-[50%] bg-accent  min-h-screen flex flex-col items-center justify-center">
-          <img src={Logo} width={300} height={300} />
+      <div className="md:min-h-screen flex  justify-between md:flex-row flex-col">
+        <div className="md:w-[50%] md:flex hidden  bg-accent  md:min-h-screen  flex-col items-center justify-center">
+          <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" />
           <h3 className="text-primary text-2xl">{strings.signUpHeading}</h3>
         </div>
-        <div className=" p-8 rounded dark:bg-secondary  w-[50%] flex justify-center items-center ">
-          <form className="w-96">
+        <div className="md:h-auto h-screen gap-4 p-8 rounded dark:bg-secondary flex-col md:w-[50%] flex justify-center items-center ">
+          <h3 className="dark:text-primary md:hidden block text-2xl text-center ">
+            Register
+          </h3>
+          <form className="md:w-96 w-full ">
             <div className="mb-4">
               <InputField type="email" value={email} setValue={setEmail}>
                 <Send className={'dark:text-primary text-darkGrey'} />

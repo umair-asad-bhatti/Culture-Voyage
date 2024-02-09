@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import {FirebaseErrors} from "../constants/FirebaseErrors.js";
+import { FirebaseErrors } from "../constants/FirebaseErrors.js";
 
 const ZodLoginSchema = z.object({
-    email: z.string().email({message:'Please provide a valid email'}),
-    password: z.string().min(8,{message:"Password must contains atleast 8 characters"})
+    email: z.string().email({ message: 'Please provide a valid email' }),
+    password: z.string().min(8, { message: "Password must contains atleast 8 characters" })
 })
 
 const ZodSignupSchema = z.object({
@@ -29,7 +29,7 @@ const ZodSignupSchema = z.object({
         message: 'Invalid password format. It must contain at least one uppercase letter, one lowercase letter, one special character, no spaces, and at least one number.',
     })
 })
-export const  formatDate=(inputDate)=> {
+export const formatDate = (inputDate) => {
     const months = [
         "January", "February", "March",
         "April", "May", "June",
@@ -42,8 +42,15 @@ export const  formatDate=(inputDate)=> {
 
     return `${day} ${month}, ${year}`;
 }
-const FireBaseErrorHandler=(errorCode)=>{
-    switch (errorCode){
+function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+        return text.substring(0, maxLength) + "...";
+    } else {
+        return text;
+    }
+}
+const FireBaseErrorHandler = (errorCode) => {
+    switch (errorCode) {
         case "auth/user-not-found":
             return FirebaseErrors.userDoesNotExist
         case "auth/USER_NOT_FOUND":
@@ -61,7 +68,7 @@ const FireBaseErrorHandler=(errorCode)=>{
         case "auth/INVALID_EMAIL":
             return FirebaseErrors.invalidEmail
         case "auth/email-already-in-use":
-            return  FirebaseErrors.emailAlreadyExists
+            return FirebaseErrors.emailAlreadyExists
         case "auth/EMAIL_ALREADY_IN_USE":
             return FirebaseErrors.emailAlreadyExists
         case 'auth/weak-password':
@@ -106,4 +113,4 @@ const FireBaseErrorHandler=(errorCode)=>{
 
     }
 }
-export { ZodLoginSchema, ZodSignupSchema,FireBaseErrorHandler }
+export { ZodLoginSchema, ZodSignupSchema, FireBaseErrorHandler, truncateText }

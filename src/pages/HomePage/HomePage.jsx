@@ -36,7 +36,7 @@ export default function HomePage() {
                             <SideBarComponent />
                         </div>
                     </div>
-                    <div className='xl:max-w-[80%] lg:w-[80%] md:w-full w-screen flex flex-col gap-4 p-4'>
+                    <div className='xl:max-w-[80%] lg:w-[80%] md:w-full w-screen flex flex-col gap-4 md:p-4 p-1'>
                         <Routes>
                             <Route element={<PrivateRoutes />}>
                                 <Route exact path={AppRoutes.home.route} element={<PostPage />} />

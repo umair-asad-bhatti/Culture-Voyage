@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect } from 'react'
-import { collection, doc, documentId, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { collection, doc, documentId, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from '../../firebase/Firebase.js';
 import { UserContext } from '../../context/AuthContext.jsx';
 import Button from '../../components/Button/Button.component.jsx';
@@ -11,13 +11,20 @@ import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner.jsx';
 import { useState } from 'react';
 import { Img } from 'react-image'
+import { Setting4 } from 'iconsax-react';
+import { Colors } from '../../constants/Colors.js';
+import InputField from '../../components/Inputfield/InputField.component.jsx';
+import { TagsInput } from '../../components/TagsInput/TagsInput.jsx';
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
   const { CommunityData, isFetching, getCommunityDetails, setCommunityData } = useFetchCommunityDetails();
   const { leaveCommunity } = useLeaveCommunity();
   const { uploadImageAssetAndUpdateDoc, imageAsset, setImageAsset, isImageUpdating } = useUpdateImage()
-  const [allMembers, setAllMembers] = useState([])
+  const [allCommunityMembers, setAllCommunityMembers] = useState([])
+  const [communityGuidelines, setCommunityGuidelines] = useState('')
+  const [communityRules, setCommunityRules] = useState([])
+  const [tagInputValue, setTagInputValue] = useState('')
   useEffect(() => {
     getCommunityDetails(id)
     const unSub = onSnapshot(doc(db, 'Communities', id), async (doc) => {
@@ -28,6 +35,7 @@ export const CommunityDetailPage = () => {
   }, [])
   //fetching information of all members
   useEffect(() => {
+
     const getCommunityMembers = async () => {
       const communityMembersID = CommunityData['Members']
       if (communityMembersID) {
@@ -36,14 +44,13 @@ export const CommunityDetailPage = () => {
         snapshot.forEach((member) => {
           temp.push({ id: member.id, ...member.data() })
         })
-        setAllMembers(temp)
+        setAllCommunityMembers(temp)
         console.log(temp);
       }
     }
     getCommunityMembers()
+    setCommunityRules(CommunityData['Rules'] ?? [])
   }, [CommunityData])
-
-
   if (isFetching)
     return <div className='w-full h-full flex items-center justify-center'>
       <div className='w-20 h-20'><LoadingSpinner size={16} /></div>
@@ -53,17 +60,81 @@ export const CommunityDetailPage = () => {
   //implement the edit community functionality
   return <>
     <div className={'w-full relative  rounded-lg shadow-lg h-[300px]'}>
+      <div className='bg-primary dark:bg-secondary h-16 w-16 flex items-center justify-center rounded-full absolute top-2 left-2'>
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="m-1"><Setting4 size="32" className='dark:text-primary text-secondary' /></div>
+          <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow dark:bg-secondary bg-primary rounded-box w-52">
+            {/* Open the modal using document.getElementById('ID').showModal() method */}
+            {/* first item in drop down and will be shown only if the admin of the community is opening the community*/}
+
+            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('guidelines').showModal()} className='dark:text-primary text-secondary'><a>Edit Guidlines</a></li>}
+            <dialog id="guidelines" className="modal">
+              <div className="modal-box dark:bg-secondary">
+                <InputField value={communityGuidelines} setValue={setCommunityGuidelines} type={'textarea'} placeholder='Edit Guidlines' maxLength={200}></InputField>
+                <div className="modal-action">
+                  <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <Button isDisabled={false} onClickHandler={() => { }}>close</Button>
+                  </form>
+                  <div method='dialog'>
+                    <Button isDisabled={false} onClickHandler={async () => {
+                      if (communityGuidelines.trim().length == 0) {
+                        alert('Guidelines cannot be empty')
+                        return;
+                      }
+                      await updateDoc(doc(db, 'Communities', CommunityData.id), { Guidelines: communityGuidelines })
+                      alert('done')
+                    }}>Save</Button>
+                  </div>
+                </div>
+              </div>
+            </dialog>
+
+
+
+
+
+
+            {/* second item in dropdown */}
+            {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('rules').showModal()} className='dark:text-primary text-secondary'><a>Edit Rules</a></li>}
+            <dialog id="rules" className="modal">
+              <div className="modal-box dark:bg-secondary">
+                <TagsInput tags={communityRules} setTags={setCommunityRules} tagInputValue={tagInputValue} setTagInputValue={setTagInputValue} />
+                <div className="modal-action">
+                  <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <Button isDisabled={false} onClickHandler={() => { }}>close</Button>
+                  </form>
+                  <div method='dialog'>
+                    <Button isDisabled={false} onClickHandler={async () => {
+                      if (communityRules.length == 0) {
+                        alert('Rules cannot be empty')
+                        return;
+                      }
+                      await updateDoc(doc(db, 'Communities', CommunityData.id), { Rules: communityRules })
+                      alert('done')
+                    }}>Save</Button>
+                  </div>
+                </div>
+              </div>
+            </dialog>
+
+
+
+
+          </ul>
+        </div>
+      </div>
       {
         CommunityData['Banner URL'] ?
           <>
             <Img className={'object-cover rounded-lg w-full h-full'} src={CommunityData['Banner URL']} loader={<div className='w-full h-full skeleton'></div>} />
-            {user.uid === CommunityData['Created By'] && <Button>Change Banner</Button>}
           </>
           :
           CommunityData['Created By'] === user.uid &&
           <UploadImage imgCompressionSize='lg' fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset} />
       }
-      <Img className={'w-[200px] bg-white border border-white h-[200px] object-cover rounded-full absolute -bottom-20 right-20'} src={CommunityData['Community Logo URL']} loader={<div className={'w-[200px] border h-[200px] object-cover skeleton rounded-full absolute -bottom-20 right-20'}></div>} />
+      <Img className={'md:w-[200px] w-32 h-32 bg-white border border-white md:h-[200px] object-cover rounded-full absolute md:-bottom-20  -bottom-12 right-24'} src={CommunityData['Community Logo URL']} loader={<div className={'w-[200px] border h-[200px] object-cover skeleton rounded-full absolute -bottom-20 right-20'}></div>} />
     </div>
 
     <div className={'w-full dark:text-textPrimary text-textSecondary my-12'}>
@@ -77,34 +148,35 @@ export const CommunityDetailPage = () => {
         <div>
           {
             CommunityData['Tags']?.map((tag) => {
-              return <span key={tag} className={`border-none mx-1 p-4 badge bg-accent text-white`}>{tag}</span>
+              return <span key={tag} className={`border-none mx-1 p-4 md:my-0 my-2 badge bg-accent text-white`}>{tag}</span>
             })
           }
         </div>
       </div>
 
-      <div className='flex items-center justify-end my-8 gap-8'>
-        <h1>Total Members: {CommunityData['Members']?.length}</h1>
-        <div className='w-42'>
-          {allMembers.length > 0 && <Button isDisabled={false} onClickHandler={() => document.getElementById('allMembers').showModal()}>
-            Show All Members
+      <div className='flex items-center md:justify-end justify-between my-8 gap-8'>
+        <h1 className='md:text-lg text-sm'>Total Members: {CommunityData['Members']?.length}</h1>
+        <div className='md:w-42 '>
+          {allCommunityMembers.length > 0 && <Button isDisabled={false} onClickHandler={() => document.getElementById('allCommunityMembers').showModal()}>
+            <h1 className='md:text:lg text-sm'>Show All Members</h1>
           </Button>}
         </div>
       </div>
-      <dialog id="allMembers" className="modal">
+      <dialog id="allCommunityMembers" className="modal">
         <div className="modal-box dark:bg-secondary bg-primary">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
           <div className='h-96'>
             {
-              allMembers && allMembers.map((member, index) => {
+              allCommunityMembers && allCommunityMembers.map((member, index) => {
                 return <div key={index} className='flex p-4 gap-4 items-center justify-start '>
-                  <div style={{ width: 70, height: 70, borderRadius: 50 }}>
-                    <Img src={member.Avatar} loader={<div className="w-20 h-20 rounded-full skeleton"></div>} className='rounded-full w-full h-full object-cover' />
+                  <div className='md:w-20 w-8 md:h-20 h-8 rounded-full'>
+                    <Img src={member.Avatar} loader={<div className="md:w-20 w-8 md:h-20 h-8 rounded-full skeleton"></div>} className='rounded-full w-full h-full object-cover' />
                   </div>
                   <div>
-                    <h1 key={index} className='dark:text-primary text-secondary'>@{member.Username}</h1>
+                    <h1 key={index} className='dark:text-primary text-secondary md:text-lg text-sm'>@{member.Username}</h1>
+                    <h1 key={index} className='dark:text-primary text-secondary md:text-lg text-sm'>{member.Email}</h1>
                   </div>
                 </div>
               })
@@ -112,24 +184,35 @@ export const CommunityDetailPage = () => {
           </div>
         </div>
       </dialog>
+      <span className={'divider'}></span>
+      <div className='w-96 '>
+        <div className="collapse bg-primary dark:bg-secondary border border-t-0 shadow shadow-accent border-l-0 border-r-0 border-accent">
+          <input type="checkbox" />
+          <div className="collapse-title md:text-2xl text-accent  font-medium">
+            Guidlines
+          </div>
+          <div className="collapse-content">
+            <p>{CommunityData.Guidelines}</p>
+          </div>
+        </div>
+      </div>
 
-      <span className={'divider '}></span>
-      <div>
-        <h1>Rules</h1>
-        <h1>Guidelines</h1>
+
+      <div className='w-96'>
+        <div className="collapse bg-primary dark:bg-secondary border shadow shadow-accent border-t-0 border-l-0 border-r-0 border-accent mt-4">
+          <input type="checkbox" />
+          <div className="collapse-title md:text-2xl text-accent font-medium">
+            Rules
+          </div>
+          <div className="collapse-content">
+            {communityRules.length > 0 && CommunityData.Rules?.map((rule, index) => {
+              return <p key={index}> {index + 1}. {rule}</p>
+            })}
+          </div>
+        </div>
       </div>
       <span className={'divider'}></span>
     </div>
-    {
-      imageAsset && user.uid === CommunityData['Created By'] && <Button isDisabled={isImageUpdating} onClickHandler={async () => {
-        await uploadImageAssetAndUpdateDoc('Communities', id);
-        setImageAsset(null)
-      }}>
-        {
-          isImageUpdating ? 'updating' : 'Save Banner'
-        }
-      </Button>
-    }
     {
       (CommunityData['Members'] && CommunityData['Members'].includes(user.uid)) ? <Button onClickHandler={() => leaveCommunity(id)}>Leave Community</Button> : ''
     }

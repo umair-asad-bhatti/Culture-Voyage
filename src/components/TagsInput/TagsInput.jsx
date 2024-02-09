@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import {AddCircle} from "iconsax-react";
 
 // eslint-disable-next-line react/prop-types
-export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue,type})=>{
+export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue})=>{
 
 
     const handleInputChange = (e) => {
@@ -38,7 +39,7 @@ export const TagsInput=({tags, setTags, tagInputValue, setTagInputValue,type})=>
                 type="text"
                 value={tagInputValue}
                 onChange={handleInputChange}
-                className="border border-none outline-none bg-transparent dark:text-textPrimary text-textSecondary"
+                className="border border-none w-auto outline-none bg-transparent dark:text-textPrimary text-textSecondary"
                 placeholder="Add a tag..."
 
             />
