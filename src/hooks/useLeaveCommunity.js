@@ -1,5 +1,5 @@
 import { updateDoc, doc, getDoc } from "firebase/firestore";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../context/AuthContext.jsx";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 import { db } from "../firebase/Firebase.js";
@@ -9,9 +9,12 @@ import { ToastStrings } from "../constants/ToastStrings.js";
 const useLeaveCommunity = () => {
   const toast = useToast();
   const { user } = useContext(UserContext);
-
+  const [isLeaving, setIsLeaving] = useState(false)
   const leaveCommunity = async (communityId) => {
+    if (isLeaving)
+      return;
     try {
+      setIsLeaving(true)
       const userDocRef = doc(db, "Users", user.uid);
 
       //updaing the user joined communities
@@ -48,10 +51,12 @@ const useLeaveCommunity = () => {
         duration: ToastStrings.duration,
         isClosable: true,
       });
+    } finally {
+      setIsLeaving(false)
     }
   };
 
-  return { leaveCommunity };
+  return { leaveCommunity, isLeaving };
 };
 
 export default useLeaveCommunity;

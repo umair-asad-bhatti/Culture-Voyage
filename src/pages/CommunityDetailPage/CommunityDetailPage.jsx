@@ -1,5 +1,5 @@
 import { collection, doc, documentId, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { Add, Danger, Information, Receipt1, Setting4 } from 'iconsax-react';
+import { Add, Danger, Information, Receipt1, Setting4, UserOctagon } from 'iconsax-react';
 import { useContext, useEffect, useState } from 'react';
 import { Img } from 'react-image';
 import { useParams } from 'react-router-dom';
@@ -18,7 +18,7 @@ export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
   const { CommunityData, isFetching } = useFetchCommunityDetails(id);
-  const { leaveCommunity } = useLeaveCommunity();
+
   const { imageAsset, setImageAsset } = useUpdateImage()
   const [allCommunityMembers, setAllCommunityMembers] = useState([])
   const [communityGuidelines, setCommunityGuidelines] = useState('')
@@ -26,7 +26,8 @@ export const CommunityDetailPage = () => {
   const [tagInputValue, setTagInputValue] = useState('')
 
   //fetching information of all members
-  const { joinCommunity, isJoined } = useJoinCommunity(CommunityData)
+  const { joinCommunity, isJoined, isJoining } = useJoinCommunity(CommunityData)
+  const { leaveCommunity, isLeaving } = useLeaveCommunity();
   useEffect(() => {
 
     const getCommunityMembers = async () => {
@@ -89,10 +90,6 @@ export const CommunityDetailPage = () => {
             </dialog>
 
 
-
-
-
-
             {/* second item in dropdown */}
             {CommunityData['Created By'] === user.uid && <li onClick={() => document.getElementById('rules').showModal()}>
               <a className="dark:hover:bg-darkerGrey hover:bg-softGrey dark:text-primary text-secondary">
@@ -119,11 +116,27 @@ export const CommunityDetailPage = () => {
                 </div>
               </div>
             </dialog>
-            <li><a className="dark:hover:bg-darkerGrey hover:bg-softGrey ">
+            {user.uid != CommunityData['Created By'] && <li><a className="dark:hover:bg-darkerGrey hover:bg-softGrey ">
               {
-                isJoined ? <h1 onClick={() => leaveCommunity(id)} className=" text-warning flex items-center justify-center gap-2"><Danger size="20" className="text-warning" /> <span>Leave Community</span></h1> : user.uid != CommunityData['Created By'] && <h1 onClick={() => { joinCommunity(CommunityData) }} className=" text-accent flex items-center justify-center gap-2 text-bold"><Add size="25" className="text-accent" /> <span>Join Community</span></h1>
+                isJoined ?
+                  <button disabled={isJoining || isLeaving} onClick={() => leaveCommunity(id)} className=" text-warning flex items-center justify-center gap-2">
+                    <Danger size="20" className="text-warning" />
+                    <span>Leave Community</span>
+                  </button>
+                  :
+
+                  <button disabled={isJoining || isLeaving} onClick={() => { joinCommunity(CommunityData) }} className=" text-accent flex items-center justify-center gap-2 text-bold">
+                    <Add size="25" className="text-accent" />
+                    <span>Join Community</span>
+                  </button>
               }
-            </a></li>
+            </a></li>}
+            {user.uid == CommunityData['Created By'] && <li className="dark:hover:bg-darkerGrey flex hover:bg-softGrey dark:text-primary text-secondary">
+              <a href="">
+                <UserOctagon size="20" className="dark:text-primary text-secondary" />
+                <span>Manage Users</span>
+              </a>
+            </li>}
           </ul>
         </div>
       </div>

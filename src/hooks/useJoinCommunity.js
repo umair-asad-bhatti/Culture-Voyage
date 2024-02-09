@@ -10,8 +10,10 @@ const useJoinCommunity = (community) => {
   const toast = useToast();
   const { user } = useContext(UserContext);
   const [isJoined, setIsJoined] = useState(false);
+  const [isJoining, setIsJoining] = useState(false)
 
   const checkJoinedStatus = useCallback(async (community) => {
+
     try {
       const userData = await getUserData(user?.uid);
       const joinedCommunities = userData["Joined Communities"] || [];
@@ -25,19 +27,19 @@ const useJoinCommunity = (community) => {
   }, [checkJoinedStatus, community])
 
   const joinCommunity = async (community) => {
+    if (isJoining)
+      return;
     try {
+      setIsJoining(true)
       setIsJoined(true);
       const userData = await getUserData(user?.uid);
       const joinedCommunities = userData["Joined Communities"] ?? [];
       const userDocRef = doc(db, "Users", user.uid);
-
       await updateDoc(userDocRef, {
         ["Joined Communities"]: [...joinedCommunities, community.id],
       });
-
       const communityDocRef = doc(db, "Communities", community.id);
       const communityMembers = community.members ?? [];
-
       await updateDoc(communityDocRef, {
         ["Members"]: [...communityMembers, user.uid],
       });
@@ -56,10 +58,12 @@ const useJoinCommunity = (community) => {
         duration: ToastStrings.duration,
         isClosable: true,
       });
+    } finally {
+      setIsJoining(false)
     }
   };
 
-  return { joinCommunity, isJoined, checkJoinedStatus, setIsJoined };
+  return { joinCommunity, isJoined, checkJoinedStatus, setIsJoined, isJoining };
 };
 
 export default useJoinCommunity;

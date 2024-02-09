@@ -13,8 +13,8 @@ import { truncateText } from "../../utils/index.js";
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
   const { user } = useContext(UserContext);
-  const { joinCommunity, isJoined, setIsJoined } = useJoinCommunity(community);
-  const { leaveCommunity } = useLeaveCommunity();
+  const { joinCommunity, isJoined, setIsJoined, isJoining } = useJoinCommunity(community);
+  const { leaveCommunity, isLeaving } = useLeaveCommunity();
 
   const handleJoinLeave = () => {
     if (isJoined) {
@@ -62,7 +62,7 @@ export const CommunityCard = ({ community }) => {
         </p>
         <div className={"w-[120px]"}>
           {community.createdBy !== user.uid && (
-            <Button py={1} onClickHandler={handleJoinLeave}>
+            <Button isDisabled={isJoining || isLeaving} py={1} onClickHandler={handleJoinLeave}>
               {isJoined ? "Joined" : "Join"}
             </Button>
           )}
