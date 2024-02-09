@@ -1,5 +1,5 @@
 import { updateDoc, doc, getDoc } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../context/AuthContext.jsx";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 import { db } from "../firebase/Firebase.js";
@@ -9,14 +9,10 @@ import { ToastStrings } from "../constants/ToastStrings.js";
 const useLeaveCommunity = () => {
   const toast = useToast();
   const { user } = useContext(UserContext);
-  const [isLeaving, setIsLeaving] = useState(false)
-  const leaveCommunity = async (communityId) => {
-    if (isLeaving)
-      return;
-    try {
-      setIsLeaving(true)
-      const userDocRef = doc(db, "Users", user.uid);
 
+  const leaveCommunity = async (communityId) => {
+    try {
+      const userDocRef = doc(db, "Users", user.uid);
       //updaing the user joined communities
       const userData = await getUserData(user?.uid);
       const joinedCommunities = userData["Joined Communities"] ?? [];
@@ -26,12 +22,11 @@ const useLeaveCommunity = () => {
       await updateDoc(userDocRef, {
         ["Joined Communities"]: updatedJoinedCommunities,
       });
-
       //updating the community
       const communityDocRef = doc(db, "Communities", communityId);
-      const community = await getDoc(communityDocRef)
+      let community = await getDoc(communityDocRef)
+      community = community.data()
       const communityMembers = community['Members'] ?? [];
-
       const updatedMembers = communityMembers.filter((id) => id !== user.uid);
       await updateDoc(communityDocRef, {
         ["Members"]: updatedMembers,
@@ -51,12 +46,10 @@ const useLeaveCommunity = () => {
         duration: ToastStrings.duration,
         isClosable: true,
       });
-    } finally {
-      setIsLeaving(false)
     }
   };
 
-  return { leaveCommunity, isLeaving };
+  return { leaveCommunity };
 };
 
 export default useLeaveCommunity;

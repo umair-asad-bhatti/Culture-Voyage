@@ -28,7 +28,9 @@ export const UserProfile = () => {
     })()
     const unSub = onSnapshot(doc(db, 'Users', user.uid), async (doc) => {
       setUser({ uid: user.uid, ...doc.data() });
+      fetchJoinedCommunities(user.uid)
     })
+
     return () => unSub()
     // handleImageUpload();
   }, []);
@@ -42,8 +44,9 @@ export const UserProfile = () => {
   return (
     <div >
       <div className="bg-primary dark:bg-secondary shadow-accent  border border-borderPrimary dark:border-borderSecondary my-2  shadow-md p-4 rounded-lg ">
-        <div className="flex items-center mb-4">
-          <div className="relative w-48 h-48 rounded-full overflow-hidden">
+        <div className="flex items-center justify-start ml-6 mb-4">
+
+          <div className="relative w-32 h-32 rounded-full overflow-hidden">
             <Img
               src={imageAsset && URL.createObjectURL(imageAsset) || userData?.Avatar || Logo}
               className="w-full h-full object-cover group"

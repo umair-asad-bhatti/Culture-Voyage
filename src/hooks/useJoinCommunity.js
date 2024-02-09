@@ -1,4 +1,4 @@
-import { updateDoc, doc } from "firebase/firestore";
+import { doc, runTransaction } from "firebase/firestore";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/AuthContext.jsx";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
@@ -30,20 +30,22 @@ const useJoinCommunity = (community) => {
     if (isJoining)
       return;
     try {
-      setIsJoining(true)
+      setIsJoining(true);
       setIsJoined(true);
       const userData = await getUserData(user?.uid);
       const joinedCommunities = userData["Joined Communities"] ?? [];
-      const userDocRef = doc(db, "Users", user.uid);
-      await updateDoc(userDocRef, {
-        ["Joined Communities"]: [...joinedCommunities, community.id],
-      });
-      const communityDocRef = doc(db, "Communities", community.id);
       const communityMembers = community.members ?? [];
-      await updateDoc(communityDocRef, {
-        ["Members"]: [...communityMembers, user.uid],
-      });
-
+      const communityDocRef = doc(db, "Communities", community.id);
+      const userDocRef = doc(db, "Users", user.uid);
+      await runTransaction(db, async (transaction) => {
+        //updating the user model
+        transaction.update(userDocRef, {
+          ["Joined Communities"]: [...joinedCommunities, community.id],
+        })
+        transaction.update(communityDocRef, {
+          ["Members"]: [...communityMembers, user.uid],
+        })
+      })
       toast({
         title: "Community Joined Successfully!",
         status: "success",

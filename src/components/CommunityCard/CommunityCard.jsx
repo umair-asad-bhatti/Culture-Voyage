@@ -10,6 +10,7 @@ import { AppRoutes } from "../../constants/AppRoutes.js";
 import { Img } from 'react-image'
 import { truncateText } from "../../utils/index.js";
 
+
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
   const { user } = useContext(UserContext);
@@ -23,6 +24,7 @@ export const CommunityCard = ({ community }) => {
     } else {
       joinCommunity(community);
     }
+
   };
 
   return (

@@ -10,9 +10,7 @@ export const useFetchJoinedCommunities = () => {
 
   const fetchJoinedCommunities = async (userId) => {
     setIsFetchingJoinedCommunities(true);
-
     const joinedCommunitiesIds = await getUserData(userId, 'Joined Communities') ?? [];
-
     if (joinedCommunitiesIds) {
       try {
         const data = [];

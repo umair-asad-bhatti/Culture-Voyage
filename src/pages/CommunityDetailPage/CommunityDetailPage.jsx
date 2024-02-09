@@ -18,10 +18,9 @@ export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
   const { CommunityData, isFetching } = useFetchCommunityDetails(id);
-
-  const { imageAsset, setImageAsset } = useUpdateImage()
+  const { imageAsset, setImageAsset, uploadImageAssetAndUpdateDoc } = useUpdateImage()
   const [allCommunityMembers, setAllCommunityMembers] = useState([])
-  const [communityGuidelines, setCommunityGuidelines] = useState('')
+  const [communityGuidelines, setCommunityGuidelines] = useState(CommunityData['Guidelines'] ?? '')
   const [communityRules, setCommunityRules] = useState([])
   const [tagInputValue, setTagInputValue] = useState('')
 
@@ -44,6 +43,7 @@ export const CommunityDetailPage = () => {
     }
     getCommunityMembers()
     setCommunityRules(CommunityData['Rules'] ?? [])
+    setCommunityGuidelines(CommunityData['Guidelines'] ?? [])
   }, [CommunityData])
   if (isFetching)
     return <div className='w-full h-full flex items-center justify-center'>
@@ -124,15 +124,14 @@ export const CommunityDetailPage = () => {
                     <span>Leave Community</span>
                   </button>
                   :
-
                   <button disabled={isJoining || isLeaving} onClick={() => { joinCommunity(CommunityData) }} className=" text-accent flex items-center justify-center gap-2 text-bold">
                     <Add size="25" className="text-accent" />
                     <span>Join Community</span>
                   </button>
               }
             </a></li>}
-            {user.uid == CommunityData['Created By'] && <li className="dark:hover:bg-darkerGrey flex hover:bg-softGrey dark:text-primary text-secondary">
-              <a href="">
+            {user.uid == CommunityData['Created By'] && <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
+              <a >
                 <UserOctagon size="20" className="dark:text-primary text-secondary" />
                 <span>Manage Users</span>
               </a>
@@ -200,9 +199,8 @@ export const CommunityDetailPage = () => {
           </div>
         </div>
       </dialog>
-      <span className={'divider'}></span>
       <div className='w-full '>
-        <div className="collapse bg-primary dark:bg-secondary border border-t-0 shadow shadow-accent border-l-0 border-r-0 border-accent">
+        <div className="collapse bg-primary dark:bg-secondary border border-t-0 border-l-0 border-r-0 border-accent">
           <input type="checkbox" />
           <div className="collapse-title md:text-2xl text-accent  font-medium">
             Guidlines
@@ -214,8 +212,8 @@ export const CommunityDetailPage = () => {
       </div>
 
 
-      <div className='w-full'>
-        <div className="collapse bg-primary dark:bg-secondary border shadow shadow-accent border-t-0 border-l-0 border-r-0 border-accent mt-4">
+      <div className='w-full rounded-none'>
+        <div className="collapse bg-primary  dark:bg-secondary border border-t-0 border-l-0 border-r-0 border-accent mt-4">
           <input type="checkbox" />
           <div className="collapse-title md:text-2xl text-accent font-medium">
             Rules
@@ -229,7 +227,11 @@ export const CommunityDetailPage = () => {
       </div>
       <span className={'divider'}></span>
     </div>
-
+    <div>
+      {
+        imageAsset && user.uid === CommunityData['Created By'] && <Button Button onClickHandler={() => uploadImageAssetAndUpdateDoc('Communities', CommunityData.id)}>Change Banner</Button>
+      }
+    </div >
   </>
 
 }
