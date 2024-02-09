@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Button from "../Button/Button.component.jsx";
 import { Divider } from "@chakra-ui/react";
 import { UserContext } from "../../context/AuthContext.jsx";
@@ -13,12 +13,8 @@ import { truncateText } from "../../utils/index.js";
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
   const { user } = useContext(UserContext);
-  const { joinCommunity, isJoined, checkJoinedStatus, setIsJoined } = useJoinCommunity();
+  const { joinCommunity, isJoined, setIsJoined } = useJoinCommunity(community);
   const { leaveCommunity } = useLeaveCommunity();
-
-  useEffect(() => {
-    checkJoinedStatus(community);
-  }, [community.id]);
 
   const handleJoinLeave = () => {
     if (isJoined) {

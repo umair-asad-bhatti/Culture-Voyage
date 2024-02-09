@@ -1,17 +1,17 @@
 import { updateDoc, doc } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/AuthContext.jsx";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 import { db } from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import { ToastStrings } from "../constants/ToastStrings.js";
 
-const useJoinCommunity = () => {
+const useJoinCommunity = (community) => {
   const toast = useToast();
   const { user } = useContext(UserContext);
   const [isJoined, setIsJoined] = useState(false);
 
-  const checkJoinedStatus = async (community) => {
+  const checkJoinedStatus = useCallback(async (community) => {
     try {
       const userData = await getUserData(user?.uid);
       const joinedCommunities = userData["Joined Communities"] || [];
@@ -19,7 +19,10 @@ const useJoinCommunity = () => {
     } catch (error) {
       console.error("Error checking joined status:", error);
     }
-  };
+  }, [user?.uid])
+  useEffect(() => {
+    checkJoinedStatus(community)
+  }, [checkJoinedStatus, community])
 
   const joinCommunity = async (community) => {
     try {

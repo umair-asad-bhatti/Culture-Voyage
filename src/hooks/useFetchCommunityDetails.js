@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getFirebaseDoc } from "../utils/Firebase Utils Functions/index.js";
-export const useFetchCommunityDetails = () => {
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/Firebase.js";
+export const useFetchCommunityDetails = (id) => {
     const [CommunityData, setCommunityData] = useState({})
     const [isFetching, setIsFetching] = useState(false)
-    const getCommunityDetails = async (id) => {
+
+    const getCommunityDetails = useCallback(async () => {
         setIsFetching(true)
         try {
             const data = await getFirebaseDoc("Communities", id)
@@ -13,6 +16,14 @@ export const useFetchCommunityDetails = () => {
         } finally {
             setIsFetching(false)
         }
-    }
-    return { getCommunityDetails, isFetching, CommunityData,setCommunityData };
+    }, [id])
+    useEffect(() => {
+        getCommunityDetails()
+        const unSub = onSnapshot(doc(db, 'Communities', id), async (doc) => {
+            setCommunityData({ id, ...doc.data() });
+        })
+        //get communitites members
+        return () => unSub()
+    }, [getCommunityDetails, id])
+    return { isFetching, CommunityData };
 }

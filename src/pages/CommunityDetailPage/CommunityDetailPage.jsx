@@ -1,4 +1,4 @@
-import { collection, doc, documentId, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { collection, doc, documentId, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { Add, Danger, Information, Receipt1, Setting4 } from 'iconsax-react';
 import { useContext, useEffect, useState } from 'react';
 import { Img } from 'react-image';
@@ -10,32 +10,25 @@ import { TagsInput } from '../../components/TagsInput/TagsInput.jsx';
 import { UploadImage } from "../../components/Upload Image/UploadImage.jsx";
 import { UserContext } from '../../context/AuthContext.jsx';
 import { db } from '../../firebase/Firebase.js';
-import * as useFetchCommunityDetailsJs from "../../hooks/useFetchCommunityDetails.js";
+import { useFetchCommunityDetails } from "../../hooks/useFetchCommunityDetails.js";
 import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
-  const { CommunityData, isFetching, getCommunityDetails, setCommunityData } = useFetchCommunityDetailsJs.useFetchCommunityDetails();
+  const { CommunityData, isFetching } = useFetchCommunityDetails(id);
   const { leaveCommunity } = useLeaveCommunity();
   const { imageAsset, setImageAsset } = useUpdateImage()
   const [allCommunityMembers, setAllCommunityMembers] = useState([])
   const [communityGuidelines, setCommunityGuidelines] = useState('')
-  const { joinCommunity, checkJoinedStatus, isJoined } = useJoinCommunity()
   const [communityRules, setCommunityRules] = useState([])
   const [tagInputValue, setTagInputValue] = useState('')
-  useEffect(() => {
-    getCommunityDetails(id)
-    const unSub = onSnapshot(doc(db, 'Communities', id), async (doc) => {
-      setCommunityData({ id, ...doc.data() });
-    })
-    //get communitites members
-    return () => unSub()
-  }, [])
+
   //fetching information of all members
+  const { joinCommunity, isJoined } = useJoinCommunity(CommunityData)
   useEffect(() => {
-    checkJoinedStatus(CommunityData)
+
     const getCommunityMembers = async () => {
       const communityMembersID = CommunityData['Members']
       if (communityMembersID) {
@@ -184,8 +177,9 @@ export const CommunityDetailPage = () => {
                     <Img src={member.Avatar} loader={<div className="md:w-20 w-8 md:h-20 h-8 rounded-full skeleton"></div>} className='rounded-full w-full h-full object-cover' />
                   </div>
                   <div>
-                    <h1 key={index} className='dark:text-primary text-secondary md:text-lg text-sm'>@{member.Username}</h1>
+                    <h1 key={index} className='dark:text-primary text-secondary md:text-lg text-sm'>@{member.Username}  {member.id === user.uid && '(you)'}</h1>
                     <h1 key={index} className='dark:text-primary text-secondary md:text-lg text-sm'>{member.Email}</h1>
+
                   </div>
                 </div>
               })

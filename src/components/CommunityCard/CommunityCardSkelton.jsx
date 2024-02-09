@@ -4,7 +4,7 @@ export default function CommunityCardSkelton() {
     return (
         <div
             className={
-                "border border-borderPrimary dark:border-borderSecondary shadow-sm shadow-accent   cursor-pointer   md:p-8 p-2 rounded-lg"
+                "cursor-pointer   md:p-8 p-2 rounded-lg"
             }
         >
             <div className="flex flex-wrap  items-center gap-4">
