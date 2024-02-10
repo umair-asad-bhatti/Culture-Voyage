@@ -1,5 +1,4 @@
 import { useContext, useEffect } from "react";
-import { Img } from 'react-image'
 import { UserContext } from "../../context/AuthContext.jsx";
 import { useParams } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
@@ -17,6 +16,7 @@ import NavigateLink from "../../components/NavigateLink/NavigateLink.component.j
 import { signOut } from "firebase/auth";
 export const UserProfile = () => {
   const { id } = useParams();
+  console.log(id);
   const { joinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities(id)
   const { userData, isFetching } = useGetUserProfileData(id);
   const { isImageChanged, setIsImageChanged, uploadImageAssetAndUpdateDoc, imageAsset, handleImageChange, isImageUpdating, setImageAsset } = useUpdateImage()
@@ -25,10 +25,9 @@ export const UserProfile = () => {
     const unSub = onSnapshot(doc(db, 'Users', user.uid), async (doc) => {
       setUser({ uid: user.uid, ...doc.data() });
     })
-
     return () => unSub()
     // handleImageUpload();
-  }, [setUser, user.uid]);
+  }, [user.uid]);
 
   if (isFetching)
     return <div className="flex items-center justify-center h-full">
