@@ -28,7 +28,7 @@ export const UserProfile = () => {
     })()
     const unSub = onSnapshot(doc(db, 'Users', user.uid), async (doc) => {
       setUser({ uid: user.uid, ...doc.data() });
-      fetchJoinedCommunities(user.uid)
+
     })
 
     return () => unSub()

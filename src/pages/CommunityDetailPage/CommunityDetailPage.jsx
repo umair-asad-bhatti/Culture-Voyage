@@ -25,10 +25,9 @@ export const CommunityDetailPage = () => {
   const [tagInputValue, setTagInputValue] = useState('')
 
   //fetching information of all members
-  const { joinCommunity, isJoined, isJoining } = useJoinCommunity(CommunityData)
+  const { joinCommunity, isJoined, isJoining, checkJoinedStatus } = useJoinCommunity(CommunityData)
   const { leaveCommunity, isLeaving } = useLeaveCommunity();
   useEffect(() => {
-
     const getCommunityMembers = async () => {
       const communityMembersID = CommunityData['Members']
       if (communityMembersID) {
@@ -38,13 +37,15 @@ export const CommunityDetailPage = () => {
           temp.push({ id: member.id, ...member.data() })
         })
         setAllCommunityMembers(temp)
-        console.log(temp);
+
       }
     }
     getCommunityMembers()
+    checkJoinedStatus(id)
     setCommunityRules(CommunityData['Rules'] ?? [])
     setCommunityGuidelines(CommunityData['Guidelines'] ?? [])
-  }, [CommunityData])
+    console.log(isJoined);
+  }, [CommunityData, isJoined])
   if (isFetching)
     return <div className='w-full h-full flex items-center justify-center'>
       <div className='w-20 h-20'><LoadingSpinner size={16} /></div>
@@ -119,12 +120,12 @@ export const CommunityDetailPage = () => {
             {user.uid != CommunityData['Created By'] && <li><a className="dark:hover:bg-darkerGrey hover:bg-softGrey ">
               {
                 isJoined ?
-                  <button disabled={isJoining || isLeaving} onClick={() => leaveCommunity(id)} className=" text-warning flex items-center justify-center gap-2">
+                  <button disabled={isLeaving} onClick={() => leaveCommunity(id)} className=" text-warning flex items-center justify-center gap-2">
                     <Danger size="20" className="text-warning" />
                     <span>Leave Community</span>
                   </button>
                   :
-                  <button disabled={isJoining || isLeaving} onClick={() => { joinCommunity(CommunityData) }} className=" text-accent flex items-center justify-center gap-2 text-bold">
+                  <button disabled={isJoining} onClick={() => { joinCommunity(id) }} className=" text-accent flex items-center justify-center gap-2 text-bold">
                     <Add size="25" className="text-accent" />
                     <span>Join Community</span>
                   </button>

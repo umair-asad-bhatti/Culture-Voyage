@@ -14,7 +14,7 @@ import { truncateText } from "../../utils/index.js";
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
   const { user } = useContext(UserContext);
-  const { joinCommunity, isJoined, setIsJoined, isJoining } = useJoinCommunity(community);
+  const { joinCommunity, isJoined, setIsJoined, isJoining } = useJoinCommunity(community.id);
   const { leaveCommunity, isLeaving } = useLeaveCommunity();
 
   const handleJoinLeave = () => {
@@ -22,7 +22,7 @@ export const CommunityCard = ({ community }) => {
       leaveCommunity(community.id);
       setIsJoined(false);
     } else {
-      joinCommunity(community);
+      joinCommunity(community.id);
     }
 
   };
