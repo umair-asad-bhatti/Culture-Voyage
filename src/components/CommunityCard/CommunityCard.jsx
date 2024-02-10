@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Button from "../Button/Button.component.jsx";
 import { Divider } from "@chakra-ui/react";
 import { UserContext } from "../../context/AuthContext.jsx";
@@ -24,7 +24,6 @@ export const CommunityCard = ({ community }) => {
     } else {
       joinCommunity(community.id);
     }
-
   };
 
   return (

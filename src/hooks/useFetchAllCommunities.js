@@ -1,31 +1,25 @@
 import { useState } from 'react'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
 import { CommunityDto } from "../dto/CommunityDto.js";
-export const useFetchAllCommunities = () => {
+import { useEffect } from 'react';
+export const useFetchAllCommunities = (userId) => {
     const [communities, setCommunities] = useState([]);
-    const [isFetchingAllCommunities, setIsFetchingAllCommunities] = useState(false)
-    const fetchAllCommunities = async (userId) => {
-        setIsFetchingAllCommunities(true)
-        try {
-            const communitiesSnapshot = await getDocs(collection(db, "Communities"));
-            const communitiesData = [];
-            communitiesSnapshot.forEach((doc) => {
-                const communityData = doc.data();
+    const [isFetchingCommunities, setIsFetchingCommunities] = useState(true);
+    useEffect(() => {
+        onSnapshot(collection(db, 'Communities'), (snapshots) => {
+            const temp = []
+            snapshots.forEach(snapshot => {
+                const communityData = snapshot.data()
                 if (communityData['Created By'] !== userId) {
                     const community_dto = new CommunityDto(communityData)
-                    communitiesData.push({ id: doc.id, ...community_dto });
+                    temp.push({ id: snapshot.id, ...community_dto });
                 }
-            });
+            })
 
-            return setCommunities(communitiesData)
-        } catch (error) {
-            console.error("Error fetching all communities:", error.message);
-        }
-        finally {
-            setIsFetchingAllCommunities(false)
-        }
-    };
-
-    return { fetchAllCommunities, communities, isFetchingAllCommunities }
+            setCommunities(temp)
+            setIsFetchingCommunities(false)
+        })
+    }, [])
+    return { communities, isFetchingCommunities }
 }

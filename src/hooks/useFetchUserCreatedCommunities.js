@@ -1,31 +1,31 @@
-import { collection, documentId, getDocs, query, where } from "firebase/firestore";
+import { collection, documentId, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CommunityDto } from "../dto/CommunityDto.js";
-export const useFetchUserCreatedCommunities = () => {
+export const useFetchUserCreatedCommunities = (userId) => {
     const [userCreatedCommunities, setUserCreatedCommunities] = useState([]);
-    const [isFetchingUserCreatedCommunities, setIsFetchingUserCreatedCommunities] = useState(false);
-    const fetchUserCreatedCommunities = async (userId) => {
-        setIsFetchingUserCreatedCommunities(true)
-        const userCreatedCommunitiesIds = await getUserData(userId, 'User Created Communities') ?? [];
-        if (userCreatedCommunitiesIds) {
-            try {
-                const data = []
-                const communityDocRef = query(collection(db, 'Communities'), where(documentId(), 'in', userCreatedCommunitiesIds))
-                const communityDocsSnapshot = await getDocs(communityDocRef);
-                communityDocsSnapshot?.forEach(doc => {
+    const [isFetchingUserCreatedCommunities, setIsFetchingUserCreatedCommunities] = useState(true);
+
+    useEffect(() => {
+        (async () => {
+            const userCreatedCommunitiesIds = await getUserData(userId, 'User Created Communities') ?? [];
+            if (userCreatedCommunitiesIds.length == 0) {
+                setIsFetchingUserCreatedCommunities(false)
+                return;
+            }
+            onSnapshot(query(collection(db, 'Communities'), where(documentId(), 'in', userCreatedCommunitiesIds)), async (snapshots) => {
+                let userCreatedCommunities = []
+                snapshots?.forEach(doc => {
                     const communityData = doc.data();
                     const community_dto = new CommunityDto(communityData)
-                    data.push({ id: doc.id, ...community_dto });
+                    userCreatedCommunities.push({ id: doc.id, ...community_dto });
                 })
-                setUserCreatedCommunities(data)
-            } catch (error) {
-                console.log("Error fetching community data:", error.message);
-            } finally {
+                setUserCreatedCommunities(userCreatedCommunities)
                 setIsFetchingUserCreatedCommunities(false)
-            }
-        }
-    }
-    return { userCreatedCommunities, fetchUserCreatedCommunities, isFetchingUserCreatedCommunities }
+            })
+        })()
+
+    }, [userCreatedCommunities.length, userId])
+    return { userCreatedCommunities, isFetchingUserCreatedCommunities }
 }
