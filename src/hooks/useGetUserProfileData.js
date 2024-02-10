@@ -1,24 +1,21 @@
-import { useState } from "react";
-import { getUserData } from "../utils/Firebase Utils Functions/index.js";
+import { useEffect, useState } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/Firebase.js";
 
-export const useGetUserProfileData = () => {
+export const useGetUserProfileData = (id) => {
 
   const [userData, setUserData] = useState({});
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
-  const getUserDetails = async (id) => {
-    setIsFetching(true);
-    try {
-      const data = await getUserData(id)
-      setUserData(data);
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setIsFetching(false);
-    }
-  };
+
+  useEffect(() => {
+    onSnapshot(doc(db, 'Users', id), snapshot => {
+      const data = snapshot.data()
+      setUserData(data)
+      setIsFetching(false)
+    })
+  }, [])
   return {
-    getUserDetails,
     isFetching,
     userData,
   };

@@ -16,24 +16,19 @@ import { AppRoutes } from "../../constants/AppRoutes.js";
 import NavigateLink from "../../components/NavigateLink/NavigateLink.component.jsx";
 import { signOut } from "firebase/auth";
 export const UserProfile = () => {
-  const { joinedCommunities, fetchJoinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities()
-  const { userData, isFetching, getUserDetails } = useGetUserProfileData();
+  const { id } = useParams();
+  const { joinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities(id)
+  const { userData, isFetching } = useGetUserProfileData(id);
   const { isImageChanged, setIsImageChanged, uploadImageAssetAndUpdateDoc, imageAsset, handleImageChange, isImageUpdating, setImageAsset } = useUpdateImage()
   const { user, setUser } = useContext(UserContext);
-  const { id } = useParams();
   useEffect(() => {
-    (async () => {
-      await getUserDetails(id);
-      await fetchJoinedCommunities(id);
-    })()
     const unSub = onSnapshot(doc(db, 'Users', user.uid), async (doc) => {
       setUser({ uid: user.uid, ...doc.data() });
-
     })
 
     return () => unSub()
     // handleImageUpload();
-  }, []);
+  }, [setUser, user.uid]);
 
   if (isFetching)
     return <div className="flex items-center justify-center h-full">
@@ -42,22 +37,21 @@ export const UserProfile = () => {
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
   return (
-    <div >
+    <div>
       <div className="bg-primary dark:bg-secondary shadow-accent  border border-borderPrimary dark:border-borderSecondary my-2  shadow-md p-4 rounded-lg ">
         <div className="flex items-center justify-start ml-6 mb-4">
-
           <div className="relative w-32 h-32 rounded-full overflow-hidden">
-            <Img
-              src={imageAsset && URL.createObjectURL(imageAsset) || userData?.Avatar || Logo}
+            <img
+              src={(imageAsset && URL.createObjectURL(imageAsset)) || userData?.Avatar || Logo}
               className="w-full h-full object-cover group"
-              loader={() => <h1>Loading...</h1>}
+
             />
             {/*show the update of user profile only if id of params is equal to logged in user*/}
             {
               id === user.uid && <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                onChange={() => handleImageChange(event, 'sm')}
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
             }
@@ -65,7 +59,6 @@ export const UserProfile = () => {
 
         </div>
         <div className={'my-4'}>
-
           {isImageChanged &&
             <div className="flex my-4">
               <div className="">

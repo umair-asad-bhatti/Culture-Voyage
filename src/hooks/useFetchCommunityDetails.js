@@ -10,7 +10,7 @@ export const useFetchCommunityDetails = (id) => {
             setCommunityData({ id, ...doc.data() });
             setIsFetching(false)
         })
-
+        return () => unSub()
     }, [id])
     return { isFetching, CommunityData };
 }
