@@ -1,7 +1,6 @@
-import { updateDoc, doc, getDoc } from "firebase/firestore";
-import { useContext } from "react";
+import { doc, runTransaction } from "firebase/firestore";
+import { useContext, useState } from "react";
 import { UserContext } from "../context/AuthContext.jsx";
-import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 import { db } from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import { ToastStrings } from "../constants/ToastStrings.js";
@@ -9,35 +8,43 @@ import { ToastStrings } from "../constants/ToastStrings.js";
 const useLeaveCommunity = () => {
   const toast = useToast();
   const { user } = useContext(UserContext);
-
+  const [isLeaving, setIsLeaving] = useState(false)
   const leaveCommunity = async (communityId) => {
+    if (isLeaving)
+      return;
     try {
+      setIsLeaving(true)
       const userDocRef = doc(db, "Users", user.uid);
-      //updaing the user joined communities
-      const userData = await getUserData(user?.uid);
-      const joinedCommunities = userData["Joined Communities"] ?? [];
-      const updatedJoinedCommunities = joinedCommunities.filter(
-        (id) => id !== communityId
-      );
-      await updateDoc(userDocRef, {
-        ["Joined Communities"]: updatedJoinedCommunities,
-      });
-      //updating the community
       const communityDocRef = doc(db, "Communities", communityId);
-      let community = await getDoc(communityDocRef)
-      community = community.data()
-      const communityMembers = community['Members'] ?? [];
-      const updatedMembers = communityMembers.filter((id) => id !== user.uid);
-      await updateDoc(communityDocRef, {
-        ["Members"]: updatedMembers,
-      });
+      await runTransaction(db, async (transaction) => {
+        const userSnapshot = await transaction.get(userDocRef)
+        const communitySnapshot = await transaction.get(communityDocRef)
 
-      toast({
-        title: "Left the Community Successfully!",
-        status: "success",
-        duration: ToastStrings.duration,
-        isClosable: true,
-      });
+        const userData = userSnapshot.data()
+        const community = communitySnapshot.data()
+
+        const joinedCommunities = userData["Joined Communities"] ?? [];
+        const updatedJoinedCommunities = joinedCommunities.filter(
+          (id) => id !== communityId
+        );
+
+        const communityMembers = community['Members'] ?? [];
+        const updatedMembers = communityMembers.filter((id) => id !== user.uid);
+        //updaing the user joined communities
+        transaction.update(userDocRef, {
+          ["Joined Communities"]: updatedJoinedCommunities,
+        });
+        transaction.update(communityDocRef, {
+          ["Members"]: updatedMembers,
+        })
+        toast({
+          title: "Left the Community Successfully!",
+          status: "success",
+          duration: ToastStrings.duration,
+          isClosable: true,
+        });
+      })
+
     } catch (error) {
       toast({
         title: "Error Leaving Community",
@@ -46,10 +53,12 @@ const useLeaveCommunity = () => {
         duration: ToastStrings.duration,
         isClosable: true,
       });
+    } finally {
+      setIsLeaving(false)
     }
   };
 
-  return { leaveCommunity };
+  return { leaveCommunity, isLeaving };
 };
 
 export default useLeaveCommunity;
