@@ -16,7 +16,6 @@ export const useFetchAllCommunities = (userId) => {
                     temp.push({ id: snapshot.id, ...community_dto });
                 }
             })
-
             setCommunities(temp)
             setIsFetchingCommunities(false)
         })

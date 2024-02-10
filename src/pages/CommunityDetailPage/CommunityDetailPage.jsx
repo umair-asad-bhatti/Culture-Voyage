@@ -37,15 +37,15 @@ export const CommunityDetailPage = () => {
           temp.push({ id: member.id, ...member.data() })
         })
         setAllCommunityMembers(temp)
-
       }
     }
-    getCommunityMembers()
     checkJoinedStatus(id)
     setCommunityRules(CommunityData['Rules'] ?? [])
     setCommunityGuidelines(CommunityData['Guidelines'] ?? [])
-    console.log(isJoined);
-  }, [CommunityData, isJoined])
+    getCommunityMembers()
+
+  }, [CommunityData, id, isJoined])
+
   if (isFetching)
     return <div className='w-full h-full flex items-center justify-center'>
       <div className='w-20 h-20'><LoadingSpinner size={16} /></div>
@@ -171,11 +171,13 @@ export const CommunityDetailPage = () => {
 
       <div className='flex items-center md:justify-end my-8 gap-8'>
         <h1 className='md:text-lg text-sm'>Total Members: {CommunityData['Members']?.length}</h1>
-        <div className=''>
-          {allCommunityMembers.length > 0 && <Button isDisabled={false} onClickHandler={() => document.getElementById('allCommunityMembers').showModal()}>
+        <div>
+
+          {CommunityData['Members'].length > 0 && <Button isDisabled={false} onClickHandler={() => document.getElementById('allCommunityMembers').showModal()}>
             <h1 className='md:text:lg text-sm'>Show All Members</h1>
           </Button>}
         </div>
+
       </div>
       <dialog id="allCommunityMembers" className="modal">
         <div className="modal-box dark:bg-secondary bg-primary">
@@ -184,15 +186,14 @@ export const CommunityDetailPage = () => {
           </form>
           <div className='h-96 w-auto'>
             {
-              allCommunityMembers && allCommunityMembers.map((member, index) => {
+              allCommunityMembers.map((member, index) => {
                 return <div key={index} className='flex p-4 gap-4 items-center justify-start '>
                   <div className='md:w-20 w-8 md:h-20 h-8 rounded-full'>
                     <Img src={member.Avatar} loader={<div className="md:w-20 w-8 md:h-20 h-8 rounded-full skeleton"></div>} className='rounded-full w-full h-full object-cover' />
                   </div>
                   <div>
-                    <h1 key={index} className='dark:text-primary text-secondary md:text-lg text-sm'>@{member.Username}  {member.id === user.uid && '(you)'}</h1>
+                    <h1 key={index + 9} className='dark:text-primary text-secondary md:text-lg text-sm'>@{member.Username}  {member.id === user.uid && '(you)'}</h1>
                     <h1 key={index} className='dark:text-primary text-secondary md:text-lg text-sm'>{member.Email}</h1>
-
                   </div>
                 </div>
               })
