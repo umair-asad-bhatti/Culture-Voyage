@@ -13,16 +13,21 @@ export const useFetchJoinedCommunities = (userId) => {
   useEffect(() => {
     (async () => {
       const joinedCommunitiesIds = await getUserData(userId, 'Joined Communities') ?? [];
-      onSnapshot(query(collection(db, 'Communities'), where(documentId(), 'in', joinedCommunitiesIds)), snapshots => {
-        let data = []
-        snapshots.forEach(snapshot => {
-          const communityData = snapshot.data();
-          const community_dto = new CommunityDto(communityData)
-          data.push({ id: snapshot.id, ...community_dto });
+      if (joinedCommunitiesIds.length > 0) {
+        onSnapshot(query(collection(db, 'Communities'), where(documentId(), 'in', joinedCommunitiesIds)), snapshots => {
+          let data = []
+          snapshots.forEach(snapshot => {
+            const communityData = snapshot.data();
+            const community_dto = new CommunityDto(communityData)
+            data.push({ id: snapshot.id, ...community_dto });
+          })
+          setJoinedCommunities(data);
+          setIsFetchingJoinedCommunities(false)
         })
-        setJoinedCommunities(data);
+      }
+      else {
         setIsFetchingJoinedCommunities(false)
-      })
+      }
 
     })()
   })

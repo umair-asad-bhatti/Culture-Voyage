@@ -22,6 +22,7 @@
     "libphonenumber-js": "^1.10.53",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
+    "react-animated-numbers": "^0.18.0",
     "react-dom": "^18.2.0",
     "react-image": "^4.1.0",
     "react-masonry-css": "^1.0.16",

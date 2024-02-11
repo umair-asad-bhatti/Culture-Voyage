@@ -1,4 +1,4 @@
-import { collection, doc, documentId, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { Add, Danger, Information, Receipt1, Setting4, UserOctagon } from 'iconsax-react';
 import { useContext, useEffect, useState } from 'react';
 import { Img } from 'react-image';
@@ -14,37 +14,33 @@ import { useFetchCommunityDetails } from "../../hooks/useFetchCommunityDetails.j
 import useLeaveCommunity from '../../hooks/useLeaveCommunity.js';
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
+import AnimatedNumbers from "react-animated-numbers";
+import useFetchAllCommunityMembers from "../../hooks/useFetchAllCommunityMembers.js";
+
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
+
   const { CommunityData, isFetching } = useFetchCommunityDetails(id);
-  const { imageAsset, setImageAsset, uploadImageAssetAndUpdateDoc } = useUpdateImage()
-  const [allCommunityMembers, setAllCommunityMembers] = useState([])
+
+
   const [communityGuidelines, setCommunityGuidelines] = useState(CommunityData['Guidelines'] ?? '')
   const [communityRules, setCommunityRules] = useState([])
   const [tagInputValue, setTagInputValue] = useState('')
 
   //fetching information of all members
+  const { imageAsset, setImageAsset, uploadImageAssetAndUpdateDoc } = useUpdateImage()
+  const { allCommunityMembers } = useFetchAllCommunityMembers(CommunityData)
   const { joinCommunity, isJoined, isJoining, checkJoinedStatus } = useJoinCommunity(CommunityData)
   const { leaveCommunity, isLeaving } = useLeaveCommunity();
+
+
+
   useEffect(() => {
-    const getCommunityMembers = async () => {
-      const communityMembersID = CommunityData['Members']
-      if (communityMembersID) {
-        const temp = []
-        const snapshot = await getDocs(query(collection(db, 'Users'), where(documentId(), 'in', communityMembersID)))
-        snapshot.forEach((member) => {
-          temp.push({ id: member.id, ...member.data() })
-        })
-        setAllCommunityMembers(temp)
-      }
-    }
     checkJoinedStatus(id)
     setCommunityRules(CommunityData['Rules'] ?? [])
     setCommunityGuidelines(CommunityData['Guidelines'] ?? [])
-    getCommunityMembers()
-
-  }, [CommunityData, id, isJoined])
+  }, [CommunityData, checkJoinedStatus, id, isJoined])
 
   if (isFetching)
     return <div className='w-full h-full flex items-center justify-center'>
@@ -170,7 +166,15 @@ export const CommunityDetailPage = () => {
       </div>
 
       <div className='flex items-center md:justify-end my-8 gap-8'>
-        <h1 className='md:text-lg text-sm'>Total Members: {CommunityData['Members']?.length}</h1>
+        Total Members:
+        <AnimatedNumbers
+          includeComma
+          transitions={(index) => ({
+            type: "spring",
+            duration: index + 0.3,
+          })}
+          animateToNumber={allCommunityMembers.length}
+        />
         <div>
 
           {CommunityData['Members'].length > 0 && <Button isDisabled={false} onClickHandler={() => document.getElementById('allCommunityMembers').showModal()}>

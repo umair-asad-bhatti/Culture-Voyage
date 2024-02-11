@@ -6,7 +6,7 @@ export default function Button({ children, onClickHandler, isDisabled, px = 2, p
         <button
             disabled={isDisabled}
             onClick={onClickHandler}
-            className={`w-full bg-buttonBackgroundColor text-buttonLightTextColor dark:text-buttonDarkTextColor font-bold rounded-lg hover:bg-buttonBackgroundOnHover  focus:outline-none focus:shadow-outline-accent px-${px} py-${py} `}
+            className={` w-full bg-buttonBackgroundColor text-buttonLightTextColor dark:text-buttonDarkTextColor font-bold rounded-lg hover:bg-buttonBackgroundOnHover  focus:outline-none focus:shadow-outline-accent px-${px} py-${py} `}
         >
             {children}
         </button>

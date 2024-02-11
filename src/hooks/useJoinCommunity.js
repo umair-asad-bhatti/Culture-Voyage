@@ -1,5 +1,5 @@
 import { doc, runTransaction } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/AuthContext.jsx";
 import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 import { db } from "../firebase/Firebase.js";
@@ -13,17 +13,17 @@ const useJoinCommunity = (communityId) => {
   const [isJoining, setIsJoining] = useState(false);
 
 
-  const checkJoinedStatus = async (communityId) => {
+  const checkJoinedStatus = useCallback(async (communityId) => {
     try {
       const joinedCommunities = await getUserData(user?.uid, 'Joined Communities');
       setIsJoined(joinedCommunities.includes(communityId));
     } catch (error) {
       console.error("Error checking joined status:", error);
     }
-  }
+  }, [user?.uid])
   useEffect(() => {
     checkJoinedStatus(communityId)
-  }, [communityId])
+  }, [checkJoinedStatus, communityId])
 
   const joinCommunity = async (communityId) => {
     if (isJoining)

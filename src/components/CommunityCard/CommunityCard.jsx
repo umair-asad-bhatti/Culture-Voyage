@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Button from "../Button/Button.component.jsx";
 import { Divider } from "@chakra-ui/react";
 import { UserContext } from "../../context/AuthContext.jsx";
@@ -9,20 +9,17 @@ import useLeaveCommunity from "../../hooks/useLeaveCommunity.js";
 import { AppRoutes } from "../../constants/AppRoutes.js";
 import { Img } from 'react-image'
 import { truncateText } from "../../utils/index.js";
-
+import AnimatedNumbers from "react-animated-numbers";
 
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
   const { user } = useContext(UserContext);
   const { joinCommunity, isJoined, setIsJoined, isJoining } = useJoinCommunity(community.id);
-  const { leaveCommunity, isLeaving } = useLeaveCommunity();
 
   const handleJoinLeave = () => {
-    if (isJoined) {
-      leaveCommunity(community.id);
-      setIsJoined(false);
-    } else {
+    if (!isJoined) {
       joinCommunity(community.id);
+      setIsJoined(true)
     }
   };
 
@@ -58,13 +55,24 @@ export const CommunityCard = ({ community }) => {
         <Divider />
       </div>
       <div className={"flex justify-between  items-center w-full"}>
-        <p className={"dark:text-textPrimary text-textSecondary"}>
-          Members: {community.members.length}
-        </p>
+        <div className="flex gap-2">
+          <p className="dark:text-textPrimary text-textSecondary">Total Members: </p>
+          <p className={"dark:text-textPrimary text-textSecondary"}>
+            <AnimatedNumbers
+              includeComma
+              transitions={(index) => ({
+                type: "spring",
+                duration: index + 0.1,
+              })}
+              animateToNumber={community.members.length}
+            />
+
+          </p>
+        </div>
         <div className={"w-[120px]"}>
           {community.createdBy !== user.uid && (
-            <Button isDisabled={isJoining || isLeaving} py={1} onClickHandler={handleJoinLeave}>
-              {isJoined ? "Joined" : "Join"}
+            <Button isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
+              {isJoined ? <h1 className={isJoined ? "cursor-not-allowed" : 'cursor-pointer'}>Joined</h1> : "Join"}
             </Button>
           )}
         </div>
