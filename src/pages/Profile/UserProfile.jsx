@@ -40,11 +40,13 @@ export const UserProfile = () => {
       <div className="bg-primary dark:bg-secondary shadow-accent  border border-borderPrimary dark:border-borderSecondary my-2  shadow-md p-4 rounded-lg ">
         <div className="flex items-center justify-start ml-6 mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden">
-            <img
-              src={(imageAsset && URL.createObjectURL(imageAsset)) || userData?.Avatar || Logo}
-              className="w-full h-full object-cover group"
+            <div className="">
+              <img
+                src={(imageAsset && URL.createObjectURL(imageAsset)) || userData?.Avatar || Logo}
+                className=" w-full h-full object-cover group"
 
-            />
+              />
+            </div>
             {/*show the update of user profile only if id of params is equal to logged in user*/}
             {
               id === user.uid && <input

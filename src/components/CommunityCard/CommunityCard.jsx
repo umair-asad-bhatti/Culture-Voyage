@@ -5,7 +5,6 @@ import { Divider } from "@chakra-ui/react";
 import { UserContext } from "../../context/AuthContext.jsx";
 import { Link } from "react-router-dom";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
-import useLeaveCommunity from "../../hooks/useLeaveCommunity.js";
 import { AppRoutes } from "../../constants/AppRoutes.js";
 import { Img } from 'react-image'
 import { truncateText } from "../../utils/index.js";
@@ -26,7 +25,7 @@ export const CommunityCard = ({ community }) => {
   return (
     <div
       className={
-        " h-content border-borderPrimary dark:border-borderSecondary shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer  p-2 md:p-8 rounded-lg"
+        " h-content border border-borderPrimary dark:border-borderSecondary shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer  p-2 md:p-8 rounded-lg"
       }
     >
       <div className="flex flex-wrap  items-center gap-4">
