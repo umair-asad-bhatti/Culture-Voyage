@@ -16,7 +16,7 @@ import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import AnimatedNumbers from "react-animated-numbers";
 import useFetchAllCommunityMembers from "../../hooks/useFetchAllCommunityMembers.js";
-
+import { CommunityDetailPageSkelton } from "./CommunityDetailPageSkelton.jsx";
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
@@ -43,9 +43,9 @@ export const CommunityDetailPage = () => {
   }, [CommunityData, checkJoinedStatus, id, isJoined])
 
   if (isFetching)
-    return <div className='w-full h-full flex items-center justify-center'>
-      <div className='w-20 h-20'><LoadingSpinner size={16} /></div>
-  </div>
+    return <div>
+      <CommunityDetailPageSkelton/>
+    </div>
   if (!isFetching && !CommunityData)
     return <h1>Error occurred</h1>
   //implement the edit community functionality
