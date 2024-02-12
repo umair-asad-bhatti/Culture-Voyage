@@ -45,7 +45,7 @@ export const CommunityDetailPage = () => {
   if (isFetching)
     return <div className='w-full h-full flex items-center justify-center'>
       <div className='w-20 h-20'><LoadingSpinner size={16} /></div>
-    </div>
+  </div>
   if (!isFetching && !CommunityData)
     return <h1>Error occurred</h1>
   //implement the edit community functionality

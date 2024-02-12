@@ -9,9 +9,8 @@ Currently, two official plugins are available:
 
 
 # TODO
-1. add light and dark mode in additional information screen
-2. show user created community using realtime as user creates new community
-
+1. Skeleton effect on 
+2. 
 
 
 

@@ -4,7 +4,6 @@ class CommunityModel {
   constructor(logo, title, description, createdBy, logoPublicID, communityType, tags, userCountry) {
     this["Created By"] = createdBy
     this["Created At"] = formatDate(new Date()) //change format
-    this["Community ID"] = '';
     this["Community Name"] = title;
     this["Small Description"] = description;
     this["Community Logo URL"] = logo
@@ -18,6 +17,7 @@ class CommunityModel {
     this['Tags'] = [...tags, communityType, userCountry, title]
     this['Community Type'] = communityType
     this["Guidelines"] = ''
+    this['Country']=userCountry
   }
 }
 export { CommunityModel };

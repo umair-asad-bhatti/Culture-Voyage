@@ -44,7 +44,6 @@ export const UserProfile = () => {
               <img
                 src={(imageAsset && URL.createObjectURL(imageAsset)) || userData?.Avatar || Logo}
                 className=" w-full h-full object-cover group"
-
               />
             </div>
             {/*show the update of user profile only if id of params is equal to logged in user*/}
@@ -57,7 +56,6 @@ export const UserProfile = () => {
               />
             }
           </div>
-
         </div>
         <div className={'my-4'}>
           {isImageChanged &&
