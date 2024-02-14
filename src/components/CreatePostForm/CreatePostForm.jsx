@@ -119,7 +119,10 @@ export function CreatePostForm() {
                         <>
                             {joinedCommunities.map((c) => {
                                 if (c['Community Name'] == postCategory) {
-                                    return <h1>{c['Community Name']}</h1>
+                                    return <div key={c.id} className="flex items-center justify-start gap-4 flex-wrap">
+                                        <img src={c['Community Logo URL']} alt="" width={50} height={50} className="rounded" />
+                                        <h1 className="dark:text-primary text-secondary">{c['Community Name']}</h1>
+                                    </div>
                                 }
                             })}
                         </>
