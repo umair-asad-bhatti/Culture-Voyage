@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../Button/Button.component";
 import InputField from "../Inputfield/InputField.component";
 import { getUserData } from "../../utils/Firebase Utils Functions";
-import { Lock } from "iconsax-react";
+import { ArrowCircleDown2, Lock } from "iconsax-react";
 
 
 
@@ -22,20 +22,27 @@ export function CreatePostForm() {
     }, [])
     const SelectIconRef = useRef(null)
     const dropdown = useRef(null)
-
+    const result = useRef(null)
     const handleClick = () => {
-        if (dropdown.current.style.display == "block")
-            dropdown.current.style.display = "none";
-        else
-            dropdown.current.style.display = "block"
+        const elem = dropdown.current
+        elem.style.display == 'block' ? elem.style.display = 'none' : elem.style.display = 'block'
+    }
+    const setActive = () => {
+        result.current.innerHTML = `${user['First Name']}`
+        dropdown.current.style.display = 'none'
     }
     return (
         <div className="flex items-center justify-around flex-wrap ">
             <div className="editor md:w-96 h-full flex flex-col text-gray-800 border border-accent rounded shadow-accent p-4 shadow-md dark:shadow-sm">
                 <div className=" relative w-full border p-2 rounded my-4 flex items-center justify-between">
-                    <div>sdf</div>
-                    <div onClick={handleClick} ref={SelectIconRef} id="select-icon"><Lock size={20} color="red" /></div>
-                    <div ref={dropdown} className="h-32 absolute hidden bg-red-500 top-10 rounded left-0 w-full">sdf</div>
+                    <div ref={result} className="dark:text-textPrimary text-textSecondary" >Select Category</div>
+                    <div onClick={handleClick} ref={SelectIconRef} id="select-icon"><ArrowCircleDown2 size={20} className="dark:text-textPrimary text-textSecondary" /></div>
+                    <div ref={dropdown} className="h-32 absolute hidden bg-darkGrey border shadow-lg p-4 top-10 rounded left-0 w-full">
+                        <div onClick={setActive}>
+
+                            <img src={user?.Avatar} alt="" width={50} height={50} className="rounded-full" />
+                        </div>
+                    </div>
                 </div>
                 <InputField type={'text'} placeholder="Title" />
                 <div className="my-4">
