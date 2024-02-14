@@ -19,6 +19,9 @@ export function CreatePostForm() {
     const userDataFromLocal = localStorage.getItem('user')
     const userId = JSON.parse(userDataFromLocal).uid
     useEffect(() => {
+        console.log(postCategory);
+    }, [postCategory])
+    useEffect(() => {
         const fetchUser = async () => {
             const UserData = await getUserData(userId)
             setUser(UserData)
@@ -109,10 +112,17 @@ export function CreatePostForm() {
 
             <div className={`md:block hidden ${postCategory != 'Select Category' ? 'border-2' : 'border-none'} dark:border-accent border-blAccent p-4 w-96`}>
                 {
-                    postCategory === (user && user['First Name']) && <div div className="card">
+                    postCategory === (user && user['First Name']) ? <div div className="card">
                         <Img loader={() => <div className="w-[50px] h-[50px] rounded-full skeleton"></div>} src={user?.Avatar} alt="" width={50} height={50} className="rounded-full" />
                         <h1 className="dark:text-textPrimary text-textSecondary">{user && user['First Name']}</h1>
-                    </div>
+                    </div> :
+                        <>
+                            {joinedCommunities.map((c) => {
+                                if (c['Community Name'] == postCategory) {
+                                    return <h1>{c['Community Name']}</h1>
+                                }
+                            })}
+                        </>
                 }
             </div>
         </div >
