@@ -23,7 +23,7 @@ const useJoinCommunity = (communityId) => {
   }, [user?.uid])
   useEffect(() => {
     checkJoinedStatus(communityId)
-  }, [checkJoinedStatus, communityId])
+  }, [communityId])
 
   const joinCommunity = async (communityId) => {
     if (isJoining)

@@ -8,7 +8,7 @@ import { CommunityListing } from "../../components/CommunityListing/CommunityLis
 
 
 export const CommunityPage = () => {
-
+  
   const { user } = useContext(UserContext);
   const { communities, isFetchingCommunities } = useFetchAllCommunities(user.uid);
   const { userCreatedCommunities, isFetchingUserCreatedCommunities } = useFetchUserCreatedCommunities(user.uid);

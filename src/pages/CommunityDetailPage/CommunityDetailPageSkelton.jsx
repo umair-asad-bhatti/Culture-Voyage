@@ -1,10 +1,10 @@
-import React from "react";
+
 
 export const CommunityDetailPageSkelton = () => {
   return (
     <>
       <div className={"w-full relative rounded-lg shadow-lg h-[300px]"}>
-        <div className=" dark:bg-secondary h-12 w-12 flex items-center justify-center rounded-full absolute top-2 left-2 skeleton"></div>
+
         <div className={"object-cover rounded-lg w-full h-full skeleton"}></div>
         <div
           className={

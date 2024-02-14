@@ -8,6 +8,7 @@ export const useFetchUserCreatedCommunities = (userId) => {
     const [isFetchingUserCreatedCommunities, setIsFetchingUserCreatedCommunities] = useState(true);
 
     useEffect(() => {
+
         (async () => {
             const userCreatedCommunitiesIds = await getUserData(userId, 'User Created Communities') ?? [];
             if (userCreatedCommunitiesIds.length == 0) {
@@ -26,6 +27,6 @@ export const useFetchUserCreatedCommunities = (userId) => {
             })
         })()
 
-    }, [userCreatedCommunities.length, userId])
+    }, [userId])
     return { userCreatedCommunities, isFetchingUserCreatedCommunities }
 }

@@ -7,8 +7,9 @@ export const useFetchAllCommunities = (userId) => {
     const [communities, setCommunities] = useState([]);
     const [isFetchingCommunities, setIsFetchingCommunities] = useState(true);
     useEffect(() => {
-        onSnapshot(collection(db, 'Communities'), (snapshots) => {
+        let unsub = onSnapshot(collection(db, 'Communities'), (snapshots) => {
             const temp = []
+            
             snapshots.forEach(snapshot => {
                 const communityData = snapshot.data()
                 if (communityData['Created By'] !== userId) {
@@ -19,6 +20,7 @@ export const useFetchAllCommunities = (userId) => {
             setCommunities(temp)
             setIsFetchingCommunities(false)
         })
-    }, [])
+        return () => unsub()
+    }, [userId])
     return { communities, isFetchingCommunities }
 }

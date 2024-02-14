@@ -23,7 +23,7 @@ export default function InputField({ type, value = '', setValue, children, maxLe
         />
       ) : (
         <input
-          placeholder={type}
+          placeholder={placeholder}
           type={!isPasswordVisible ? type : 'text'}
           name={type}
           value={value}

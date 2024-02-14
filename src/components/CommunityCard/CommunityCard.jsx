@@ -70,7 +70,7 @@ export const CommunityCard = ({ community }) => {
         </div>
         <div className={"w-[120px]"}>
           {community.createdBy !== user.uid && (
-            <Button isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
+            <Button outline={isJoined} isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
               {isJoined ? <h1 className={isJoined ? "cursor-not-allowed" : 'cursor-pointer'}>Joined</h1> : "Join"}
             </Button>
           )}

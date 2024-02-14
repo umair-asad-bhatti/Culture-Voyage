@@ -8,11 +8,13 @@ export const useGetUserProfileData = (id) => {
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    onSnapshot(doc(db, 'Users', id), snapshot => {
+    let unsub = onSnapshot(doc(db, 'Users', id), snapshot => {
       const data = snapshot.data()
       setUserData(data)
       setIsFetching(false)
+      localStorage.setItem('user', JSON.stringify(data))
     })
+    return () => unsub()
   }, [id])
   return {
 

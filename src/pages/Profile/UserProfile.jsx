@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
 import { useParams } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
@@ -6,28 +6,18 @@ import Button from "../../components/Button/Button.component.jsx";
 import { useFetchJoinedCommunities } from "../../hooks/useFetchJoinedCommunities.js";
 import { useGetUserProfileData } from "../../hooks/useGetUserProfileData.js";
 import { CommunityListing } from "../../components/CommunityListing/CommunityListing.jsx";
-import { doc, onSnapshot } from "firebase/firestore";
-import { auth, db } from "../../firebase/Firebase.js";
+import { auth } from "../../firebase/Firebase.js";
 import { useUpdateImage } from "../../hooks/useUpdateImage.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
-import { CreateCommunity } from "../../components/CreateCommunity.jsx";
 import { AppRoutes } from "../../constants/AppRoutes.js";
 import NavigateLink from "../../components/NavigateLink/NavigateLink.component.jsx";
 import { signOut } from "firebase/auth";
 export const UserProfile = () => {
   const { id } = useParams();
-  console.log(id);
   const { joinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities(id)
   const { userData, isFetching } = useGetUserProfileData(id);
   const { isImageChanged, setIsImageChanged, uploadImageAssetAndUpdateDoc, imageAsset, handleImageChange, isImageUpdating, setImageAsset } = useUpdateImage()
-  const { user, setUser } = useContext(UserContext);
-  useEffect(() => {
-    const unSub = onSnapshot(doc(db, 'Users', user.uid), async (doc) => {
-      setUser({ uid: user.uid, ...doc.data() });
-    })
-    return () => unSub()
-    // handleImageUpload();
-  }, [user.uid]);
+  const { user } = useContext(UserContext);
 
   if (isFetching)
     return <div className="flex items-center justify-center h-full">
@@ -117,18 +107,15 @@ export const UserProfile = () => {
             </dl>
           </div>
         </div>
-        <div className="my-2 md:my-4">
+        <div className="my-2 md:my-4 flex items-center justify-end gap-4">
           <NavigateLink toURL={`${AppRoutes.editProfile.baseRoute}/${id}`} data={{ id: user.uid, ...userData }}>
             Edit  Profile Information
           </NavigateLink>
-        </div>
-        <div className="md:my-8 my-4">
-          <CreateCommunity />
-        </div>
-        <div>
-          <Button onClickHandler={() => signOut(auth)} isDisabled={false}>
-            logout
-          </Button>
+          <div className="w-32">
+            <Button onClickHandler={() => signOut(auth)} isDisabled={false}>
+              Logout
+            </Button>
+          </div>
         </div>
       </div>
       <div>

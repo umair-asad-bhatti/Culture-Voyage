@@ -1,7 +1,6 @@
 import strings from "../../constants/Strings";
 import { useState, useEffect } from "react";
-import { Send } from "iconsax-react";
-import { PasswordCheck } from "iconsax-react";
+import { Lock, SmsTracking } from "iconsax-react";
 import Logo from "../../assets/Logo.png";
 import GoogleLogo from "../../assets/GoogleLogo.png";
 import InputField from "../../components/Inputfield/InputField.component";
@@ -16,12 +15,11 @@ import { useLogin } from "../../hooks/useLogin.js";
 import { useGoogleLogin } from "../../hooks/useGoogleLogin.js";
 import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
-import Lottie from "lottie-react";
-
-import hello from '../../assets/hello.json'
-
+import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "../../constants/AppRoutes.js";
 export default function LoginPage() {
   // const toast = useToast()
+  const navigate = useNavigate()
   const { user, isLoading } = useContext(UserContext);
   const { HandleLogin, isLogging } = useLogin();
   const { handleGoogleLogin, isGoogleLoading } = useGoogleLogin()
@@ -41,16 +39,16 @@ export default function LoginPage() {
       {(
         <>
           <div className="min-h-screen flex justify-between md:flex-row flex-col">
-            <div className="md:w-[50%] bg-accent  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
+            <div className="md:w-[50%] dark:bg-accent bg-blAccent  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
               <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" />
               {/* <div className="w-[300px] h-[300px]  rounded-full">
                 <Lottie animationData={hello} loop={true} />
               </div> */}
-              <h3 className="text-primary text-2xl">{strings.loginHeading1}</h3>
-              <h3 className="text-primary text-2xl text-center mt-4">
+              <h3 className="text-primary font-bold md:text-4xl">{strings.loginHeading1} ,</h3>
+              <h3 className="text-primary text-lg text-center mt-2">
                 {strings.loginHeading2}
               </h3>
-              <h3 className="text-primary text-2xl text-center ">
+              <h3 className="text-primary text-lg text-center ">
                 {strings.loginHeading3}
               </h3>
             </div>
@@ -61,17 +59,18 @@ export default function LoginPage() {
               </h3>
               <form className="md:w-96 w-full">
                 <div className="mb-4">
-                  <InputField type="email" value={email} setValue={setEmail}>
-                    <Send className={'dark:text-primary text-darkGrey'} />
+                  <InputField type="email" value={email} placeholder="Email" setValue={setEmail}>
+                    <SmsTracking className={'dark:text-primary text-darkGrey'} />
                   </InputField>
                 </div>
                 <div className="mb-4">
                   <InputField
                     type="password"
+                    placeholder="Password"
                     value={password}
                     setValue={setPassword}
                   >
-                    <PasswordCheck className={'dark:text-primary text-darkGrey'} />
+                    <Lock className={'dark:text-primary text-darkGrey'} />
                   </InputField>
                 </div>
 
@@ -96,9 +95,12 @@ export default function LoginPage() {
                 </div>
 
                 <div className="mt-4 text-center">
-                  <NavigateLink toURL={"/register"}>
+                  {/* <NavigateLink toURL={"/register"}>
                     Dont have an account? Register
-                  </NavigateLink>
+                  </NavigateLink> */}
+                  <Button outline={true} onClickHandler={() => { navigate(AppRoutes.register.route) }} isDisabled={false}>
+                    {AppRoutes.register.name}
+                  </Button>
                 </div>
                 <div className="flex justify-center items-center gap-2">
                   <div className="w-16 h-[1px] border border-gray-300"></div>

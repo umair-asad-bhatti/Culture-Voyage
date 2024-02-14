@@ -34,8 +34,8 @@ export const CreateCommunity = () => {
                         </div>
                         <div className="my-4 ">
                             <InputField
-                                type="Community Title..."
-
+                                type='text'
+                                placeholder="Community Title..."
                                 value={title}
                                 setValue={setTitle}
                             >

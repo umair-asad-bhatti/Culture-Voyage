@@ -55,7 +55,7 @@ export default function Navbar() {
       </div>
       <div className="items-center   lg:flex hidden gap-4">
         <div className="w-[300px]">
-          <InputField type="search" value={search} setValue={setSearch}>
+          <InputField type="text" placeholder="Search" value={search} setValue={setSearch}>
             <SearchNormal className={"dark:text-primary text-textPrimary"} />
           </InputField>
         </div>

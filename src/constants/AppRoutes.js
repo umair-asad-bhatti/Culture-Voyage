@@ -1,5 +1,8 @@
 const AppRoutes = {
-
+    register: {
+        name: 'Create Account',
+        route: '/register'
+    },
     home: {
         label: 'Home',
         route: '/'

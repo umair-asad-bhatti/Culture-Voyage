@@ -8,9 +8,8 @@ export const useFetchJoinedCommunities = (userId) => {
   const [joinedCommunities, setJoinedCommunities] = useState([]);
   const [isFetchingJoinedCommunities, setIsFetchingJoinedCommunities] = useState(true);
 
-
-
   useEffect(() => {
+
     (async () => {
       const joinedCommunitiesIds = await getUserData(userId, 'Joined Communities') ?? [];
       if (joinedCommunitiesIds.length > 0) {
@@ -30,7 +29,8 @@ export const useFetchJoinedCommunities = (userId) => {
       }
 
     })()
-  })
+
+  }, [userId])
 
   return { joinedCommunities, isFetchingJoinedCommunities, setJoinedCommunities };
 };

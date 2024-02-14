@@ -1,7 +1,8 @@
 const Colors = {
     primary: '#FFFFFF',//light mode bg
     secondary: '#0D1B1E', //dark mode bg
-    accent: '#32A287', //this is accent color and remain same in both theme modes
+    accent: '#32A287', //this is accent color
+    blAccent: '#3991F8',
     textPrimary: '#D5D5D5', //dark mode text color
     textSecondary: '#101010', //light mode text color
     textLight: '#FFFFFF',

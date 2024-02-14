@@ -15,9 +15,10 @@ import { AppRoutes } from '../../constants/AppRoutes.js';
 import { EditProfilePage } from '../EditProfile/EditProfilePage.jsx';
 
 
-export default function HomePage() {
 
+export default function HomePage() {
     const { isLoading } = useContext(UserContext);
+
     if (isLoading)
         return <div className={'flex items-center justify-center h-screen w-screen dark:bg-secondary bg-primary'}>
             <div className='w-20 h-20'><LoadingSpinner /></div>
@@ -30,9 +31,9 @@ export default function HomePage() {
                 </div>
             </div>
             <div className='flex justify-center items-center dark:bg-secondary'>
-                <div className='w-screen  min-h-screen xl:w-[1500px] flex'>
-                    <div className='w-[20%]  lg:block hidden '>
-                        <div className='fixed  z-50 w-[250px] '>
+                <div className='w-screen  min-h-screen xl:w-[1500px] flex '>
+                    <div className='w-[20%]  lg:block hidden border-t-0 border-l-0 border-b-0 border-r-[1px] border-borderPrimary dark:border-borderSecondary'>
+                        <div className='fixed  z-50 w-[250px]'>
                             <SideBarComponent />
                         </div>
                     </div>

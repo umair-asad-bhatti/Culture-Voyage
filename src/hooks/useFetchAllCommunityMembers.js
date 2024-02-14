@@ -18,6 +18,6 @@ export default function useFetchAllCommunityMembers(communityData) {
             }
         }
         getCommunityMembers()
-    })
+    }, [communityData])
     return { allCommunityMembers, setAllCommunityMembers }
 }

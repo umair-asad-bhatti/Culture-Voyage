@@ -5,7 +5,6 @@ import { Img } from 'react-image';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button/Button.component.jsx';
 import InputField from '../../components/Inputfield/InputField.component.jsx';
-import { LoadingSpinner } from '../../components/LoadingSpinner/LoadingSpinner.jsx';
 import { TagsInput } from '../../components/TagsInput/TagsInput.jsx';
 import { UploadImage } from "../../components/Upload Image/UploadImage.jsx";
 import { UserContext } from '../../context/AuthContext.jsx';
@@ -17,13 +16,14 @@ import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import AnimatedNumbers from "react-animated-numbers";
 import useFetchAllCommunityMembers from "../../hooks/useFetchAllCommunityMembers.js";
 import { CommunityDetailPageSkelton } from "./CommunityDetailPageSkelton.jsx";
+import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx";
 export const CommunityDetailPage = () => {
+
   const { id } = useParams();
   const { user } = useContext(UserContext);
 
+  const [activeCategory, setActiveCategory] = useState('exp')
   const { CommunityData, isFetching } = useFetchCommunityDetails(id);
-
-
   const [communityGuidelines, setCommunityGuidelines] = useState(CommunityData['Guidelines'] ?? '')
   const [communityRules, setCommunityRules] = useState([])
   const [tagInputValue, setTagInputValue] = useState('')
@@ -35,16 +35,24 @@ export const CommunityDetailPage = () => {
   const { leaveCommunity, isLeaving } = useLeaveCommunity();
 
 
-
   useEffect(() => {
     checkJoinedStatus(id)
+  }, [CommunityData, id])
+
+  useEffect(() => {
     setCommunityRules(CommunityData['Rules'] ?? [])
     setCommunityGuidelines(CommunityData['Guidelines'] ?? [])
-  }, [CommunityData, checkJoinedStatus, id, isJoined])
+  }, [CommunityData])
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Optional: for smooth scrolling behavior
+    });
+  }, [])
   if (isFetching)
     return <div>
-      <CommunityDetailPageSkelton/>
+      <CommunityDetailPageSkelton />
     </div>
   if (!isFetching && !CommunityData)
     return <h1>Error occurred</h1>
@@ -165,24 +173,28 @@ export const CommunityDetailPage = () => {
         </div>
       </div>
 
-      <div className='flex items-center md:justify-end my-8 gap-8'>
-        Total Members:
-        <AnimatedNumbers
-          includeComma
-          transitions={(index) => ({
-            type: "spring",
-            duration: index + 0.3,
-          })}
-          animateToNumber={allCommunityMembers.length}
-        />
-        <div>
+      <div className='flex items-end justify-start my-4  gap-8'>
 
+        <div className="flex items-center justify-between gap-2">
+          Total Members:
+          <AnimatedNumbers
+            includeComma
+            transitions={(index) => ({
+              type: "spring",
+              duration: index + 0.3,
+            })}
+            animateToNumber={allCommunityMembers.length}
+          />
+        </div>
+
+        <div>
           {CommunityData['Members'].length > 0 && <Button isDisabled={false} onClickHandler={() => document.getElementById('allCommunityMembers').showModal()}>
             <h1 className='md:text:lg text-sm'>Show All Members</h1>
           </Button>}
         </div>
-
       </div>
+
+      {/* Communities Members */}
       <dialog id="allCommunityMembers" className="modal">
         <div className="modal-box dark:bg-secondary bg-primary">
           <form method="dialog">
@@ -205,33 +217,31 @@ export const CommunityDetailPage = () => {
           </div>
         </div>
       </dialog>
-      <div className='w-full '>
-        <div className="collapse bg-primary dark:bg-secondary border border-t-0 border-l-0 border-r-0 border-accent">
-          <input type="checkbox" />
-          <div className="collapse-title md:text-2xl text-accent  font-medium">
-            Guidlines
-          </div>
-          <div className="collapse-content">
-            <p>{CommunityData.Guidelines?.length > 0 ? CommunityData.Guidelines : 'No Community Guidelines were specified'}</p>
-          </div>
+
+      {/* posts swaping buttons */}
+      <div className="flex items-center md:justify-end justify-start gap-6 mt-12 mb-4">
+        <div>
+          <Button onClickHandler={() => { setActiveCategory('exp') }} outline={activeCategory == 'exp' ? false : true}>
+            Experiences
+          </Button>
+        </div>
+        <div>
+          <Button onClickHandler={() => { setActiveCategory('que') }} outline={activeCategory == 'que' ? false : true}>
+            Questions
+          </Button>
         </div>
       </div>
-
-
-      <div className='w-full rounded-none'>
-        <div className="collapse bg-primary  dark:bg-secondary border border-t-0 border-l-0 border-r-0 border-accent mt-4">
-          <input type="checkbox" />
-          <div className="collapse-title md:text-2xl text-accent font-medium">
-            Rules
+      {/* actual posts */}
+      <div>
+        {activeCategory == 'exp' ? <div className="grid lg:grid-cols-2  grid-cols-1 gap-4">
+          <PostCardComponent />
+          <PostCardComponent />
+        </div> :
+          <div className="w-[600px]">
+            <PostCardComponent />
           </div>
-          <div className="collapse-content">
-            {communityRules.length > 0 ? CommunityData.Rules?.map((rule, index) => {
-              return <p key={index}> {index + 1}. {rule}</p>
-            }) : 'no Rules are specified'}
-          </div>
-        </div>
+        }
       </div>
-      <span className={'divider'}></span>
     </div>
     <div>
       {
