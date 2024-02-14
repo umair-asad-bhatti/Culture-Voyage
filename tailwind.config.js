@@ -1,17 +1,15 @@
 /** @type {import('tailwindcss').Config} */
-import {Colors} from "./src/constants/Colors.js";
+import { Colors } from "./src/constants/Colors.js";
 
 export default {
   darkMode: 'class',
   plugins: [require("daisyui")],
   daisyui: {
-
     themes: [
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
           accent: Colors.accent,
-
 
         },
       },
@@ -59,7 +57,7 @@ export default {
         'slide-in': 'slide-in 0.5s ease-out',
         'fade': 'fade-in-out 1s ease-in-out infinite alternate',
       },
-      colors: {...Colors}
+      colors: { ...Colors }
     },
   },
 
