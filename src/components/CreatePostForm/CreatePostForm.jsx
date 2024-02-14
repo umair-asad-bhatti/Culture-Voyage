@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../Button/Button.component";
 import InputField from "../Inputfield/InputField.component";
 import { getUserData } from "../../utils/Firebase Utils Functions";
-import { ArrowCircleDown2, Lock } from "iconsax-react";
+import { ArrowCircleDown2, ArrowCircleUp2 } from "iconsax-react";
+import { Img } from "react-image";
 
 
 
@@ -19,30 +20,35 @@ export function CreatePostForm() {
             setUser(UserData)
         }
         fetchUser()
-    }, [])
+    }, [userId])
     const SelectIconRef = useRef(null)
     const dropdown = useRef(null)
     const result = useRef(null)
+
     const handleClick = () => {
         const elem = dropdown.current
         elem.style.display == 'block' ? elem.style.display = 'none' : elem.style.display = 'block'
+
     }
     const setActive = () => {
 
         setPostCategory(user['First Name'])
         dropdown.current.style.display = 'none'
+        console.log(postCategory);
     }
     return (
         <div className="flex items-center justify-around flex-wrap ">
             <div className="editor md:w-96 h-full flex flex-col text-gray-800 border border-accent rounded shadow-accent p-4 shadow-md dark:shadow-sm">
                 <div className=" relative w-full border p-2 rounded my-4 flex items-center justify-between">
-                    <div ref={result} className="dark:text-textPrimary text-textSecondary" >{postCategory}</div>
-                    <div onClick={handleClick} ref={SelectIconRef} id="select-icon"><ArrowCircleDown2 size={25} className="dark:text-textPrimary text-textSecondary" /></div>
                     <div ref={dropdown} className="h-32 absolute hidden bg-darkGrey border shadow-lg p-4 top-10 rounded left-0 w-full">
                         <div onClick={setActive} className="flex items-center cursor-pointer justify-start gap-4 border border-t-0 border-l-0 border-r-0 border-b-2 pb-4">
                             <img src={user?.Avatar} alt="" width={50} height={50} className="rounded-full" />
                             <h1>{user && user['First Name']}</h1>
                         </div>
+                    </div>
+                    <div ref={result} className="dark:text-textPrimary text-textSecondary" >{postCategory}</div>
+                    <div onClick={handleClick} ref={SelectIconRef} id="select-icon">
+                        <ArrowCircleDown2 size={25} className="dark:text-textPrimary text-textSecondary" />
                     </div>
                 </div>
                 <InputField type={'text'} placeholder="Title" />
@@ -60,7 +66,7 @@ export function CreatePostForm() {
             <div className={`md:block hidden ${postCategory != 'Select Category' ? 'border-2' : 'border-none'} dark:border-accent border-blAccent p-4 w-96`}>
                 {
                     postCategory === (user && user['First Name']) && <div div className="card">
-                        <img src={user?.Avatar} alt="" width={50} height={50} className="rounded-full" />
+                        <Img loader={() => <div className="w-[50px] h-[50px] rounded-full skeleton"></div>} src={user?.Avatar} alt="" width={50} height={50} className="rounded-full" />
                         <h1 className="dark:text-textPrimary text-textSecondary">{user && user['First Name']}</h1>
                     </div>}
             </div>
