@@ -57,7 +57,7 @@ export function CreatePostForm() {
                     </Button>
                 </div>
             </div>
-            <div className={`md:block hidden ${postCategory != 'Select Category' ? 'border' : 'border-none'}  p-4 w-96`}>
+            <div className={`md:block hidden ${postCategory != 'Select Category' ? 'border-2' : 'border-none'} dark:border-accent border-blAccent p-4 w-96`}>
                 {
                     postCategory === (user && user['First Name']) && <div div className="card">
                         <img src={user?.Avatar} alt="" width={50} height={50} className="rounded-full" />
