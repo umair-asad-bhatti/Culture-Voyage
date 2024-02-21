@@ -2,7 +2,7 @@
 import { AddCircle } from "iconsax-react";
 
 // eslint-disable-next-line react/prop-types
-export const TagsInput = ({ tags, setTags, tagInputValue, setTagInputValue, placeholder }) => {
+export const TagsInput = ({ tags = [], setTags, tagInputValue, setTagInputValue, placeholder }) => {
 
 
     const handleInputChange = (e) => {

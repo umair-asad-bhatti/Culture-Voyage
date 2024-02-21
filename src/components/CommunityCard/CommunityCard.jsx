@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import { AppRoutes } from "../../constants/AppRoutes.js";
 import { Img } from 'react-image'
-import { truncateText } from "../../utils/index.js";
+// import { truncateText } from "../../utils/index.js";
 import AnimatedNumbers from "react-animated-numbers";
 
 // eslint-disable-next-line react/prop-types
@@ -35,14 +35,14 @@ export const CommunityCard = ({ community }) => {
           src={community.communityLogoUrl}
         />
         <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
-          <p className="md:text-xl text-lg font-bold text-accent hover:underline">
+          <p className="md:text-xl text-lg font-bold dark:text-accent text-blAccent hover:underline">
             {community.communityName}
           </p>
         </Link>
       </div>
       <div className="flex justify-between my-4 flex-wrap gap-6">
         <p className="text-lg dark:text-textPrimary text-textSecondary  overflow-hidden">
-          {truncateText(community.smallDescription, 50)}
+          {community.smallDescription}
         </p>
         <p className={"dark:text-textPrimary  text-textSecondary"}>
           Create At:{" "}

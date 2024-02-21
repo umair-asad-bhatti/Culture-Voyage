@@ -43,7 +43,7 @@ export default function Navbar() {
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex items-center lg:order-none order-last ">
-        <h2 className="ml-3 text-accent font-bold text-2xl">
+        <h2 className="ml-3 dark:text-accent text-blAccent font-bold text-2xl">
           Culture Voyage
         </h2>
       </div>

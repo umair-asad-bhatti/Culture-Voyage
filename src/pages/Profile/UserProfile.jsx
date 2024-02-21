@@ -27,7 +27,7 @@ export const UserProfile = () => {
 
   return (
     <div>
-      <div className="bg-primary dark:bg-secondary shadow-accent  border border-borderPrimary dark:border-borderSecondary my-2  shadow-md p-4 rounded-lg ">
+      <div className="bg-primary dark:bg-secondary border border-borderPrimary dark:border-borderSecondary my-2  p-4 rounded-lg ">
         <div className="flex items-center justify-start ml-6 mb-4">
           <div className="relative w-32 h-32 rounded-full overflow-hidden">
             <div className="">

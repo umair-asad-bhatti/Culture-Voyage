@@ -17,7 +17,7 @@ class CommunityModel {
     this['Tags'] = [...tags, communityType, userCountry, title]
     this['Community Type'] = communityType
     this["Guidelines"] = ''
-    this['Country']=userCountry
+    this['Country'] = userCountry
   }
 }
 export { CommunityModel };

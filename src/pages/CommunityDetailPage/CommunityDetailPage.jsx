@@ -157,7 +157,7 @@ export const CommunityDetailPage = () => {
     </div>
 
     <div className={'w-full dark:text-textPrimary text-textSecondary my-12'}>
-      <h1 className={'font-extrabold  text-2xl text-accent my-2'}>{CommunityData['Community Name']} </h1>
+      <h1 className={'font-extrabold  text-2xl dark:text-accent text-blAccent my-2'}>{CommunityData['Community Name']} </h1>
       <h1><span className={'font-extrabold my-2'}>Created At :</span>{CommunityData['Created At']}</h1>
       <h1 className={'font-extrabold mt-2'}>Description: </h1>
       <h1 className={'dark:text-textPrimary text-textSecondary w-96'}>{CommunityData['Small Description']}</h1>
@@ -166,8 +166,8 @@ export const CommunityDetailPage = () => {
         <h1 className={'font-extrabold'}>Related Tags</h1>
         <div>
           {
-            CommunityData['Tags']?.map((tag) => {
-              return <span key={tag} className={`border-none mx-1 p-4 md:my-0 my-2 badge bg-accent text-white`}>{tag}</span>
+            CommunityData['Tags'].length > 0 && CommunityData['Tags']?.map((tag) => {
+              return <span key={tag} className={`border-none mx-1 p-4 md:my-0 my-2 badge dark:bg-accent bg-blAccent text-white`}>{tag}</span>
             })
           }
         </div>

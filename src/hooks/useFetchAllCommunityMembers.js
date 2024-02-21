@@ -7,8 +7,9 @@ export default function useFetchAllCommunityMembers(communityData) {
     const [allCommunityMembers, setAllCommunityMembers] = useState([])
     useEffect(() => {
         const getCommunityMembers = async () => {
-            const communityMembersID = communityData['Members']
-            if (communityMembersID) {
+            let communityMembersID = []
+            communityMembersID = communityData['Members']
+            if (communityMembersID.length > 0) {
                 const temp = []
                 const snapshot = await getDocs(query(collection(db, 'Users'), where(documentId(), 'in', communityMembersID)))
                 snapshot.forEach((member) => {

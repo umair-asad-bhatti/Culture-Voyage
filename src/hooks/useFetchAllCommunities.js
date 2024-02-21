@@ -9,7 +9,6 @@ export const useFetchAllCommunities = (userId) => {
     useEffect(() => {
         let unsub = onSnapshot(collection(db, 'Communities'), (snapshots) => {
             const temp = []
-            
             snapshots.forEach(snapshot => {
                 const communityData = snapshot.data()
                 if (communityData['Created By'] !== userId) {
