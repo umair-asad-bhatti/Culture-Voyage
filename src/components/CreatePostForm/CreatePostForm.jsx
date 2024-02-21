@@ -68,7 +68,7 @@ export function CreatePostForm() {
     }
     return (
         <div className="flex items-start justify-around flex-wrap p-4">
-            <div className="editor md:w-96 min-h-[300px] flex flex-col text-gray-800   p-4 shadow-md dark:shadow-darkGrey dark:shadow-sm">
+            <div className="editor   md:w-96 flex flex-col text-gray-800   p-4 shadow-md dark:border-borderSecondary border-borderPrimary border-2 rounded-lg dark:shadow-sm">
                 {/* active tabs button */}
                 <div className="flex gap-2">
                     <Button onClickHandler={() => { setActiveTab('details') }} outline={activeTab == 'details' ? false : true}>
@@ -117,7 +117,7 @@ export function CreatePostForm() {
                             </div>
                         </> :
                             <>
-                                <div className="h-auto my-8">
+                                <div className="min-h-auto my-8">
                                     {/* <UploadImage fullSize={true} imageAsset={imageAsset} setImageAsset={setImageAsset} imgCompressionSize="lg" /> */}
                                     <label>
                                         <div className="flex flex-col items-center justify-center">
@@ -164,7 +164,7 @@ export function CreatePostForm() {
 
 
 
-            <div className={`md:block hidden ${postCategory != 'Select Category' ? 'border-2' : 'border-none'} dark:border-accent border-blAccent p-4 w-96`}>
+            <div className={`md:block hidden rounded-lg shadow-lg ${postCategory != 'Select Category' ? 'border-2' : 'border-none'} dark:border-borderSecondary border-borderPrimary p-4 w-96`}>
                 {
                     postCategory === (user && user['First Name']) ? <div div className="card">
                         <div className="flex items-center justify-center">
@@ -172,7 +172,7 @@ export function CreatePostForm() {
                         </div>
                         <h1 className="dark:text-textPrimary text-textSecondary text-center">{user && user['First Name']}</h1>
                     </div> :
-                        <>
+                        <div className="">
                             {joinedCommunities.map((c) => {
                                 if (c['Community Name'] == postCategory) {
                                     return <div key={c.id} className="h-96">
@@ -184,7 +184,7 @@ export function CreatePostForm() {
                                     </div>
                                 }
                             })}
-                        </>
+                        </div>
                 }
             </div>
         </div >
