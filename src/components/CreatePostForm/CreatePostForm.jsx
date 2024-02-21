@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../Button/Button.component";
 import InputField from "../Inputfield/InputField.component";
 import { getUserData } from "../../utils/Firebase Utils Functions";
-import { ArrowCircleDown2, DocumentUpload } from "iconsax-react";
+import { ArrowCircleDown2, DocumentUpload, Trash } from "iconsax-react";
 import { Img } from "react-image";
 import { collection, documentId, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase/Firebase";
@@ -42,7 +42,14 @@ export function CreatePostForm() {
         fetchUserDetailsAndCommunities()
     }, [userId])
     const handleImageChange = (e) => {
-        setImageAsset([...imageAsset, e.target.files[0]])
+        if (e.target.files[0])
+            setImageAsset([...imageAsset, e.target.files[0]])
+
+    }
+    const handleDelete = (image) => {
+        const res = imageAsset.filter(i => i != image)
+        console.log(res);
+        setImageAsset([...res])
     }
 
     const SelectIconRef = useRef(null)
@@ -54,6 +61,7 @@ export function CreatePostForm() {
         elem.style.display == 'block' ? elem.style.display = 'none' : elem.style.display = 'block'
 
     }
+
     const setActive = (active) => {
         setPostCategory(active)
         dropdown.current.style.display = 'none'
@@ -124,7 +132,6 @@ export function CreatePostForm() {
                                             </p>
                                         </div>
                                         <input
-                                            ref={{}}
                                             type="file"
                                             name="upload-image"
                                             onChange={handleImageChange}
@@ -141,7 +148,10 @@ export function CreatePostForm() {
                                         columnClassName="my-masonry-grid_column">
                                         {
                                             imageAsset.length > 0 && imageAsset.map(img => {
-                                                return <img key={img} src={URL.createObjectURL(img)} />
+                                                return <div key={img} className="relative">
+                                                    <div onClick={() => handleDelete(img)} className="absolute bg-primary dark:bg-secondary  top-2 left-2 rounded-full p-2"><Trash size="25" color="#FF8A65" /></div>
+                                                    <img src={URL.createObjectURL(img)} />
+                                                </div>
                                             })
                                         }
                                     </Masonry >
