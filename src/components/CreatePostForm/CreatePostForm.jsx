@@ -94,7 +94,7 @@ export function CreatePostForm() {
                                         {
                                             joinedCommunities.map((c) => {
                                                 return <div key={c.id} onClick={() => setActive(c['Community Name'])} className="flex items-center cursor-pointer justify-start gap-4 py-4">
-                                                    <img src={c['Community Logo URL']} alt="" width={50} height={50} className="rounded-full" />
+                                                    <img src={c['Community Logo URL']} alt="" style={{ width: 50, height: 50 }} className="rounded-full" />
                                                     <h1>{c['Community Name']}</h1>
                                                 </div>
                                             })
@@ -147,8 +147,8 @@ export function CreatePostForm() {
                                         className="my-masonry-grid "
                                         columnClassName="my-masonry-grid_column">
                                         {
-                                            imageAsset.length > 0 && imageAsset.map(img => {
-                                                return <div key={img} className="relative">
+                                            imageAsset.length > 0 && imageAsset.map((img, index) => {
+                                                return <div key={index} className="relative">
                                                     <div onClick={() => handleDelete(img)} className="absolute bg-primary dark:bg-secondary  top-2 left-2 rounded-full p-2"><Trash size="25" color="#FF8A65" /></div>
                                                     <img src={URL.createObjectURL(img)} />
                                                 </div>

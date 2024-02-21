@@ -29,11 +29,14 @@ export const CommunityCard = ({ community }) => {
       }
     >
       <div className="flex flex-wrap  items-center gap-4">
-        <Img
-          loader={<div className="w-20 h-20 rounded-full skeleton"></div>}
-          className="w-20 h-20 rounded-full"
-          src={community.communityLogoUrl}
-        />
+        <div className="w-20 h-20 rounded-full">
+          <Img
+            loader={<div className="w-full h-full rounded-full skeleton"></div>}
+            className="w-full h-full rounded-full"
+            src={community.communityLogoUrl}
+
+          />
+        </div>
         <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
           <p className="md:text-xl text-lg font-bold dark:text-accent text-blAccent hover:underline">
             {community.communityName}
