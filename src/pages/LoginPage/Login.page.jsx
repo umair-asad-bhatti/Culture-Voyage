@@ -53,7 +53,7 @@ export default function LoginPage() {
               </h3>
             </div>
 
-            <div className=" md:h-auto h-screen gap-2 p-8 rounded dark:bg-secondary  md:w-[50%] flex flex-col justify-center items-center ">
+            <div className=" md:h-auto h-screen gap-2 p-8  dark:bg-secondary  md:w-[50%] flex flex-col justify-center items-center ">
               <h3 className="dark:text-primary md:hidden block text-2xl text-center ">
                 Login
               </h3>
@@ -76,7 +76,7 @@ export default function LoginPage() {
 
                 <div className="text-right my-4">
                   <NavigateLink toURL={"/forgetpassword"}>
-                    Forgot Password
+                    Forgot Password?
                   </NavigateLink>
                 </div>
                 <div className="my-4">
@@ -104,7 +104,7 @@ export default function LoginPage() {
                 </div>
                 <div className="flex justify-center items-center gap-2">
                   <div className="w-16 h-[1px] border border-gray-300"></div>
-                  <h1 className="text-center my-4 dark:text-primary">Or signin with</h1>
+                  <h1 className="text-center my-4 dark:text-primary">Or Sign-In With</h1>
                   <div className="w-16 h-[1px] border border-gray-300"></div>
                 </div>
 
@@ -112,7 +112,7 @@ export default function LoginPage() {
                   {isGoogleLoading ? (
                     <LoadingSpinner size={'sm'} />
                   ) : (
-                    <img src={GoogleLogo} alt="" width={30} height={30} />
+                    <img src={GoogleLogo} alt="" width={20} height={20} />
                   )}
                 </SocialMediaButton>
               </form>

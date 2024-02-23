@@ -8,12 +8,11 @@ const SideBarComponent = () => {
     const location = useLocation()
     const { user } = useContext(UserContext);
     const [activeTab, setActiveTab] = useState(location.pathname === '/' ? '/' : location.pathname.slice(1))
-    console.log('pathname', location.pathname.slice(1));
-    console.log('ac', activeTab);
+
     return (
         <>
             <div className="w-full px-2 ">
-                <div className="mt-4 flex flex-col gap-5 relative  ">
+                <div className="flex flex-col gap-5 relative  ">
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Home'} to={'/'}>
                         <Home variant={activeTab === '/' ? 'Bold' : 'Outline'} />
                     </SideBarTab>
@@ -21,7 +20,7 @@ const SideBarComponent = () => {
                     {/* <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Recommended'} to={'/lkj'}>
                         <Like1 variant={activeTab.includes('recommended') ? 'Bold' : 'Outline'} />
                     </SideBarTab> */}
-                    <hr className="h-px my-4 bg-gray-400"></hr>
+
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} to='communities' label={'Communities'}>
                         <People variant={activeTab === 'communities' ? 'Bold' : 'Outline'} />
                     </SideBarTab>
@@ -34,7 +33,7 @@ const SideBarComponent = () => {
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'} to={`profile/${user?.uid}`}>
                         <User variant={activeTab === (`profile/${user?.uid}`) ? 'Bold' : 'Outline'} />
                     </SideBarTab>
-                    <hr className="h-px my-4 bg-gray-400 "></hr>
+
                 </div>
             </div>
         </>

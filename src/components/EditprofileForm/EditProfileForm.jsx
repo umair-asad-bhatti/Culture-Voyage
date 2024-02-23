@@ -19,8 +19,8 @@ export function EditProfileForm() {
     return (
         <div className="w-full flex justify-around">
 
-            <div className="w-96">
-                <div className="mb-4 flex gap-4">
+            <div className="w-96 bg-primary dark:bg-transparent p-4 rounded-xl shadow-lg" >
+                <div className="mb-4 flex gap-4 ">
                     <div>
                         <h1 className="dark:text-textPrimary text-textSecondary my-2">First Name</h1>
                         <InputField value={firstname} setValue={setFirstname} >

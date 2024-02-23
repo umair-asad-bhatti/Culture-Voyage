@@ -5,8 +5,7 @@ import Button from "../Button/Button.component";
 import InputField from "../Inputfield/InputField.component";
 import { getUserData } from "../../utils/Firebase Utils Functions";
 import { ArrowCircleDown2, DocumentUpload, Trash } from "iconsax-react";
-import { Img } from "react-image";
-import { collection, documentId, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc, } from "firebase/firestore";
 import { db } from "../../firebase/Firebase";
 import Masonry from "react-masonry-css";
 import './style.css'
@@ -25,22 +24,27 @@ export function CreatePostForm() {
     const userId = JSON.parse(userDataFromLocal).uid
 
     useEffect(() => {
-        console.log(postCategory);
-    }, [postCategory])
-    useEffect(() => {
         const fetchUserDetailsAndCommunities = async () => {
-            const UserData = await getUserData(userId)
-            setUser(UserData)
-            const joinedCommunitiesIDS = UserData['Joined Communities']
-            const snapshots = await getDocs(query(collection(db, 'Communities'), where(documentId(), 'in', joinedCommunitiesIDS)))
-            let temp = []
-            snapshots.forEach((snapshot) => {
-                temp.push({ id: snapshot.id, ...snapshot.data() })
-            })
-            setJoinedCommunities(temp)
-        }
-        fetchUserDetailsAndCommunities()
-    }, [userId])
+            try {
+                const UserData = await getUserData(userId);
+                const joinedCommunitiesIDS = UserData['Joined Communities'];
+                if (joinedCommunitiesIDS.length > 0) {
+                    const communityPromises = joinedCommunitiesIDS.map(async (communityId) => {
+                        const communitySnapshot = await getDoc(doc(db, 'Communities', communityId));
+                        return { id: communitySnapshot.id, ...communitySnapshot.data() };
+                    });
+                    const communitiesData = await Promise.all(communityPromises);
+                    setJoinedCommunities(communitiesData);
+                } else {
+                    setJoinedCommunities([])
+                }
+                setUser(UserData);
+            } catch (error) {
+                console.error("Error fetching user details and communities:", error);
+            }
+        };
+        fetchUserDetailsAndCommunities();
+    }, [userId]);
     const handleImageChange = (e) => {
         if (e.target.files[0])
             setImageAsset([...imageAsset, e.target.files[0]])
@@ -51,7 +55,9 @@ export function CreatePostForm() {
         console.log(res);
         setImageAsset([...res])
     }
-
+    useEffect(() => {
+        console.log(postCategory);
+    }, [postCategory])
     const SelectIconRef = useRef(null)
     const dropdown = useRef(null)
     const result = useRef(null)
@@ -59,7 +65,6 @@ export function CreatePostForm() {
     const handleClick = () => {
         const elem = dropdown.current
         elem.style.display == 'block' ? elem.style.display = 'none' : elem.style.display = 'block'
-
     }
 
     const setActive = (active) => {
@@ -67,8 +72,8 @@ export function CreatePostForm() {
         dropdown.current.style.display = 'none'
     }
     return (
-        <div className="flex items-start justify-around flex-wrap p-4">
-            <div className="editor   md:w-96 flex flex-col text-gray-800   p-4 shadow-md dark:border-borderSecondary border-borderPrimary border-2 rounded-lg dark:shadow-sm">
+        <div className="flex items-start justify-start gap-4 flex-wrap p-4">
+            <div className="editor bg-primary dark:bg-transparent   md:w-[600px] flex flex-col text-gray-800   p-4 shadow-md dark:border-borderSecondary border-borderPrimary border-2 rounded-xl dark:shadow-sm">
                 {/* active tabs button */}
                 <div className="flex gap-2">
                     <Button onClickHandler={() => { setActiveTab('details') }} outline={activeTab == 'details' ? false : true}>
@@ -92,12 +97,15 @@ export function CreatePostForm() {
                                     communities
                                     <div>
                                         {
-                                            joinedCommunities.map((c) => {
-                                                return <div key={c.id} onClick={() => setActive(c['Community Name'])} className="flex items-center cursor-pointer justify-start gap-4 py-4">
-                                                    <img src={c['Community Logo URL']} alt="" style={{ width: 50, height: 50 }} className="rounded-full" />
-                                                    <h1>{c['Community Name']}</h1>
-                                                </div>
-                                            })
+                                            joinedCommunities.length > 0 ?
+                                                joinedCommunities.map((c) => {
+                                                    return <div key={c.id} onClick={() => setActive(c['Community Name'])} className="flex items-center cursor-pointer justify-start gap-4 py-4">
+                                                        <img src={c['Community Logo URL']} alt="" style={{ width: 50, height: 50 }} className="rounded-full object-cover" />
+
+                                                        <h1>{c['Community Name']}</h1>
+                                                    </div>
+                                                })
+                                                : 'No Joined Communities'
                                         }
                                     </div>
                                 </div>
@@ -164,11 +172,12 @@ export function CreatePostForm() {
 
 
 
-            <div className={`md:block hidden rounded-lg shadow-lg ${postCategory != 'Select Category' ? 'border-2' : 'border-none'} dark:border-borderSecondary border-borderPrimary p-4 w-96`}>
+            <div className={`md:block hidden rounded-xl   ${postCategory != 'Select Category' ? 'shadow-lg border-2 bg-primary dark:bg-transparent dark:border-borderSecondary border-borderPrimary' : 'border-none'}  p-2 w-96`}>
+
                 {
                     postCategory === (user && user['First Name']) ? <div div className="card">
                         <div className="flex items-center justify-center">
-                            <Img src={user?.Avatar} alt="" className="rounded-full  block  w-24 h-24" />
+                            <img src={user?.Avatar} alt="" className="rounded object-cover  block  w-24 h-24" />
                         </div>
                         <h1 className="dark:text-textPrimary text-textSecondary text-center">{user && user['First Name']}</h1>
                     </div> :
@@ -178,15 +187,22 @@ export function CreatePostForm() {
                                     return <div key={c.id} className="h-96">
                                         <div className="relative">
                                             <img src={c['Banner URL']} alt="" className="w-full h-32 object-cover block" />
-                                            <img src={c['Community Logo URL']} alt="" className="-bottom-16 left-[35%]  rounded-full block absolute w-24 h-24" />
+                                            <img src={c['Community Logo URL']} alt="" className="-bottom-14 left-[35%] object-cover  rounded-full block absolute w-24 h-24" />
                                         </div>
-                                        <h1 className="dark:text-primary text-secondary my-20">Name:{c['Community Name']}</h1>
+                                        <h1 className="dark:text-primary font-bold text-secondary mt-20">{c['Community Name']}</h1>
+                                        <p>{c['Small Description']}</p>
+                                        <div className="divider"></div>
+                                        <h1 className="dark:text-primary font-bold text-secondary">Members:  {c['Members'].length}</h1>
+
                                     </div>
                                 }
                             })}
                         </div>
                 }
             </div>
+
         </div >
+
+
     )
 }

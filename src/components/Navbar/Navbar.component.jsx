@@ -11,6 +11,7 @@ import Button from '../Button/Button.component'
 import SideBarComponent from "../SideBar/SideBar.component";
 import { Colors } from "../../constants/Colors";
 import { AppRoutes } from "../../constants/AppRoutes";
+import { CreateCommunity } from "../CreateCommunity";
 export default function Navbar() {
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");
@@ -59,9 +60,10 @@ export default function Navbar() {
             <SearchNormal className={"dark:text-primary text-textPrimary"} />
           </InputField>
         </div>
-        <div className="w-[100px]">
+        <div className="w-[100px] flex items-center justify-center gap-2">
           <Button onClickHandler={signout}>Logout</Button>
         </div>
+        <CreateCommunity renderButton={false} />
         <Link to={`${AppRoutes.profile.baseRoute}/${user?.uid}`}>
           <img
             style={{ width: 50, height: 50 }}

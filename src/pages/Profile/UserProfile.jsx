@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
 import { useParams } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
@@ -18,6 +18,7 @@ export const UserProfile = () => {
   const { userData, isFetching } = useGetUserProfileData(id);
   const { isImageChanged, setIsImageChanged, uploadImageAssetAndUpdateDoc, imageAsset, handleImageChange, isImageUpdating, setImageAsset } = useUpdateImage()
   const { user } = useContext(UserContext);
+  const [activeTab, setActiveTab] = useState('myprofile')
 
   if (isFetching)
     return <div className="flex items-center justify-center h-full">
@@ -26,17 +27,16 @@ export const UserProfile = () => {
   if (!isFetching && !userData) return <h1>Error occurred</h1>;
 
   return (
-    <div>
-      <div className="bg-primary dark:bg-secondary border border-borderPrimary dark:border-borderSecondary my-2  p-4 rounded-lg ">
-        <div className="flex items-center justify-start ml-6 mb-4">
-          <div className="relative w-32 h-32 rounded-full overflow-hidden">
-            <div className="">
-              <img
-                src={(imageAsset && URL.createObjectURL(imageAsset)) || userData?.Avatar || Logo}
-                className=" w-full h-full object-cover group"
-              />
-            </div>
-            {/*show the update of user profile only if id of params is equal to logged in user*/}
+    <>
+      <h1 className='font-bold md:text-lg text-md '>User profile</h1>
+      <div className="flex gap-16 items-start justify-start">
+        {/* profile card */}
+        <div className="bg-primary dark:border-borderPrimary dark:border dark:bg-transparent w-96 p-8 shadow flex-col flex items-center justify-center rounded-xl">
+          <div className="w-24 h-24 rounded-full relative">
+            <img
+              src={(imageAsset && URL.createObjectURL(imageAsset)) || userData?.Avatar || Logo}
+              className=" w-full h-full object-cover group rounded-full"
+            />
             {
               id === user.uid && <input
                 type="file"
@@ -46,87 +46,89 @@ export const UserProfile = () => {
               />
             }
           </div>
-        </div>
-        <div className={'my-4'}>
           {isImageChanged &&
-            <div className="flex my-4">
-              <div className="">
-                <Button isDisabled={isImageUpdating} onClickHandler={() => uploadImageAssetAndUpdateDoc('Users', user.uid)}>
-                  {isImageUpdating ? 'Updating...' : 'save image'}
-                </Button >
-              </div>
-              <div className=" ml-2">
-                <Button isDisabled={false} onClickHandler={() => { setImageAsset(null); setIsImageChanged(false) }}>Cancel </Button>
+            <div className={'my-4'}>
+              <div className="flex my-4">
+                <div className="">
+                  <Button isDisabled={isImageUpdating} onClickHandler={() => uploadImageAssetAndUpdateDoc('Users', user.uid)}>
+                    {isImageUpdating ? 'Updating...' : 'save image'}
+                  </Button >
+                </div>
+                <div className=" ml-2">
+                  <Button isDisabled={false} onClickHandler={() => { setImageAsset(null); setIsImageChanged(false) }}>Cancel </Button>
+                </div>
               </div>
             </div>
           }
-        </div>
-        <div className="bg-primary dark:bg-secondary w-full shadow overflow-hidden sm:rounded-lg  ">
-          <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-textSecondary dark:text-textPrimary">
-              User Information
-            </h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">
-              Details and informations about user.
-            </p>
-          </div>
-          <div className="border-t border-gray-200">
-            <dl className="bg-primary dark:bg-secondary">
-              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
-                <dt className="text-sm font-medium dark:text-textPrimary text-textSecondary">
-                  Full name
-                </dt>
-                <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2 dark:text-primary text-textSecondary">
-                  {`${userData?.["First Name"]} ${userData?.["Last Name"]}`}
-                </dd>
-              </div>
-              <div className="bg-gray-50 dark:bg-secondary px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium dark:text-primary text-textSecondary">
-                  Email address
-                </dt>
-                <dd className="mt-1 text-sm dark:text-primary text-textSecondary sm:mt-0 sm:col-span-2">
-                  {userData?.Email}
-                </dd>
-              </div>
-              <div className="bg-white dark:bg-secondary px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium dark:text-primary text-textSecondary">
-                  User Name
-                </dt>
-                <dd className="mt-1 text-sm dark:text-primary text-textSecondary sm:mt-0 sm:col-span-2">
-                  {userData?.Username}
-                </dd>
-              </div>
-              <div className="bg-gray-50 dark:bg-secondary px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium dark:text-primary text-textSecondary">
-                  About
-                </dt>
-                <dd className="mt-1 text-sm dark:text-primary text-textSecondary sm:mt-0 sm:col-span-2">
-                  {userData?.About || 'Not about defiend yet'}
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-        <div className="my-2 md:my-4 flex items-center justify-end gap-4">
-          <NavigateLink toURL={`${AppRoutes.editProfile.baseRoute}/${id}`} data={{ id: user.uid, ...userData }}>
-            Edit  Profile Information
-          </NavigateLink>
-          <div className="w-32">
-            <Button onClickHandler={() => signOut(auth)} isDisabled={false}>
-              Logout
-            </Button>
-          </div>
-        </div>
-      </div>
-      <div>
 
-        {
-          user.uid === id && <div>
-            <p className="py-2 font-bold text-lg dark:text-primary">Joined Communities</p>
-            <CommunityListing communities={joinedCommunities} isFetching={isFetchingJoinedCommunities} />
+          <h1 className=" text-md  mt-4 text-textSecondary dark:text-textPrimary">    {userData?.Email}</h1>
+          {/* <h1 className="font-bold text-xl  text-textSecondary dark:text-textPrimary"> {`${userData?.["First Name"]} ${userData?.["Last Name"]}`}</h1> */}
+          <h1 className="font-bold text-xl  text-textSecondary dark:text-textPrimary"> {`${userData?.["Username"]}`}</h1>
+          {user.uid == id && <div className="mt-4">
+            <NavigateLink toURL={`${AppRoutes.editProfile.baseRoute}/${id}`} data={{ id: user.uid, ...userData }}>
+              Edit  Profile Information
+            </NavigateLink>
+            <div className="mt-4">
+              <Button onClickHandler={() => signOut(auth)} isDisabled={false} outline={false}>Logout</Button>
+            </div>
+          </div>}
+
+        </div>
+
+
+        <div className="w-[500px]"> {/* right side content */}
+          {/* top button group */}
+          <div className="bg-primary dark:bg-transparent gap-8 flex justify-between items-center rounded py-2 shadow px-8 dark:border">
+            <h1 onClick={() => setActiveTab('myprofile')} className={`font-semibold cursor-pointer  ${activeTab == 'myprofile' ? 'text-blAccent dark:text-accent' : 'dark:text-textPrimary'}`}>My profile</h1>
+            <h1 onClick={() => setActiveTab('notification')} className={`font-semibold cursor-pointer ${activeTab == 'notification' ? 'text-blAccent dark:text-accent ' : 'dark:text-textPrimary'}`}>Notifications</h1>
+            <h1 onClick={() => setActiveTab('posts')} className={`font-semibold cursor-pointer  ${activeTab == 'posts' ? 'text-blAccent  dark:text-accent' : 'dark:text-textPrimary'}`}>Posts</h1>
           </div>
-        }
+          {/* top button group end */}
+
+
+          {/* content section */}
+          <div className="p-2 my-2">
+            {
+              activeTab == 'myprofile' && <div>
+
+
+                <div className="flex justify-start items-center gap-16">
+                  <div>
+                    <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">First Name</h1>
+                    <h1 className="text-textSecondary dark:text-textPrimary">
+
+                      {userData?.["First Name"]}
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">Last Name</h1>
+                    <h1 className="text-textSecondary dark:text-textPrimary">
+
+                      {userData?.["Last Name"]}
+                    </h1>
+                  </div>
+                </div>
+                <div className="my-4">
+                  <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">About Me</h1>
+                  <h1 className="text-textSecondary dark:text-textPrimary">{userData?.About || 'Not about defiend yet text-textSecondary dark:text-textPrimary'}</h1>
+                </div>
+                <div className="divider dark:divier"></div>
+                <div>
+                  Total Posts: 0
+                </div>
+              </div>
+            }
+          </div>
+        </div>{/* right side content end */}
       </div>
-    </div >
+
+      {
+        user.uid === id && <div>
+          <p className="py-2 font-bold text-lg dark:text-primary">Joined Communities</p>
+          <CommunityListing communities={joinedCommunities} isFetching={isFetchingJoinedCommunities} />
+        </div>
+      }
+
+    </>
   );
 };

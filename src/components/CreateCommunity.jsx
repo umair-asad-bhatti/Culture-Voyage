@@ -5,8 +5,11 @@ import { useCreateCommunity } from "../hooks/useCreateCommunity.js";
 import Button from '../components/Button/Button.component.jsx'
 import { TagsInput } from "./TagsInput/TagsInput.jsx";
 import { LoadingSpinner } from "./LoadingSpinner/LoadingSpinner.jsx";
+import { AddCircle } from "iconsax-react";
 
-export const CreateCommunity = () => {
+
+// eslint-disable-next-line react/prop-types
+export const CreateCommunity = ({ renderButton = true }) => {
 
     const { handleCreateCommunity, error, tags, setTags, tagInputValue, setTagInputValue, type, setType, isCreating, title, setTitle, description, setDescription, imageAsset, setImageAsset } = useCreateCommunity();
 
@@ -14,12 +17,13 @@ export const CreateCommunity = () => {
         <>
             {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-            <Button
+            {renderButton ? <Button
                 isDisabled={false}
                 onClickHandler={() => document.getElementById("my_modal_1").showModal()}
             >
-                Create your own Community
-            </Button>
+                +
+            </Button> :
+                <AddCircle onClick={() => document.getElementById("my_modal_1").showModal()} size={35} className="dark:text-accent text-blAccent" />}
             <dialog id="my_modal_1" className="modal">
                 <div className="modal-box max-w-3xl dark:bg-secondary">
                     {/* <h3 className="font-bold text-lg">Hello!</h3> */}

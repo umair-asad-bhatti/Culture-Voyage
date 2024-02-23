@@ -12,8 +12,8 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Load user data from localStorage on initial render
         const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
+        if (storedUser != null) {
+            setUser({ ...JSON.parse(storedUser) });
         }
         const unsubscribe = onAuthStateChanged(auth, (authUser) => {
 

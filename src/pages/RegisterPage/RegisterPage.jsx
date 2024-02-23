@@ -1,4 +1,4 @@
-import { PasswordCheck, Send } from "iconsax-react";
+import { Lock, PasswordCheck, Send, SmsTracking } from "iconsax-react";
 import PasswordChecklist from "react-password-checklist";
 import GoogleLogo from "../../assets/GoogleLogo.png";
 import Logo from "../../assets/Logo.png";
@@ -37,7 +37,7 @@ export default function RegisterPage() {
   return (
     <>
       <div className="md:min-h-screen flex  justify-between md:flex-row flex-col">
-        <div className="md:w-[50%] md:flex hidden  bg-accent  md:min-h-screen  flex-col items-center justify-center">
+        <div className="md:w-[50%] md:flex hidden  dark:bg-accent bg-blAccent  md:min-h-screen  flex-col items-center justify-center">
           <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" />
           <h3 className="text-primary text-2xl">{strings.signUpHeading}</h3>
         </div>
@@ -47,26 +47,28 @@ export default function RegisterPage() {
           </h3>
           <form className="md:w-96 w-full ">
             <div className="mb-4">
-              <InputField type="email" value={email} setValue={setEmail}>
-                <Send className={'dark:text-primary text-darkGrey'} />
+              <InputField type="email" value={email} placeholder="E-Mail" setValue={setEmail}>
+                <SmsTracking className={'dark:text-primary text-darkGrey'} />
               </InputField>
             </div>
             <div className="mb-4">
               <InputField
+                placeholder="Password"
                 type="password"
                 value={password}
                 setValue={setPassword}
               >
-                <PasswordCheck className={'dark:text-primary text-darkGrey'} />
+                <Lock className={'dark:text-primary text-darkGrey'} />
               </InputField>
             </div>
             <div className="">
               <InputField
+                placeholder="Confirm Password"
                 type="password"
                 value={confirmPassword}
                 setValue={setConfirmPassword}
               >
-                <PasswordCheck className={'dark:text-primary text-darkGrey'} />
+                <Lock className={'dark:text-primary text-darkGrey'} />
               </InputField>
               <div className="mt-4 ">
                 <PasswordChecklist
@@ -77,8 +79,17 @@ export default function RegisterPage() {
                     "number",
                     "capital",
                     "match",
+                    'lowercase'
                   ]}
-                  minLength={5}
+                  messages={{
+                    minLength: "At Least 8 characters",
+                    specialChar: "1 Special character",
+                    number: "1 Numeric Character",
+                    capital: "1 Uppercase Character",
+                    match: "Password Confirmed",
+                    lowercase: '1 Lowercase Character'
+                  }}
+                  minLength={8}
                   value={password}
                   valueAgain={confirmPassword}
                 />
@@ -107,7 +118,7 @@ export default function RegisterPage() {
             </div>
             <div className="flex justify-center items-center gap-2">
               <div className="w-16 h-[1px] border border-gray-300"></div>
-              <h1 className="text-center my-4 dark:text-primary">Or signin with</h1>
+              <h1 className="text-center my-4 dark:text-primary">Or Sign-Up With</h1>
               <div className="w-16 h-[1px] border border-gray-300"></div>
             </div>
 

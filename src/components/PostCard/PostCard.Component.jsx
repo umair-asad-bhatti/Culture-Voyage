@@ -8,7 +8,7 @@ const PostCardComponent = () => {
 
     return (
         <Link to={`/post/sdfhkhkj5654jkh63`}>
-            <div style={{ transition: '0.1s ease' }} className="border border-borderPrimary dark:border-borderSecondary p-6 rounded-lg hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer">
+            <div style={{ transition: '0.1s ease' }} className="border dark:bg-transparent bg-primary border-borderPrimary dark:border-borderSecondary p-6 rounded-lg hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer">
                 {/*top section*/}
                 <div className={'flex justify-between items-center'}>
                     <div className={'flex gap-2 items-center justify-center'}>

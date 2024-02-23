@@ -7,43 +7,43 @@ import strings from "../../constants/Strings";
 import InputField from "../../components/Inputfield/InputField.component";
 import { Send } from "iconsax-react";
 import Button from "../../components/Button/Button.component";
-import {Spinner, useToast} from "@chakra-ui/react";
-import {ToastStrings} from "../../constants/ToastStrings.js";
-import {Colors} from "../../constants/Colors.js";
+import { Spinner, useToast } from "@chakra-ui/react";
+import { ToastStrings } from "../../constants/ToastStrings.js";
+import { Colors } from "../../constants/Colors.js";
 
 const ForgetPasswordPage = () => {
-  const toast=useToast();
+  const toast = useToast();
   const [email, setEmail] = useState("");
-  const [submitting,setIsSubmitting]=useState(false)
+  const [submitting, setIsSubmitting] = useState(false)
   const handleForgetPassword = async () => {
     //TODO check if the email provided by user is registered or not
 
-    if(!email){
+    if (!email) {
       toast({
-        title:'No email has been provided',
-        status:'error',
-        duration:ToastStrings.duration,
-        isClosable:true
+        title: 'No email has been provided',
+        status: 'error',
+        duration: ToastStrings.duration,
+        isClosable: true
       })
       return
     }
     setIsSubmitting(true)
     try {
 
-    await sendPasswordResetEmail(auth, email);
+      await sendPasswordResetEmail(auth, email);
 
       toast({
-        title:'Password reset link has been sent...',
-        status:'success',
-        duration:ToastStrings.duration,
-        isClosable:true
+        title: 'Password reset link has been sent...',
+        status: 'success',
+        duration: ToastStrings.duration,
+        isClosable: true
       })
-    }catch (error){
+    } catch (error) {
       toast({
-        title:error.message,
-        status:'error',
-        duration:ToastStrings.duration,
-        isClosable:true
+        title: error.message,
+        status: 'error',
+        duration: ToastStrings.duration,
+        isClosable: true
       })
     }
     finally {
@@ -71,13 +71,13 @@ const ForgetPasswordPage = () => {
       <div className="p-8 rounded  w-[50%] flex justify-center items-center">
         <div className="w-96">
           <div className="mb-4">
-            <InputField type="email" value={email} setValue={setEmail}>
+            <InputField type="email" value={email} setValue={setEmail} placeholder="E-Mail">
               <Send color="#808998" />
             </InputField>
           </div>
           <div className="mb-4">
-            <Button isDisabled={submitting}  onClickHandler={handleForgetPassword}>
-              {!submitting?'submit':<Spinner  size={'sm'} color={Colors.white}/>}
+            <Button isDisabled={submitting} onClickHandler={handleForgetPassword}>
+              {!submitting ? 'submit' : <Spinner size={'sm'} color={Colors.white} />}
             </Button>
           </div>
         </div>

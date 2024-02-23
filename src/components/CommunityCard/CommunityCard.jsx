@@ -25,14 +25,14 @@ export const CommunityCard = ({ community }) => {
   return (
     <div
       className={
-        " h-content border border-borderPrimary dark:border-borderSecondary shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey cursor-pointer  p-2 md:p-8 rounded-lg"
+        " h-content border border-borderPrimary dark:border-borderSecondary shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey dark:bg-transparent bg-primary cursor-pointer  p-2 md:p-4 rounded-xl"
       }
     >
       <div className="flex flex-wrap  items-center gap-4">
         <div className="w-20 h-20 rounded-full">
           <Img
             loader={<div className="w-full h-full rounded-full skeleton"></div>}
-            className="w-full h-full rounded-full"
+            className="w-full h-full rounded-full object-cover"
             src={community.communityLogoUrl}
 
           />
