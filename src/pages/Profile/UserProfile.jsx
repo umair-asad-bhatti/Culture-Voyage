@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { UserContext } from "../../context/AuthContext.jsx";
 import { useParams } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
@@ -12,6 +12,11 @@ import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.j
 import { AppRoutes } from "../../constants/AppRoutes.js";
 import NavigateLink from "../../components/NavigateLink/NavigateLink.component.jsx";
 import { signOut } from "firebase/auth";
+import { gsap } from "gsap";
+
+import { Flip } from "gsap/Flip";
+
+gsap.registerPlugin(Flip);
 export const UserProfile = () => {
   const { id } = useParams();
   const { joinedCommunities, isFetchingJoinedCommunities } = useFetchJoinedCommunities(id)
@@ -19,6 +24,12 @@ export const UserProfile = () => {
   const { isImageChanged, setIsImageChanged, uploadImageAssetAndUpdateDoc, imageAsset, handleImageChange, isImageUpdating, setImageAsset } = useUpdateImage()
   const { user } = useContext(UserContext);
   const [activeTab, setActiveTab] = useState('myprofile')
+  const active_nav = useRef(null)
+  const handleAnimClick = (e) => {
+    const state = Flip.getState(active_nav.current);
+    e.target.appendChild(active_nav.current)
+    Flip.from(state, { duration: 0.2, absolute: true, ease: "none" })
+  }
 
   if (isFetching)
     return <div className="flex items-center justify-center h-full">
@@ -78,10 +89,17 @@ export const UserProfile = () => {
 
         <div className="w-[500px]"> {/* right side content */}
           {/* top button group */}
-          <div className="bg-primary dark:bg-transparent gap-8 flex justify-between items-center rounded py-2 shadow px-8 dark:border">
-            <h1 onClick={() => setActiveTab('myprofile')} className={`font-semibold cursor-pointer  ${activeTab == 'myprofile' ? 'text-blAccent dark:text-accent' : 'dark:text-textPrimary'}`}>My profile</h1>
-            <h1 onClick={() => setActiveTab('notification')} className={`font-semibold cursor-pointer ${activeTab == 'notification' ? 'text-blAccent dark:text-accent ' : 'dark:text-textPrimary'}`}>Notifications</h1>
-            <h1 onClick={() => setActiveTab('posts')} className={`font-semibold cursor-pointer  ${activeTab == 'posts' ? 'text-blAccent  dark:text-accent' : 'dark:text-textPrimary'}`}>Posts</h1>
+          <div className="bg-primary dark:bg-transparent gap-8 flex justify-between items-center rounded py-2 h-12 shadow px-8 dark:border">
+            <div onClick={() => { setActiveTab('myprofile'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer  relative ${activeTab == 'myprofile' ? 'text-blAccent dark:text-accent' : 'dark:text-textPrimary'}`}>
+              My profile
+              <div ref={active_nav} className="active-nav aboslute w-full h-[2px] rounded top-3 bg-red-200"></div>
+            </div>
+            <div onClick={() => { setActiveTab('posts'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer relative ${activeTab == 'posts' ? 'text-blAccent  dark:text-accent' : 'dark:text-textPrimary'}`}>
+              Posts
+            </div>
+            <div onClick={() => { setActiveTab('notification'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer relative ${activeTab == 'notification' ? 'text-blAccent dark:text-accent ' : 'dark:text-textPrimary'}`}>
+              Notifications
+            </div>
           </div>
           {/* top button group end */}
 
