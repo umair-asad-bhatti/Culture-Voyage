@@ -9,7 +9,11 @@ import { doc, getDoc, } from "firebase/firestore";
 import { db } from "../../firebase/Firebase";
 import Masonry from "react-masonry-css";
 import './style.css'
+import { gsap } from "gsap";
 
+import { Flip } from "gsap/Flip";
+
+gsap.registerPlugin(Flip);
 
 export function CreatePostForm() {
 
@@ -21,9 +25,18 @@ export function CreatePostForm() {
     const [user, setUser] = useState(null)
     const [joinedCommunities, setJoinedCommunities] = useState([])
     const userDataFromLocal = localStorage.getItem('user')
+    const active_nav = useRef(null)
+    useEffect(() => {
+        postCategory != 'Select Category' && gsap.from(".cardddd", { y: -100, duration: 1 });
+    }, [postCategory])
+
 
     const userId = JSON.parse(userDataFromLocal).uid
-    console.log(userId);
+    const handleAnimClick = (e) => {
+        const state = Flip.getState(active_nav.current);
+        e.target.appendChild(active_nav.current)
+        Flip.from(state, { duration: 0.2, absolute: true, ease: "none" })
+    }
 
     useEffect(() => {
         const fetchUserDetailsAndCommunities = async () => {
@@ -57,9 +70,6 @@ export function CreatePostForm() {
         console.log(res);
         setImageAsset([...res])
     }
-    useEffect(() => {
-        console.log(postCategory);
-    }, [postCategory])
     const SelectIconRef = useRef(null)
     const dropdown = useRef(null)
     const result = useRef(null)
@@ -77,15 +87,15 @@ export function CreatePostForm() {
         <div className="flex items-start justify-start gap-4 flex-wrap p-4">
             <div className="editor bg-primary dark:bg-transparent   md:w-[600px] flex flex-col text-gray-800   p-4 shadow-md dark:border-borderSecondary border-borderPrimary border-2 rounded-xl dark:shadow-sm">
                 {/* active tabs button */}
-                <div className="flex gap-2">
-                    <Button onClickHandler={() => { setActiveTab('details') }} outline={activeTab == 'details' ? false : true}>
-                        Post Detail
-                    </Button>
-                    <Button onClickHandler={() => { setActiveTab('media') }} outline={activeTab == 'media' ? false : true}>
-                        Image(if any)
-                    </Button>
+                <div className="bg-primary dark:bg-transparent flex justify-center gap-8 items-center rounded py-2 h-12 shadow px-8 dark:border">
+                    <div onClick={() => { setActiveTab('details'); handleAnimClick(event) }} className={`links  cursor-pointer  relative ${activeTab == 'details' ? 'text-blAccent font-semibold dark:text-accent' : 'dark:text-textPrimary'}`}>
+                        Post Details
+                        <div ref={active_nav} className="active-nav aboslute w-full h-[2px] rounded top-3 bg-red-400"></div>
+                    </div>
+                    <div onClick={() => { setActiveTab('media'); handleAnimClick(event) }} className={`links cursor-pointer relative ${activeTab == 'media' ? 'text-blAccent font-semibold  dark:text-accent' : 'dark:text-textPrimary'}`}>
+                        Media (if any)
+                    </div>
                 </div>
-
                 <div>
                     {
                         activeTab == 'details' ? <>
@@ -174,7 +184,7 @@ export function CreatePostForm() {
 
 
 
-            <div className={`md:block hidden rounded-xl   ${postCategory != 'Select Category' ? 'shadow-lg border-2 bg-primary dark:bg-transparent dark:border-borderSecondary border-borderPrimary' : 'border-none'}  p-2 w-96`}>
+            <div className={`md:block hidden rounded-xl cardddd   ${postCategory != 'Select Category' ? 'shadow-lg border-2 bg-primary dark:bg-transparent dark:border-borderSecondary border-borderPrimary' : 'border-none'}  p-2 w-96`}>
 
                 {
                     postCategory === (user && user['First Name']) ? <div div className="card">
