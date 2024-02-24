@@ -92,7 +92,7 @@ export const UserProfile = () => {
           <div className="bg-primary dark:bg-transparent gap-8 flex justify-between items-center rounded py-2 h-12 shadow px-8 dark:border">
             <div onClick={() => { setActiveTab('myprofile'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer  relative ${activeTab == 'myprofile' ? 'text-blAccent dark:text-accent' : 'dark:text-textPrimary'}`}>
               My profile
-              <div ref={active_nav} className="active-nav aboslute w-full h-[2px] rounded top-3 bg-red-200"></div>
+              <div ref={active_nav} className="active-nav aboslute w-full h-[2px] rounded top-3  dark:bg-accent bg-blAccent"></div>
             </div>
             <div onClick={() => { setActiveTab('posts'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer relative ${activeTab == 'posts' ? 'text-blAccent  dark:text-accent' : 'dark:text-textPrimary'}`}>
               Posts

@@ -87,10 +87,10 @@ export function CreatePostForm() {
         <div className="flex items-start justify-start gap-4 flex-wrap p-4">
             <div className="editor bg-primary dark:bg-transparent   md:w-[600px] flex flex-col text-gray-800   p-4 shadow-md dark:border-borderSecondary border-borderPrimary border-2 rounded-xl dark:shadow-sm">
                 {/* active tabs button */}
-                <div className="bg-primary dark:bg-transparent flex justify-center gap-8 items-center rounded py-2 h-12 shadow px-8 dark:border">
+                <div className="bg-primary dark:bg-transparent flex justify-center gap-8 items-center rounded py-2 h-12 border shadow px-8 dark:border">
                     <div onClick={() => { setActiveTab('details'); handleAnimClick(event) }} className={`links  cursor-pointer  relative ${activeTab == 'details' ? 'text-blAccent font-semibold dark:text-accent' : 'dark:text-textPrimary'}`}>
                         Post Details
-                        <div ref={active_nav} className="active-nav aboslute w-full h-[2px] rounded top-3 bg-red-400"></div>
+                        <div ref={active_nav} className="active-nav aboslute w-full h-[2px] rounded top-3 dark:bg-accent bg-blAccent"></div>
                     </div>
                     <div onClick={() => { setActiveTab('media'); handleAnimClick(event) }} className={`links cursor-pointer relative ${activeTab == 'media' ? 'text-blAccent font-semibold  dark:text-accent' : 'dark:text-textPrimary'}`}>
                         Media (if any)
