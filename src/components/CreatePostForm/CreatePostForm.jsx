@@ -27,7 +27,7 @@ export function CreatePostForm() {
     const userDataFromLocal = localStorage.getItem('user')
     const active_nav = useRef(null)
     useEffect(() => {
-        postCategory != 'Select Category' && gsap.from(".cardddd", { y: -100, duration: 1 });
+        postCategory != 'Select Category' && gsap.from(".cardddd", { y: -100, opacity: 0, duration: 1 });
     }, [postCategory])
 
 
