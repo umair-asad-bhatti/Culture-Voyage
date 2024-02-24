@@ -23,7 +23,7 @@ export const CreateCommunity = ({ renderButton = true }) => {
             >
                 +
             </Button> :
-                <AddCircle onClick={() => document.getElementById("my_modal_1").showModal()} size={35} className="dark:text-accent text-blAccent" />}
+                <AddCircle onClick={() => document.getElementById("my_modal_1").showModal()} size={35} className="dark:text-accent text-blAccent cursor-pointer" />}
             <dialog id="my_modal_1" className="modal">
                 <div className="modal-box max-w-3xl dark:bg-secondary">
                     {/* <h3 className="font-bold text-lg">Hello!</h3> */}
