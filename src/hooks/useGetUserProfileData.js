@@ -12,7 +12,7 @@ export const useGetUserProfileData = (id) => {
       const data = snapshot.data()
       setUserData(data)
       setIsFetching(false)
-      localStorage.setItem('user', JSON.stringify(data))
+      localStorage.setItem('userDetails', JSON.stringify(data))
     })
     return () => unsub()
   }, [id])

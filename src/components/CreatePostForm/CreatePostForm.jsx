@@ -21,7 +21,9 @@ export function CreatePostForm() {
     const [user, setUser] = useState(null)
     const [joinedCommunities, setJoinedCommunities] = useState([])
     const userDataFromLocal = localStorage.getItem('user')
+
     const userId = JSON.parse(userDataFromLocal).uid
+    console.log(userId);
 
     useEffect(() => {
         const fetchUserDetailsAndCommunities = async () => {
