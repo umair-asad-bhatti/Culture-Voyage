@@ -19,4 +19,8 @@ export const getUserData = async (userId, dataField = null) => {
     return dataField ? data[dataField] : data
 }
 
-
+export const getCommunityData = async (communityId, dataField = null) => {
+    const querySnapshot = await getDoc(doc(db, 'Communities', communityId))
+    const data = querySnapshot.data();
+    return dataField ? data[dataField] : data
+}

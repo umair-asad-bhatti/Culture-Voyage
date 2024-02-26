@@ -132,7 +132,7 @@ export const UserProfile = () => {
                 </div>
                 <div className="divider dark:divier"></div>
                 <div>
-                  Total Posts: 0
+                  Total Posts: {userData?.["Community Posts"].length}
                 </div>
               </div>
             }

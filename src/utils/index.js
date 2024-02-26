@@ -36,12 +36,21 @@ export const formatDate = (inputDate) => {
         "July", "August", "September",
         "October", "November", "December"
     ];
+
     const day = inputDate.getDate();
     const month = months[inputDate.getMonth()];
     const year = inputDate.getFullYear();
+    const hours = inputDate.getHours();
+    const minutes = inputDate.getMinutes();
+    const seconds = inputDate.getSeconds();
+    
+    const pad = (num) => (num < 10 ? '0' : '') + num;
 
-    return `${day} ${month}, ${year}`;
-}
+    const formattedDate = `${day} ${month} ${year} at ${pad(hours)}:${pad(minutes)}:${pad(seconds)} UTC+5`;
+
+    return formattedDate;
+};
+
 function truncateText(text, maxLength) {
     if (text.length > maxLength) {
         return text.substring(0, maxLength) + "...";
