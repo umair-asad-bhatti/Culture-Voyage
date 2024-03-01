@@ -23,9 +23,9 @@ import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import AnimatedNumbers from "react-animated-numbers";
 import useFetchAllCommunityMembers from "../../hooks/useFetchAllCommunityMembers.js";
 import { CommunityDetailPageSkelton } from "./CommunityDetailPageSkelton.jsx";
-import PostCardComponent from "../../components/PostCard/PostCard.Component.jsx";
 import { useFetchQuestionsPosts } from "../../hooks/useFetchQuestionPosts.js";
 import { useFetchExperiencePosts } from "../../hooks/useFetchExperiencePosts.js";
+import PostListing from "../../components/PostListing/PostListing.jsx";
 export const CommunityDetailPage = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
@@ -45,9 +45,9 @@ export const CommunityDetailPage = () => {
   const { joinCommunity, isJoined, isJoining, checkJoinedStatus } =
     useJoinCommunity(CommunityData);
   const { leaveCommunity, isLeaving } = useLeaveCommunity();
-  const { questionPosts, setQuestionPosts,isFetchingQuestionPosts } = useFetchQuestionsPosts(id);
+  const { questionPosts, isFetchingQuestionPosts } = useFetchQuestionsPosts(id);
   // console.log(questionPosts);
-  const {experiencePosts,setExperiencePosts,isFetchingExperiencePosts} = useFetchExperiencePosts(id)
+  const { experiencePosts, isFetchingExperiencePosts } = useFetchExperiencePosts(id)
   console.log(experiencePosts)
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export const CommunityDetailPage = () => {
                   <div className="modal-action">
                     <form method="dialog">
                       {/* if there is a button in form, it will close the modal */}
-                      <Button isDisabled={false} onClickHandler={() => {}}>
+                      <Button isDisabled={false} onClickHandler={() => { }}>
                         close
                       </Button>
                     </form>
@@ -170,7 +170,7 @@ export const CommunityDetailPage = () => {
                   <div className="modal-action">
                     <form method="dialog">
                       {/* if there is a button in form, it will close the modal */}
-                      <Button isDisabled={false} onClickHandler={() => {}}>
+                      <Button isDisabled={false} onClickHandler={() => { }}>
                         close
                       </Button>
                     </form>
@@ -269,7 +269,7 @@ export const CommunityDetailPage = () => {
         />
       </div>
 
-      <div className={"w-full dark:text-textPrimary text-textSecondary my-12"}>
+      <div className={"w-full dark:text-textPrimary text-textSecondary md:p-4 p-2 my-12"}>
         <h1
           className={
             "font-extrabold  text-2xl dark:text-accent text-blAccent my-2"
@@ -404,23 +404,10 @@ export const CommunityDetailPage = () => {
         {/* actual posts */}
         <div>
           {activeCategory == "exp" ? (
-            <div className="grid lg:grid-cols-2  grid-cols-1 gap-4">
-            {experiencePosts.map((experiencePost) => (
-                <div key={experiencePost.id}>
-                  <h1>Post Title:{experiencePost.Title}</h1>
-                  <h1>Post Description:{experiencePost.Description}</h1>
-                </div>
-              ))}
-            </div>
+            <PostListing posts={experiencePosts} isFetching={isFetchingExperiencePosts} />
+
           ) : (
-            <div className="w-[600px]">
-              {questionPosts.map((questionPost) => (
-                <div key={questionPost.id}>
-                  <h1>Post Title:{questionPost.Title}</h1>
-                  <h1>Post Description:{questionPost.Description}</h1>
-                </div>
-              ))}
-            </div>
+            <PostListing posts={questionPosts} isFetching={isFetchingQuestionPosts} />
           )}
         </div>
       </div>

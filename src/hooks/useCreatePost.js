@@ -5,8 +5,6 @@ import {
   collection,
   doc,
   runTransaction,
-  getDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
 import { UserContext } from "../context/AuthContext.jsx";
@@ -29,7 +27,7 @@ export const useCreatePost = () => {
   //console.log(title,description,imageAsset,communityId,postType);
 
   const handleCreatePost = async (userId) => {
-    if (!imageAsset || !title || !description ) {
+    if (!imageAsset || !title || !description) {
       setError("Title, description, image, and community selection are required.");
       setTimeout(() => setError(null), 3000);
       return;
@@ -104,8 +102,8 @@ export const useCreatePost = () => {
         isClosable: true,
       });
 
-     
-    
+
+
     } catch (error) {
       console.error("Error creating post:", error);
       setError("An error occurred. Please try again later");

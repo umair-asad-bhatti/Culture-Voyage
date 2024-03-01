@@ -128,11 +128,10 @@ export function CreatePostForm() {
               setActiveTab("details");
               handleAnimClick(event);
             }}
-            className={`links  cursor-pointer  relative ${
-              activeTab == "details"
-                ? "text-blAccent font-semibold dark:text-accent"
-                : "dark:text-textPrimary"
-            }`}
+            className={`links  cursor-pointer  relative ${activeTab == "details"
+              ? "text-blAccent font-semibold dark:text-accent"
+              : "dark:text-textPrimary"
+              }`}
           >
             Post Details
             <div
@@ -145,11 +144,10 @@ export function CreatePostForm() {
               setActiveTab("media");
               handleAnimClick(event);
             }}
-            className={`links cursor-pointer relative ${
-              activeTab == "media"
-                ? "text-blAccent font-semibold  dark:text-accent"
-                : "dark:text-textPrimary"
-            }`}
+            className={`links cursor-pointer relative ${activeTab == "media"
+              ? "text-blAccent font-semibold  dark:text-accent"
+              : "dark:text-textPrimary"
+              }`}
           >
             Media (if any)
           </div>
@@ -180,23 +178,23 @@ export function CreatePostForm() {
                   <div>
                     {joinedCommunities.length > 0
                       ? joinedCommunities.map((c) => {
-                          return (
-                            <div
-                              key={c.id}
-                              onClick={() => setActive(c["Community Name"])}
-                              className="flex items-center cursor-pointer justify-start gap-4 py-4"
-                            >
-                              <img
-                                src={c["Community Logo URL"]}
-                                alt=""
-                                style={{ width: 50, height: 50 }}
-                                className="rounded-full object-cover"
-                              />
+                        return (
+                          <div
+                            key={c.id}
+                            onClick={() => setActive(c["Community Name"])}
+                            className="flex items-center cursor-pointer justify-start gap-4 py-4"
+                          >
+                            <img
+                              src={c["Community Logo URL"]}
+                              alt=""
+                              style={{ width: 50, height: 50 }}
+                              className="rounded-full object-cover"
+                            />
 
-                              <h1>{c["Community Name"]}</h1>
-                            </div>
-                          );
-                        })
+                            <h1>{c["Community Name"]}</h1>
+                          </div>
+                        );
+                      })
                       : "No Joined Communities"}
                   </div>
                 </div>
@@ -213,7 +211,7 @@ export function CreatePostForm() {
                   />
                 </div>
               </div>
-            
+
               {showPostType && postCategory !== user?.["First Name"] && (
                 <div className="my-4 relative">
                   <select
@@ -230,7 +228,7 @@ export function CreatePostForm() {
                   </select>
                 </div>
               )}
-             
+
 
               {/* {console.log(postType)} */}
               <InputField
@@ -326,11 +324,10 @@ export function CreatePostForm() {
       </div>
 
       <div
-        className={`md:block hidden rounded-xl cardddd   ${
-          postCategory != "Select Category"
-            ? "shadow-lg border-2 bg-primary dark:bg-transparent dark:border-borderSecondary border-borderPrimary"
-            : "border-none"
-        }  p-2 w-96`}
+        className={`md:block hidden rounded-xl cardddd   ${postCategory != "Select Category"
+          ? "shadow-lg border-2 bg-primary dark:bg-transparent dark:border-borderSecondary border-borderPrimary"
+          : "border-none"
+          }  p-2 w-96`}
       >
         {postCategory === (user && user["First Name"]) ? (
           <div div className="card">
@@ -368,9 +365,14 @@ export function CreatePostForm() {
                     </h1>
                     <p>{c["Small Description"]}</p>
                     <div className="divider"></div>
-                    <h1 className="dark:text-primary font-bold text-secondary">
-                      Members: {c["Members"].length}
-                    </h1>
+                    <div className="flex items-center justify-center gap-4">
+                      <h1 className="dark:text-primary font-bold text-secondary">
+                        Members: {c["Members"].length}
+                      </h1>
+                      <h1 className="dark:text-primary font-bold text-secondary">
+                        posts:{((c['Question Posts'] && c['Question Posts'].length) ?? 0) + ((c['Experience Posts'] && c['Experience Posts'].length) ?? 0)}
+                      </h1>
+                    </div>
                   </div>
                 );
               }

@@ -53,12 +53,12 @@ export const CommunityCard = ({ community }) => {
         </p>
 
       </div>
-      <div className={"mt-12 mb-4"}>
+      <div className={"my-4"}>
         <Divider />
       </div>
       <div className={"flex justify-between  items-center w-full"}>
         <div className="flex gap-2">
-          <p className="dark:text-textPrimary text-textSecondary">Total Members: </p>
+          <p className="dark:text-textPrimary text-textSecondary">Members: </p>
           <p className={"dark:text-textPrimary text-textSecondary"}>
             <AnimatedNumbers
               includeComma
@@ -70,14 +70,16 @@ export const CommunityCard = ({ community }) => {
             />
 
           </p>
+          <p className="dark:text-textPrimary text-textSecondary">Posts: {community.experiencePosts.length + community.questionPosts.length}</p>
         </div>
-        <div className={"w-[120px]"}>
-          {community.createdBy !== user.uid && (
-            <Button outline={isJoined} isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
-              {isJoined ? <h1 className={isJoined ? "cursor-not-allowed" : 'cursor-pointer'}>Joined</h1> : "Join"}
-            </Button>
-          )}
-        </div>
+
+      </div>
+      <div className={"w-[120px] mt-8"}>
+        {community.createdBy !== user.uid && (
+          <Button outline={isJoined} isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
+            {isJoined ? <h1 className={isJoined ? "cursor-not-allowed" : 'cursor-pointer'}>Joined</h1> : "Join"}
+          </Button>
+        )}
       </div>
     </div>
   );

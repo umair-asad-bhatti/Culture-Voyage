@@ -30,27 +30,20 @@ const ZodSignupSchema = z.object({
     })
 })
 export const formatDate = (inputDate) => {
-    const months = [
-        "January", "February", "March",
-        "April", "May", "June",
-        "July", "August", "September",
-        "October", "November", "December"
-    ];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-    const day = inputDate.getDate();
     const month = months[inputDate.getMonth()];
+    const day = inputDate.getDate();
     const year = inputDate.getFullYear();
     const hours = inputDate.getHours();
     const minutes = inputDate.getMinutes();
     const seconds = inputDate.getSeconds();
-    
-    const pad = (num) => (num < 10 ? '0' : '') + num;
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const timezoneOffset = inputDate.getTimezoneOffset() / -60; // Convert minutes to hours
 
-    const formattedDate = `${day} ${month} ${year} at ${pad(hours)}:${pad(minutes)}:${pad(seconds)} UTC+5`;
-
-    return formattedDate;
+    const formattedTimestamp = `${month} ${day}, ${year} at ${hours}:${minutes}:${seconds} ${ampm} UTC${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
+    return formattedTimestamp;
 };
-
 function truncateText(text, maxLength) {
     if (text.length > maxLength) {
         return text.substring(0, maxLength) + "...";

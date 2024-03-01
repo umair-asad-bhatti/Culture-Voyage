@@ -6,7 +6,9 @@ class CommunityDto {
             this.communityLogoUrl = community["Community Logo URL"],
             this.createdAt = community['Created At'],
             this.createdBy = community['Created By'],
-            this.members = community['Members']
+            this.members = community['Members'],
+            this.experiencePosts = community['Experience Posts'] ?? [],
+            this.questionPosts = community['Question Posts'] ?? []
     }
 }
 export { CommunityDto }
