@@ -14,25 +14,29 @@ import { CommunityPostModel } from "../Models/CommunityPostModel.js";
 
 export const useCreatePost = () => {
   const { user } = useContext(UserContext);
-  const toast = useToast();
+  const toast = useToast()
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
-
+  const [postCategory, setPostCategory] = useState("Select Category");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageAsset, setImageAsset] = useState([]);
   const [communityId, setCommunityId] = useState(null);
   const [postType, setPostType] = useState("");
-
+  const [showPostType, setShowPostType] = useState(false);
   //console.log(title,description,imageAsset,communityId,postType);
 
   const handleCreatePost = async (userId) => {
-    if (!imageAsset || !title || !description) {
-      setError("Title, description, image, and community selection are required.");
-      setTimeout(() => setError(null), 3000);
+    if (!title || !description || (showPostType && !postType) || postCategory == 'Select Category') {
+      toast({
+        title: 'Warning',
+        description: 'All the fields must be filled properly',
+        status: 'warning',
+        duration: ToastStrings.duration,
+        isClosable: true,
+      })
       return;
     }
-
     try {
       setIsCreating(true);
 
@@ -102,8 +106,6 @@ export const useCreatePost = () => {
         isClosable: true,
       });
 
-
-
     } catch (error) {
       console.error("Error creating post:", error);
       setError("An error occurred. Please try again later");
@@ -121,8 +123,10 @@ export const useCreatePost = () => {
     handleCreatePost,
     error,
     isCreating,
+    showPostType, setShowPostType,
     title,
     description,
+    postCategory, setPostCategory,
     communityId,
     imageAsset,
     postType,

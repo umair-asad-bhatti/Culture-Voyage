@@ -17,12 +17,12 @@ import { Flip } from "gsap/Flip";
 gsap.registerPlugin(Flip);
 
 export function CreatePostForm() {
-  const [postCategory, setPostCategory] = useState("Select Category");
 
   const [activeTab, setActiveTab] = useState("details");
-  const [showPostType, setShowPostType] = useState(false);
 
   const {
+    postCategory, setPostCategory,
+    showPostType, setShowPostType,
     handleCreatePost,
     isCreating,
     title,
@@ -278,7 +278,7 @@ export function CreatePostForm() {
                       </p>
                       <p className="text-sm w-full dark:text-primary">
                         {" "}
-                        click to upload Community logo
+                        click to upload images
                       </p>
                     </div>
                     <p className="mt-4 text-sm text-gray-400  text-center">
