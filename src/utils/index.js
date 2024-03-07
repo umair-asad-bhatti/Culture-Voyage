@@ -51,6 +51,30 @@ function truncateText(text, maxLength) {
         return text;
     }
 }
+function calculateTimeElapsed(createdAt) {
+    // Parse the provided time string
+    const createdDate = new Date(createdAt.replace(/UTC[+-]\d+/, 'UTC'));
+
+    // Get the current time
+    const currentDate = new Date();
+
+    // Calculate the difference in milliseconds
+    const timeDifference = currentDate - createdDate;
+
+    // Calculate elapsed time in milliseconds
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    // Return the elapsed time
+    return {
+        seconds,
+        minutes,
+        hours,
+        days
+    };
+}
 const FireBaseErrorHandler = (errorCode) => {
     switch (errorCode) {
         case "auth/user-not-found":
@@ -115,4 +139,4 @@ const FireBaseErrorHandler = (errorCode) => {
 
     }
 }
-export { ZodLoginSchema, ZodSignupSchema, FireBaseErrorHandler, truncateText }
+export { ZodLoginSchema, ZodSignupSchema, FireBaseErrorHandler, truncateText, calculateTimeElapsed }
