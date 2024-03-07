@@ -37,13 +37,13 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
             //dislike the post
             const updatedLikesArray = likesArray.filter(item => item != user.uid)
             await updateDoc(postRef, { Likes: updatedLikesArray })
-            setIsLiked(false)
+
         }
         else {
             //likes the post
             likesArray.push(user.uid)
             await updateDoc(postRef, { Likes: likesArray })
-            setIsLiked(true)
+
         }
         setIsLiking(false)
     }
