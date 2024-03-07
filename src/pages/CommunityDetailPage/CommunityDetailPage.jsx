@@ -48,7 +48,7 @@ export const CommunityDetailPage = () => {
   const { questionPosts, isFetchingQuestionPosts } = useFetchQuestionsPosts(id);
   // console.log(questionPosts);
   const { experiencePosts, isFetchingExperiencePosts } = useFetchExperiencePosts(id)
-  console.log(experiencePosts)
+
 
   useEffect(() => {
     checkJoinedStatus(id);
@@ -404,10 +404,9 @@ export const CommunityDetailPage = () => {
         {/* actual posts */}
         <div>
           {activeCategory == "exp" ? (
-            <PostListing posts={experiencePosts} isFetching={isFetchingExperiencePosts} />
-
+            <PostListing postType={'exp'} communityId={id} posts={experiencePosts} isFetching={isFetchingExperiencePosts} />
           ) : (
-            <PostListing posts={questionPosts} isFetching={isFetchingQuestionPosts} />
+            <PostListing postType={'que'} communityId={id} posts={questionPosts} isFetching={isFetchingQuestionPosts} />
           )}
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { ZodLoginSchema } from "../utils/index.js";
 import { ToastStrings } from "../constants/ToastStrings.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import {auth} from "../firebase/Firebase.js";
+import { auth } from "../firebase/Firebase.js";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react'

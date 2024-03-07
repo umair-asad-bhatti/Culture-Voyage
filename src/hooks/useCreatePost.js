@@ -37,6 +37,7 @@ export const useCreatePost = () => {
       })
       return;
     }
+
     try {
       setIsCreating(true);
 

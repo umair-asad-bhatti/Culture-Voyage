@@ -26,7 +26,6 @@ export const useFetchExperiencePosts = (communityId) => {
       else {
         setIsFetchingExperiencePosts(false)
       }
-
     })()
 
   }, [communityId])

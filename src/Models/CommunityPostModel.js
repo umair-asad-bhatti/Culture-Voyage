@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/index.js";
+
 
 class CommunityPostModel {
   constructor(createdBy, communityID, description, title, publicIDs = [], secureURLs = [], postType) {
@@ -10,6 +10,8 @@ class CommunityPostModel {
     this["Media Public ID"] = publicIDs;
     this["Media URL"] = secureURLs;
     this['Post Type'] = postType;
+    this['Likes'] = [];
+    this['Edited'] = false
 
   }
 }
