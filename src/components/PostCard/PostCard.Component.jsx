@@ -6,7 +6,7 @@ import { truncateText } from '../../utils'
 import { Img } from 'react-image'
 import { useDeletePost } from '../../hooks/useDeletePost'
 import { UserContext } from '../../context/AuthContext'
-import { Heart, Login, MessageProgramming } from 'iconsax-react'
+import { Heart, MessageProgramming } from 'iconsax-react'
 import { db } from '../../firebase/Firebase'
 import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
 
@@ -24,7 +24,7 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
             setIsLiked(likesArray.includes(user.uid))
         })
         return () => unsubscribe()
-    }, [])
+    }, [postDetail, user.uid])
     const likeOrDislikePost = async (id) => {
         if (isLiking)
             return
@@ -37,13 +37,13 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
             //dislike the post
             const updatedLikesArray = likesArray.filter(item => item != user.uid)
             await updateDoc(postRef, { Likes: updatedLikesArray })
-
+            setIsLiked(false)
         }
         else {
             //likes the post
             likesArray.push(user.uid)
             await updateDoc(postRef, { Likes: likesArray })
-
+            setIsLiked(true)
         }
         setIsLiking(false)
     }
@@ -90,7 +90,7 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
 
                 <div className='flex items-center justify-center gap-8 my-2   bg-slate-100 dark:bg-gray-800 rounded-xl p-2'>
                     <div className='flex items-center justify-center gap-2'>
-                        <Heart aria-disabled={isLiking} onClick={() => likeOrDislikePost(postDetail.id)} size="20" variant={isLiked ? 'Bold' : 'Outlined'} className="dark:text-primary text-secondary" />
+                        <Heart aria-disabled={isLiking} onClick={() => likeOrDislikePost(postDetail.id)} size="20" variant={isLiked ? 'Bold' : 'Outline'} className="dark:text-primary text-secondary" />
                         <h1>{postDetail['Likes'].length} </h1>
                     </div>
                     <div className='flex items-center justify-center gap-2'>
