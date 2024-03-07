@@ -6,9 +6,9 @@ import { truncateText } from '../../utils'
 import { Img } from 'react-image'
 import { useDeletePost } from '../../hooks/useDeletePost'
 import { UserContext } from '../../context/AuthContext'
-import { Heart, MessageProgramming } from 'iconsax-react'
+import { Heart, Login, MessageProgramming } from 'iconsax-react'
 import { db } from '../../firebase/Firebase'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
 
 
 const PostCardComponent = ({ postDetail, communityId, postType }) => {
@@ -17,6 +17,14 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
     const { user } = useContext(UserContext)
     const [isLiked, setIsLiked] = useState(postDetail.Likes.includes(user.uid))
     const [isLiking, setIsLiking] = useState(false)
+    //listening to the realtime changes to likes of the post
+    useEffect(() => {
+        const unsubscribe = onSnapshot(doc(db, 'Community Posts', postDetail.id), (doc) => {
+            const likesArray = doc.data().Likes ?? []
+            setIsLiked(likesArray.includes(user.uid))
+        })
+        return () => unsubscribe()
+    }, [])
     const likeOrDislikePost = async (id) => {
         if (isLiking)
             return
