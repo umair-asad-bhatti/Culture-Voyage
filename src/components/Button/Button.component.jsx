@@ -6,7 +6,7 @@ export default function Button({ children, onClickHandler, isDisabled, px = 2, p
         <button
             disabled={isDisabled}
             onClick={onClickHandler}
-            className={` w-full  ${outline ? 'dark:text-textPrimary text-textSecondary  border ' : 'dark:bg-accent bg-blAccent text-buttonLightTextColor'}  rounded-lg  focus:outline-none focus:shadow-outline-accent px-${px} py-${py} `}
+            className={` w-full  ${outline ? 'dark:text-textPrimary text-textSecondary  border dark:border-borderSecondary ' : 'dark:bg-accent bg-blAccent text-buttonLightTextColor'}  rounded-lg  focus:outline-none focus:shadow-outline-accent px-${px} py-${py} `}
         >
             {children}
         </button>
