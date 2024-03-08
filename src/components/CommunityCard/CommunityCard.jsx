@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import Button from "../Button/Button.component.jsx";
-import { Divider } from "@chakra-ui/react";
+
 import { UserContext } from "../../context/AuthContext.jsx";
 import { Link } from "react-router-dom";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
@@ -53,9 +53,9 @@ export const CommunityCard = ({ community }) => {
         </p>
 
       </div>
-      <div className={"my-2"}>
-        <Divider />
-      </div>
+
+      <hr className="my-4  w-[95%] mx-auto" />
+
       <div className={"flex justify-between  items-center w-full text-sm"}>
         <div className="flex gap-2">
           <p className="dark:text-textPrimary text-textSecondary">Members: </p>

@@ -366,8 +366,8 @@ export function CreatePostForm() {
                       <h1 className="dark:text-primary font-bold text-secondary mt-20">
                         {c["Community Name"]}
                       </h1>
-                      <p>{c["Small Description"]}</p>
-                      <div className="divider"></div>
+                      <p className="dark:text-primary font-bold text-secondary">{c["Small Description"]}</p>
+                      <hr className="my-4  w-[90%] mx-auto" />
                       <div className="flex items-center justify-center gap-4">
                         <h1 className="dark:text-primary font-bold text-secondary">
                           Members: {c["Members"].length}

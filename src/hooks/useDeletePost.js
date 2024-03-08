@@ -29,7 +29,7 @@ const useDeletePost = () => {
                 if (postType == 'exp') {
                     exp_posts = exp_posts.filter(p => p != postId)
                     const dataToUpdate = {}
-                    dataToUpdate['Experiece Posts'] = exp_posts
+                    dataToUpdate['Experience Posts'] = exp_posts
                     transaction.update(communityRef, dataToUpdate)
                 } else {
                     que_posts = que_posts.filter(p => p != postId)
