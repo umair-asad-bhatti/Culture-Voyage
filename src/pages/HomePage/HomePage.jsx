@@ -25,15 +25,15 @@ export default function HomePage() {
         </div>
     return (
         <>
-            <div className="sticky top-0  z-10   text-dark dark:bg-secondary bg-primary  flex justify-center">
-                <div className='w-screen  xl:w-[1500px] justify-center px-4 dark:bg-secondary bg-white '>
+            <div className="sticky top-0  z-10    flex justify-center">
+                <div className='w-screen xl:w-[1500px] justify-center px-4 bg-primary dark:bg-secondary'>
                     <Navbar />
                 </div>
             </div>
             <div className='flex justify-center items-center dark:bg-secondary'>
                 <div className='w-screen  min-h-screen xl:w-[1500px] flex '>
-                    <div className='w-[20%]  lg:block hidden dark:bg-transparent bg-white'>
-                        <div className='fixed py-8 h-[80%]  bg-white dark:bg-transparent my-4 rounded-lg z-50 ml-2 min-w-[250px]'>
+                    <div className='w-[20%]  lg:block hidden dark:bg-transparent '>
+                        <div className='fixed py-2 h-[80%] dark:bg-transparent my-2 rounded-lg z-50 ml-2 min-w-[250px]'>
                             <SideBarComponent />
                         </div>
                     </div>

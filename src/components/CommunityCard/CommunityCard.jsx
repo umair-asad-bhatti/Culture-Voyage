@@ -25,11 +25,11 @@ export const CommunityCard = ({ community }) => {
   return (
     <div
       className={
-        " h-content border border-borderPrimary dark:border-borderSecondary shadow-accent  hover:bg-softGrey dark:hover:bg-darkerGrey dark:bg-transparent bg-primary cursor-pointer  p-2 md:p-4 rounded-xl"
+        " h-content  dark:bg-darkCardBg shadow-lg  bg-primary cursor-pointer  p-2 md:p-4 rounded-xl"
       }
     >
       <div className="flex flex-wrap  items-center gap-4">
-        <div className="w-20 h-20 rounded-full">
+        <div className="w-12 h-12 rounded-full">
           <Img
             loader={<div className="w-full h-full rounded-full skeleton"></div>}
             className="w-full h-full rounded-full object-cover"
@@ -38,25 +38,25 @@ export const CommunityCard = ({ community }) => {
           />
         </div>
         <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
-          <p className="md:text-xl text-lg font-bold dark:text-accent text-blAccent hover:underline">
+          <p className="text-md font-bold dark:text-accent text-blAccent hover:underline">
             {community.communityName}
           </p>
         </Link>
       </div>
-      <div className="flex justify-between my-4 flex-wrap gap-6">
-        <p className="text-lg dark:text-textPrimary text-textSecondary  overflow-hidden">
+      <div className="flex justify-between my-2 flex-wrap gap-2">
+        <p className="text-sm dark:text-textPrimary text-textSecondary  overflow-hidden">
           {community.smallDescription}
         </p>
-        <p className={"dark:text-textPrimary  text-textSecondary"}>
+        <p className={"dark:text-textPrimary  text-textSecondary text-sm"}>
           Create At:{" "}
           <span className={"text-accent"}>{community.createdAt}</span>
         </p>
 
       </div>
-      <div className={"my-4"}>
+      <div className={"my-2"}>
         <Divider />
       </div>
-      <div className={"flex justify-between  items-center w-full"}>
+      <div className={"flex justify-between  items-center w-full text-sm"}>
         <div className="flex gap-2">
           <p className="dark:text-textPrimary text-textSecondary">Members: </p>
           <p className={"dark:text-textPrimary text-textSecondary"}>
@@ -72,15 +72,15 @@ export const CommunityCard = ({ community }) => {
           </p>
           <p className="dark:text-textPrimary text-textSecondary">Posts: {community.experiencePosts.length + community.questionPosts.length}</p>
         </div>
+        <div className={"text-sm"}>
+          {community.createdBy !== user.uid && (
+            <Button outline={isJoined} isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
+              {isJoined ? <h1 className={isJoined ? "cursor-not-allowed" : 'cursor-pointer'}>Joined</h1> : "Join"}
+            </Button>
+          )}
+        </div>
+      </div>
 
-      </div>
-      <div className={"w-[120px] mt-8"}>
-        {community.createdBy !== user.uid && (
-          <Button outline={isJoined} isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
-            {isJoined ? <h1 className={isJoined ? "cursor-not-allowed" : 'cursor-pointer'}>Joined</h1> : "Join"}
-          </Button>
-        )}
-      </div>
     </div>
   );
 };

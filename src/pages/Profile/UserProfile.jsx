@@ -130,8 +130,9 @@ export const UserProfile = () => {
                   <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">About Me</h1>
                   <h1 className="text-textSecondary dark:text-textPrimary">{userData?.About || 'Not about defiend yet text-textSecondary dark:text-textPrimary'}</h1>
                 </div>
-                <div className="divider dark:divier"></div>
-                <div>
+
+                <hr />
+                <div className="dark:text-textPrimary text-textSecondary my-4">
                   Total Posts: {userData?.["Community Posts"].length}
                 </div>
               </div>

@@ -6,10 +6,10 @@ import Button from '../components/Button/Button.component.jsx'
 import { TagsInput } from "./TagsInput/TagsInput.jsx";
 import { LoadingSpinner } from "./LoadingSpinner/LoadingSpinner.jsx";
 import { AddCircle } from "iconsax-react";
-
+import create_community from '../assets/sidebar_icons/create_community.png'
 
 // eslint-disable-next-line react/prop-types
-export const CreateCommunity = ({ renderButton = true }) => {
+export const CreateCommunity = () => {
 
     const { handleCreateCommunity, error, tags, setTags, tagInputValue, setTagInputValue, type, setType, isCreating, title, setTitle, description, setDescription, imageAsset, setImageAsset } = useCreateCommunity();
 
@@ -17,13 +17,14 @@ export const CreateCommunity = ({ renderButton = true }) => {
         <>
             {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-            {renderButton ? <Button
-                isDisabled={false}
-                onClickHandler={() => document.getElementById("my_modal_1").showModal()}
+            <div
+                className="flex items-center justify-center gap-2 cursor-pointer     rounded-xl font-bold      p-4 dark:hover:bg-darkerGrey hover:bg-softGrey hover:text-textSecondary dark:hover:text-textPrimary dark:text-textPrimary text-textSecondary"
+                onClick={() => document.getElementById("my_modal_1").showModal()}
             >
-                +
-            </Button> :
-                <AddCircle onClick={() => document.getElementById("my_modal_1").showModal()} size={35} className="dark:text-accent text-blAccent cursor-pointer" />}
+                <img src={create_community} width={40} height={40} />
+                <h1>Create Community</h1>
+            </div>
+
             <dialog id="my_modal_1" className="modal">
                 <div className="modal-box max-w-3xl dark:bg-secondary">
                     {/* <h3 className="font-bold text-lg">Hello!</h3> */}
@@ -32,9 +33,7 @@ export const CreateCommunity = ({ renderButton = true }) => {
                     {error && <p className={'text-center text-error'}>{error}</p>}
                     <form method="dialog"  >
                         <div className={'flex flex-col items-center'}>
-
                             <UploadImage imgCompressionSize="sm" imageAsset={imageAsset} setImageAsset={setImageAsset} />
-
                         </div>
                         <div className="my-4 ">
                             <InputField

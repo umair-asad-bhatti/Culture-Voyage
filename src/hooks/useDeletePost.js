@@ -3,11 +3,13 @@ import { db } from "../firebase/Firebase"
 import { UserContext } from "../context/AuthContext"
 import { useContext, useState } from "react"
 import { getUserData } from "../utils/Firebase Utils Functions"
-
+import { useToast } from "@chakra-ui/react"
+import { ToastStrings } from "../constants/ToastStrings"
 
 const useDeletePost = () => {
     const { user } = useContext(UserContext)
     const [deleting, setDeleting] = useState(false)
+    const toast = useToast()
     const deletePost = async (postId, communityId, postType) => {
         setDeleting(true)
         const communityRef = doc(db, "Communities", communityId)
@@ -42,7 +44,12 @@ const useDeletePost = () => {
                 dataToUpdate['Community Posts'] = userCommunityPosts
                 transaction.update(userRef, dataToUpdate)
             });
-            alert('post deleted')
+            toast({
+                title: 'Post Deleted Successfully',
+                duration: ToastStrings.duration,
+                status: 'success',
+                isClosable: true
+            })
         } catch (e) {
             console.log("Transaction failed: ", e);
         } finally {

@@ -320,7 +320,7 @@ export const CommunityDetailPage = () => {
           </div>
 
           <div>
-            {CommunityData["Members"].length > 0 && (
+            {allCommunityMembers.length > 0 && (
               <Button
                 isDisabled={false}
                 onClickHandler={() =>
@@ -348,7 +348,7 @@ export const CommunityDetailPage = () => {
                     key={index}
                     className="flex p-4 gap-4 items-center justify-start "
                   >
-                    <div className="md:w-20 w-8 md:h-20 h-8 rounded-full">
+                    <div className="md:w-12 w-8 md:h-12 h-8 rounded-full">
                       <Img
                         src={member.Avatar}
                         loader={
@@ -360,13 +360,13 @@ export const CommunityDetailPage = () => {
                     <div>
                       <h1
                         key={index + 9}
-                        className="dark:text-primary text-secondary md:text-lg text-sm"
+                        className="dark:text-primary text-secondary md:text-md text-sm"
                       >
                         @{member.Username} {member.id === user.uid && "(you)"}
                       </h1>
                       <h1
                         key={index}
-                        className="dark:text-primary text-secondary md:text-lg text-sm"
+                        className="dark:text-primary text-secondary md:text-md text-sm"
                       >
                         {member.Email}
                       </h1>

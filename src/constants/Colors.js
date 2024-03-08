@@ -3,6 +3,8 @@ const Colors = {
     secondary: '#0D1B1E', //dark mode bg
     accent: '#32A287', //this is accent color
     blAccent: '#2D82B7',
+    darkCardBg: '#292F36', //bg color of card on dark mode
+    //bg color of card on light mode is primary
     // blAccent: '#07004D',
     textPrimary: '#D5D5D5', //dark mode text color
     textSecondary: '#101010', //light mode text color
@@ -22,10 +24,10 @@ const Colors = {
     warning: '#F57C00',
     info: '#1976D2',
     black: '#232323',
-    darkerGrey: '#292F36', //dark mode hover card bg color
+    darkerGrey: '#292F36', //dark mode  card bg color
     darkGrey: '#939393',
     grey: '#E0E0E0',
-    softGrey: '#F0F8EA', //light mode hover card bg color
+    softGrey: '#F0F8EA', //light mode  card bg color
     lightGrey: '#F9F9F9',
     white: '#FFFFFF',
 }

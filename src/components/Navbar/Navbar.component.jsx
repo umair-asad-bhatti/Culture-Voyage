@@ -42,9 +42,9 @@ export default function Navbar() {
   }, [user]);
 
   return (
-    <div className="flex items-center justify-between py-2">
+    <div className="flex items-center justify-between py-2 ">
       <div className="flex items-center lg:order-none order-last ">
-        <h2 className="ml-3 dark:text-accent text-blAccent font-bold text-2xl">
+        <h2 className="ml-3 bg-gradient-to-r from-blAccent from-10% via-sky-500 via-30% to-accent to-90% text-transparent bg-clip-text font-bold text-2xl">
           Culture Voyage
         </h2>
       </div>
@@ -63,7 +63,6 @@ export default function Navbar() {
         <div className="w-[100px] flex items-center justify-center gap-2">
           <Button onClickHandler={signout}>Logout</Button>
         </div>
-        <CreateCommunity renderButton={false} />
         <Link to={`${AppRoutes.profile.baseRoute}/${user?.uid}`}>
           <img
             style={{ width: 50, height: 50 }}

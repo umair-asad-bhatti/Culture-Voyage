@@ -13,6 +13,8 @@ import { gsap } from "gsap";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import { useCreatePost } from "../../hooks/useCreatePost";
 import { Flip } from "gsap/Flip";
+import { Link } from "react-router-dom";
+import { AppRoutes } from "../../constants/AppRoutes";
 
 gsap.registerPlugin(Flip);
 
@@ -122,7 +124,7 @@ export function CreatePostForm() {
     <div className="flex items-start justify-start gap-4 flex-wrap p-4">
       <div className="editor bg-primary dark:bg-transparent   md:w-[600px] flex flex-col text-gray-800   p-4 shadow-md dark:border-borderSecondary border-borderPrimary border-2 rounded-xl dark:shadow-sm">
         {/* active tabs button */}
-        <div className="bg-primary dark:bg-transparent flex justify-center gap-8 items-center rounded py-2 h-12 border shadow px-8 dark:border">
+        <div className="bg-primary dark:bg-transparent flex justify-center gap-8 items-center py-2 h-12 rounded-xl  border-2 border-borderPrimary dark:border-borderSecondary  px-8 ">
           <div
             onClick={() => {
               setActiveTab("details");
@@ -154,11 +156,11 @@ export function CreatePostForm() {
         </div>
         <div>
           {activeTab == "details" ? (
-            <div>
-              <div className=" relative w-full border p-2 rounded my-4 flex items-center justify-between">
+            <div className="">
+              <div className="border-2 border-borderPrimary dark:border-borderSecondary rounded-xl relative w-full  p-2  my-4 flex items-center justify-between">
                 <div
                   ref={dropdown}
-                  className=" h-80 overflow-y-scroll absolute hidden bg-softGrey border shadow-lg p-4 top-10 rounded left-0 w-full"
+                  className=" h-80 overflow-y-scroll absolute hidden bg-softGrey z-50 border shadow-lg p-4 top-10 rounded left-0 w-full"
                 >
                   user
                   <div
@@ -175,7 +177,7 @@ export function CreatePostForm() {
                     <h1>{user && user["First Name"]}</h1>
                   </div>
                   communities
-                  <div>
+                  <div className="">
                     {joinedCommunities.length > 0
                       ? joinedCommunities.map((c) => {
                         return (
@@ -213,18 +215,18 @@ export function CreatePostForm() {
               </div>
 
               {showPostType && postCategory !== user?.["First Name"] && (
-                <div className="my-4 relative">
+                <div className="my-4 relative border-2 rounded-xl p-2  w-full dark:text-textPrimary text-textSecondary border-borderPrimary dark:border-borderSecondary dark:focus-within:border-accent focus-within:border-blAccen">
                   <select
                     id="postType"
-                    className="border p-2 rounded w-full"
+                    className="border-none  w-full outline-none bg-transparent"
                     value={postType}
                     onChange={(e) => setPostType(e.target.value)}
                   >
-                    <option value="" disabled hidden>
+                    <option value="" className="dark:text-textPrimary text-textSecondary bg-primary dark:bg-secondary" disabled hidden>
                       Select Post Type
                     </option>
-                    <option value="Experience">Experience</option>
-                    <option value="Question">Question</option>
+                    <option className="dark:text-textPrimary text-textSecondary bg-primary dark:bg-secondary" value="Experience">Experience</option>
+                    <option className="dark:text-textPrimary text-textSecondary bg-primary dark:bg-secondary" value="Question">Question</option>
                   </select>
                 </div>
               )}
@@ -347,33 +349,35 @@ export function CreatePostForm() {
             {joinedCommunities.map((c) => {
               if (c["Community Name"] == postCategory) {
                 return (
-                  <div key={c.id} className="h-96">
-                    <div className="relative">
-                      <img
-                        src={c["Banner URL"]}
-                        alt=""
-                        className="w-full h-32 object-cover block"
-                      />
-                      <img
-                        src={c["Community Logo URL"]}
-                        alt=""
-                        className="-bottom-14 left-[35%] object-cover  rounded-full block absolute w-24 h-24"
-                      />
-                    </div>
-                    <h1 className="dark:text-primary font-bold text-secondary mt-20">
-                      {c["Community Name"]}
-                    </h1>
-                    <p>{c["Small Description"]}</p>
-                    <div className="divider"></div>
-                    <div className="flex items-center justify-center gap-4">
-                      <h1 className="dark:text-primary font-bold text-secondary">
-                        Members: {c["Members"].length}
+                  <Link key={c.id} to={`${AppRoutes.communityDetailPage.baseRoute}/${c.id}`}>
+                    <div className="h-96">
+                      <div className="relative">
+                        <img
+                          src={c["Banner URL"]}
+                          alt=""
+                          className="w-full h-32 object-cover block"
+                        />
+                        <img
+                          src={c["Community Logo URL"]}
+                          alt=""
+                          className="-bottom-14 left-[35%] object-cover  rounded-full block absolute w-24 h-24"
+                        />
+                      </div>
+                      <h1 className="dark:text-primary font-bold text-secondary mt-20">
+                        {c["Community Name"]}
                       </h1>
-                      <h1 className="dark:text-primary font-bold text-secondary">
-                        posts:{((c['Question Posts'] && c['Question Posts'].length) ?? 0) + ((c['Experience Posts'] && c['Experience Posts'].length) ?? 0)}
-                      </h1>
+                      <p>{c["Small Description"]}</p>
+                      <div className="divider"></div>
+                      <div className="flex items-center justify-center gap-4">
+                        <h1 className="dark:text-primary font-bold text-secondary">
+                          Members: {c["Members"].length}
+                        </h1>
+                        <h1 className="dark:text-primary font-bold text-secondary">
+                          posts:{((c['Question Posts'] && c['Question Posts'].length) ?? 0) + ((c['Experience Posts'] && c['Experience Posts'].length) ?? 0)}
+                        </h1>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               }
             })}
