@@ -16,7 +16,7 @@ export const getFirebaseDoc = async (collectionsName, id) => {
 export const getUserData = async (userId, dataField = null) => {
     const querySnapshot = await getDoc(doc(db, 'Users', userId))
     const data = querySnapshot.data();
-    return dataField ? data[dataField] : data
+    return dataField ? data[dataField] ?? [] : data
 }
 
 export const getCommunityData = async (communityId, dataField = null) => {
