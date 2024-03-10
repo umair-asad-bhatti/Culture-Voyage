@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import {
   addDoc,
@@ -9,12 +9,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/Firebase.js";
-import { UserContext } from "../context/AuthContext.jsx";
+
 import { ToastStrings } from "../constants/ToastStrings.js";
 import { uploadImageAssetToCloudinary } from "../cloudinary/Cloudinary.js";
 import { CommunityPostModel } from "../Models/CommunityPostModel.js";
 import { GeneralPostModel } from "../Models/GeneralPostModel.js";
-import { getUserData } from "../utils/Firebase Utils Functions/index.js";
+
 
 export const useCreatePost = () => {
   const user = JSON.parse(localStorage.getItem('userDetails'))
@@ -143,7 +143,7 @@ export const useCreatePost = () => {
           return id;
         };
 
-        const postId = await runTransaction(db, transactionFunction);
+        await runTransaction(db, transactionFunction);
 
         toast({
           title: "Post created successfully!",

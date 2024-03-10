@@ -12,7 +12,8 @@ import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
 import Button from '../Button/Button.component'
 
 
-const PostCardComponent = ({ postDetail, communityId, postType }) => {
+
+const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
 
     const [author, setAuthor] = useState()
     const { deletePost, deleting } = useDeletePost()
@@ -21,19 +22,36 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
     const [isLiking, setIsLiking] = useState(false)
     //listening to the realtime changes to likes of the post
     useEffect(() => {
+        if (postType == 'general') {
+            onSnapshot(doc(db, 'General Posts', postDetail.id), (doc) => {
+                console.log('in realtime');
+                const likesArray = doc.data().Likes ?? []
+                setIsLiked(likesArray.includes(user.uid))
+            })
+        } else {
+            onSnapshot(doc(db, 'Community Posts', postDetail.id), (doc) => {
+                console.log('in realtime');
+                const likesArray = doc.data().Likes ?? []
+                setIsLiked(likesArray.includes(user.uid))
+            })
+        }
 
-        const unsubscribe = onSnapshot(doc(db, 'Community Posts', postDetail.id), (doc) => {
-            console.log('in realtime');
-            const likesArray = doc.data().Likes ?? []
-            setIsLiked(likesArray.includes(user.uid))
-        })
-        return () => unsubscribe()
-    }, [postDetail, user.uid])
+
+    }, [postDetail, postType, user.uid])
     const likeOrDislikePost = async (id) => {
         if (isLiking)
             return
         setIsLiking(true)
-        const postRef = doc(db, 'Community Posts', id)
+        let postRef = null
+
+        if (postType == 'general') {
+            console.log('in general');
+            postRef = doc(db, 'General Posts', id)
+        } else {
+            console.log('in community post');
+            postRef = doc(db, 'Community Posts', id)
+        }
+
         const snapshot = await getDoc(postRef)
         const likesArray = snapshot.data().Likes ?? []
 
@@ -69,9 +87,9 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
                         <div style={{ width: 50, height: 50 }}>
                             <Img loader={<div className='w-full h-full rounded-full skeleton'></div>} className='rounded-full w-full h-full ' src={author?.Avatar} width={50} height={50} />
                         </div>
-                        <Link to={`/post/sdfhkhkj5654jkh63`}>
+                        <Link to={`/post/${postDetail['id']}`}>
                             <h1 className='lg:text-lg text-md font-bold text-blAccent dark:text-accent '>{postDetail?.Title}</h1>
-                            <span>By @{author?.Username}</span>
+                            <span className='dark:text-textPrimary text-textSecondary'>By @{author?.Username}</span>
                         </Link>
                     </div>
                     <div>
@@ -79,7 +97,7 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
                     </div>
                 </div>
                 <div className='p-2'>
-                    <h1>{postDetail.Description && truncateText(postDetail?.Description, 100)}</h1>
+                    <h1 className='dark:text-textPrimary text-textSecondary'>{postDetail.Description && truncateText(postDetail?.Description, 100)}</h1>
                 </div>
                 <div className="carousel w-full">
                     {
@@ -102,15 +120,15 @@ const PostCardComponent = ({ postDetail, communityId, postType }) => {
                     </div>
                     <div className='flex items-center justify-center gap-2'>
                         <MessageProgramming size="20" className="dark:text-primary text-secondary" />
-                        <h1 className='text-sm'>0</h1>
+                        <h1 className='dark:text-textPrimary text-textSecondary text-sm'>0</h1>
                     </div>
                 </div>
                 {
-                    postDetail['Created By'] == user.uid && <Button onClickHandler={() => deletePost(postDetail.id, communityId, postType)} isDisabled={deleting} outline={true}>
+                    (postDetail['Created By'] == user.uid && postType != 'general') && <Button onClickHandler={() => deletePost(postDetail.id, communityId, postType)} isDisabled={deleting} outline={true}>
                         <h1 className='text-warning'>{deleting ? 'Deleting...' : 'Delete Post'}</h1>
                     </Button>
                 }
-            </div>
+            </div >
         }
     </>
 }

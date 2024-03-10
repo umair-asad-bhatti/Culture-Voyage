@@ -3,7 +3,7 @@
 import Masonry from 'react-masonry-css'
 import PostCardComponent from '../PostCard/PostCard.Component'
 import './style.css'
-export default function PostListing({ posts, isFetching, communityId, postType }) {
+export default function PostListing({ posts, isFetching, communityId = null, postType }) {
 
     if (isFetching)
         return <h1>Loading...</h1>
