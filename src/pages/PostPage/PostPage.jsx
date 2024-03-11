@@ -10,11 +10,9 @@ export const PostPage = () => {
 
     //fetch all the posts here  
     const { user } = useContext(UserContext)
-    console.log(user.uid);
     const [posts, setPosts] = useState([])
     const [isFetching, setIsFetching] = useState(true)
     useEffect(() => {
-
         onSnapshot(collection(db, 'General Posts'), snapshots => {
             let data = []
             snapshots.forEach(snapshot => {
@@ -26,7 +24,7 @@ export const PostPage = () => {
             setIsFetching(false)
         })
 
-    }, [])
+    }, [user.uid])
     return <PostListing posts={posts} isFetching={isFetching} postType={'general'} />
 
 }

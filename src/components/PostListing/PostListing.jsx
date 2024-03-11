@@ -3,10 +3,15 @@
 import Masonry from 'react-masonry-css'
 import PostCardComponent from '../PostCard/PostCard.Component'
 import './style.css'
+import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 export default function PostListing({ posts, isFetching, communityId = null, postType }) {
 
     if (isFetching)
-        return <h1>Loading...</h1>
+        return <div className='flex items-center justify-center h-full' >
+            <div className='w-20 h-20'>
+                <LoadingSpinner />
+            </div>
+        </div>
     if (!isFetching && posts.length == 0)
         return <h1>no data found</h1>
     //delete experience post 

@@ -6,7 +6,7 @@ import { useState } from 'react'
 export default function App() {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-  const [darkMode, setDarkMode] = useState(prefersDark)
+  const [darkMode, setDarkMode] = useState(false)
   return (
     <div className={`${darkMode ? "dark" : ""}`}>
       <ThemeController darkMode={darkMode} setDarkMode={setDarkMode} />
