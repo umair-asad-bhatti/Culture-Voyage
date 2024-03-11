@@ -13,6 +13,7 @@ import Button from '../Button/Button.component'
 
 
 
+
 const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
 
     const [author, setAuthor] = useState()
@@ -24,18 +25,18 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
     useEffect(() => {
         if (postType == 'general') {
             onSnapshot(doc(db, 'General Posts', postDetail.id), (doc) => {
-                console.log('in realtime');
+
                 const likesArray = doc.data().Likes ?? []
                 setIsLiked(likesArray.includes(user.uid))
             })
+
         } else {
             onSnapshot(doc(db, 'Community Posts', postDetail.id), (doc) => {
-                console.log('in realtime');
+
                 const likesArray = doc.data().Likes ?? []
                 setIsLiked(likesArray.includes(user.uid))
             })
         }
-
 
     }, [postDetail, postType, user.uid])
     const likeOrDislikePost = async (id) => {

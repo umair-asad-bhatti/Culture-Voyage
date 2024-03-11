@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import {
   addDoc,
@@ -14,11 +14,19 @@ import { ToastStrings } from "../constants/ToastStrings.js";
 import { uploadImageAssetToCloudinary } from "../cloudinary/Cloudinary.js";
 import { CommunityPostModel } from "../Models/CommunityPostModel.js";
 import { GeneralPostModel } from "../Models/GeneralPostModel.js";
+import { getUserData } from "../utils/Firebase Utils Functions/index.js";
 
 
 export const useCreatePost = () => {
-  const user = JSON.parse(localStorage.getItem('userDetails'))
-
+  const { uid } = JSON.parse(localStorage.getItem('user'))
+  const [firstName, setFirstName] = useState('')
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getUserData(uid, 'First Name')
+      setFirstName(data)
+    }
+    getData()
+  }, [])
   const toast = useToast()
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
@@ -48,7 +56,7 @@ export const useCreatePost = () => {
       setIsCreating(true);
       const url = [];
       const publicId = [];
-      if (postCategory == user['First Name']) {
+      if ((postCategory == firstName)) {
 
         //1 . Users =>General Posts [post id]
         //2.  General Posts =>doc=>

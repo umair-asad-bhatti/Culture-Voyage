@@ -1,12 +1,16 @@
-import { collection, getDocs, onSnapshot, query } from "firebase/firestore"
-import { useEffect, useState } from "react"
+import { collection, onSnapshot } from "firebase/firestore"
+import { useContext, useEffect, useState } from "react"
 import { db } from "../../firebase/Firebase"
 import PostListing from "../../components/PostListing/PostListing"
+import { UserContext } from "../../context/AuthContext"
+
 
 
 export const PostPage = () => {
 
-    //fetch all the posts here
+    //fetch all the posts here  
+    const { user } = useContext(UserContext)
+    console.log(user.uid);
     const [posts, setPosts] = useState([])
     const [isFetching, setIsFetching] = useState(true)
     useEffect(() => {
@@ -15,7 +19,8 @@ export const PostPage = () => {
             let data = []
             snapshots.forEach(snapshot => {
                 const postData = snapshot.data();
-                data.push({ id: snapshot.id, ...postData });
+                if (user.uid != postData['Created By'])
+                    data.push({ id: snapshot.id, ...postData });
             })
             setPosts(data);
             setIsFetching(false)
