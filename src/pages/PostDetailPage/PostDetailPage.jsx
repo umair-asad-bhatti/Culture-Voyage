@@ -62,7 +62,7 @@ export const PostDetailPage = () => {
               <div className="mb-2 bg-grey p-2 w-72 rounded-2xl">
                 <div className="flex items-center gap-2">
                   <img
-                    className="w-10 h-10 rounded-full"
+                    className="w-8 h-8 rounded-full"
                     src={commentUsers[comment["Created By"]]?.Avatar}
                     alt="Profile Pic"
                   />

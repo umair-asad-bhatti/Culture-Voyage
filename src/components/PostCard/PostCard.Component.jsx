@@ -120,7 +120,8 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                         <h1 className='text-[#E1306C]'>{postDetail && postDetail['Likes'].length} </h1>
                     </div>
                     <div className='flex items-center justify-center gap-2'>
-                        <MessageProgramming size="20" className="dark:text-primary text-secondary" />
+                    <Link to={`/post/${postDetail['id']}`}>
+                        <MessageProgramming size="20" className="dark:text-primary text-secondary" /></Link>
                         <h1 className='dark:text-textPrimary text-textSecondary text-sm'>0</h1>
                     </div>
                 </div>

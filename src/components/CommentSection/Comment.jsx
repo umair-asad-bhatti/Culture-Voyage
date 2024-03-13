@@ -16,8 +16,7 @@ const Comment = ({ postID }) => {
   };
 
   return (
-    <div>
-      <div className="mt-4">
+      <div className="mt-4 w-72">
         <InputField
           type="textarea"
           value={description}
@@ -42,11 +41,6 @@ const Comment = ({ postID }) => {
           </Button>
         </div>
       </div>
-      <h2 className="dark:text-textPrimary text-secondary font-bold text-xl mb-4">
-        Comments
-      </h2>
-      
-    </div>
   );
 };
 
