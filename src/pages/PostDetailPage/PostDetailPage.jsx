@@ -1,15 +1,18 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { db } from "../../firebase/Firebase";
 import Comment from "../../components/CommentSection/Comment";
 import { useFetchComments } from "../../hooks/useFetchComments";
-import Button from "../../components/Button/Button.component";
 
 export const PostDetailPage = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams()
+  const type = searchParams.get('type')
+
+
   const [data, setdata] = useState(null);
-  const { comments, isLoading } = useFetchComments(id);
+  const { comments } = useFetchComments(id);
   const [commentUsers, setCommentUsers] = useState([]);
 
   useEffect(() => {
@@ -21,13 +24,12 @@ export const PostDetailPage = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const snapshot = await getDoc(doc(db, "General Posts", id));
+      const snapshot = await getDoc(doc(db, `${type == 'general' ? 'General Posts' : 'Community Posts'}`, id));
       const data = snapshot.data();
-      console.log(data);
       setdata(data);
     };
     getData();
-  }, [id]);
+  }, [id, type]);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -53,7 +55,7 @@ export const PostDetailPage = () => {
       <h1 className="dark:text-textPrimary text-secondary font-bold text-2xl">
         Title: {data.Title}
       </h1>
-    
+
       <Comment postID={id} />
       <div className="">
         <ul>

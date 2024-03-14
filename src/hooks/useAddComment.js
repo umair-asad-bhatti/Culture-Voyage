@@ -1,19 +1,19 @@
-import { useState, useEffect,useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { db } from "../firebase/Firebase.js";
-import {collection, addDoc, updateDoc, doc} from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { useToast } from "@chakra-ui/react";
-import {UserContext} from "../context/AuthContext.jsx";
+import { UserContext } from "../context/AuthContext.jsx";
 import { ToastStrings } from "../constants/ToastStrings.js";
 import { CommentModel } from '../Models/CommentModel.js';
 
 export const useAddComment = () => {
-    const toast = useToast();
- 
+  const toast = useToast();
+
   const { user } = useContext(UserContext);
   const [isAddingComment, setIsAddingComment] = useState(false);
   const [error, setError] = useState(null);
 
-  const addComment = async (description,postID) => {
+  const addComment = async (description, postID) => {
     setError(null);
 
     try {

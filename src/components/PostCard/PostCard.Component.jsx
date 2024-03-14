@@ -88,7 +88,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                         <div style={{ width: 50, height: 50 }}>
                             <Img loader={<div className='w-full h-full rounded-full skeleton'></div>} className='rounded-full w-full h-full ' src={author?.Avatar} width={50} height={50} />
                         </div>
-                        <Link to={`/post/${postDetail['id']}`}>
+                        <Link to={`/post/${postDetail['id']}?type=${postType == 'general' ? 'general' : 'community'}`}>
                             <h1 className='lg:text-lg text-md font-bold text-blAccent dark:text-accent '>{postDetail?.Title}</h1>
                             <span className='dark:text-textPrimary text-textSecondary'>By @{author?.Username}</span>
                         </Link>
@@ -120,8 +120,8 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                         <h1 className='text-[#E1306C]'>{postDetail && postDetail['Likes'].length} </h1>
                     </div>
                     <div className='flex items-center justify-center gap-2'>
-                    <Link to={`/post/${postDetail['id']}`}>
-                        <MessageProgramming size="20" className="dark:text-primary text-secondary" /></Link>
+                        <Link to={`/post/${postDetail['id']}`}>
+                            <MessageProgramming size="20" className="dark:text-primary text-secondary" /></Link>
                         <h1 className='dark:text-textPrimary text-textSecondary text-sm'>0</h1>
                     </div>
                 </div>
