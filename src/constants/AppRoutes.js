@@ -34,6 +34,12 @@ const AppRoutes = {
         label: 'Edit Profile',
         route: '/edit/profile/:id',
         baseRoute: '/edit/profile'
+    },
+    editPost: {
+        label: 'Edit Post',
+        route: 'edit/post/:id',
+        baseRoute: 'edit/post'
+
     }
 
 }

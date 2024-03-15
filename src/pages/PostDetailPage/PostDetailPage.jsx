@@ -1,16 +1,18 @@
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { db } from "../../firebase/Firebase";
 import Comment from "../../components/CommentSection/Comment";
 import { useFetchComments } from "../../hooks/useFetchComments";
+import { UserContext } from "../../context/AuthContext";
+import Button from "../../components/Button/Button.component";
 
 export const PostDetailPage = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams()
   const type = searchParams.get('type')
-
-
+  const navigation = useNavigate()
+  const { user } = useContext(UserContext)
   const [data, setdata] = useState(null);
   const { comments } = useFetchComments(id);
   const [commentUsers, setCommentUsers] = useState([]);
@@ -52,10 +54,17 @@ export const PostDetailPage = () => {
 
   return (
     <>
+
       <h1 className="dark:text-textPrimary text-secondary font-bold text-2xl">
         Title: {data.Title}
       </h1>
-
+      <div>
+        {
+          data['Created By'] == user.uid && <Button isDisabled={false} onClickHandler={() => { navigation(`/edit/post/${id}?type=${type}`) }} >
+            Edit Post
+          </Button>
+        }
+      </div>
       <Comment postID={id} />
       <div className="">
         <ul>

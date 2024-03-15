@@ -13,6 +13,7 @@ import { UserProfile } from '../Profile/UserProfile.jsx';
 import { CreatePost } from '../CreatePost/CreatePost.jsx'
 import { AppRoutes } from '../../constants/AppRoutes.js';
 import { EditProfilePage } from '../EditProfile/EditProfilePage.jsx';
+import { EditPost } from '../EditPost/EditPost.jsx';
 
 
 
@@ -47,6 +48,9 @@ export default function HomePage() {
                                 <Route exact path={AppRoutes.profile.route} element={<UserProfile />} />
                                 <Route exact path={AppRoutes.createPost.route} element={<CreatePost />} />
                                 <Route exact path={AppRoutes.editProfile.route} element={<EditProfilePage />} />
+                                <Route exact path={AppRoutes.editPost.route} element={<EditPost />} />
+
+
                             </Route>
                         </Routes>
                     </div>
