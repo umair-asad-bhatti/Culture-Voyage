@@ -17,8 +17,8 @@ export const PostPage = () => {
             let data = []
             snapshots.forEach(snapshot => {
                 const postData = snapshot.data();
-                if (user.uid != postData['Created By'])
-                    data.push({ id: snapshot.id, ...postData });
+                // if (user.uid != postData['Created By'])
+                data.push({ id: snapshot.id, ...postData });
             })
             setPosts(data);
             setIsFetching(false)
