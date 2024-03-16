@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -14,32 +15,220 @@ import translate from "translate";
 import { franc } from "franc";
 
 const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
+
   const [author, setAuthor] = useState();
   const { deletePost, deleting } = useDeletePost();
   const { user } = useContext(UserContext);
   const [isLiked, setIsLiked] = useState();
   const [isLiking, setIsLiking] = useState(false);
   const [translatedtext, setTranslatedText] = useState();
+  // Mapping between franc keywords and ISO 639-1 language codes
+  const languageMapping = {
+    "cmn": "zh",
+    "spa": "es",
+    "eng": "en",
+    "rus": "ru",
+    "arb": "ar",
+    "ben": "bn",
+    "hin": "hi",
+    "por": "pt",
+    "ind": "id",
+    "jpn": "ja",
+    "fra": "fr",
+    "deu": "de",
+    "jav": "jv",
+    "kor": "ko",
+    "tel": "te",
+    "vie": "vi",
+    "mar": "mr",
+    "ita": "it",
+    "tam": "ta",
+    "tur": "tr",
+    "urd": "ur",
+    "guj": "gu",
+    "pol": "pl",
+    "ukr": "uk",
+    "kan": "kn",
+    "mai": "mai",
+    "mal": "ml",
+    "pes": "fa",
+    "mya": "my",
+    "swh": "sw",
+    "sun": "su",
+    "ron": "ro",
+    "pan": "pa",
+    "bho": "bh",
+    "amh": "am",
+    "hau": "ha",
+    "fuv": "ff",
+    "bos": "bs",
+    "hrv": "hr",
+    "nld": "nl",
+    "srp": "sr",
+    "tha": "th",
+    "ckb": "ku",
+    "yor": "yo",
+    "uzn": "uz",
+    "zlm": "ms",
+    "ibo": "ig",
+    "npi": "ne",
+    "ceb": "ceb",
+    "skr": "skr",
+    "tgl": "tl",
+    "hun": "hu",
+    "azj": "az",
+    "sin": "si",
+    "koi": "koi",
+    "ell": "el",
+    "ces": "cs",
+    "mag": "mag",
+    "run": "rn",
+    "bel": "be",
+    "plt": "mg",
+    "qug": "qug",
+    "mad": "mad",
+    "nya": "ny",
+    "zyb": "zyb",
+    "pbu": "ps",
+    "kin": "rw",
+    "zul": "zu",
+    "bul": "bg",
+    "swe": "sv",
+    "lin": "ln",
+    "som": "so",
+    "hms": "hms",
+    "hnj": "hnj",
+    "ilo": "ilo",
+    "kaz": "kk",
+    "uig": "ug",
+    "hat": "ht",
+    "khm": "km",
+    "prs": "prs",
+    "hil": "hil",
+    "sna": "sn",
+    "tat": "tt",
+    "xho": "xh",
+    "hye": "hy",
+    "min": "min",
+    "afr": "af",
+    "lua": "lua",
+    "sat": "sat",
+    "bod": "bo",
+    "tir": "ti",
+    "fin": "fi",
+    "slk": "sk",
+    "tuk": "tk",
+    "dan": "da",
+    "nob": "nb",
+    "suk": "su",
+    "als": "sq",
+    "sag": "sg",
+    "nno": "nn",
+    "heb": "he",
+    "mos": "mos",
+    "tgk": "tg",
+    "cat": "ca",
+    "sot": "st",
+    "kat": "ka",
+    "bcl": "bcl",
+    "glg": "gl",
+    "lao": "lo",
+    "lit": "lt",
+    "umb": "umb",
+    "tsn": "tn",
+    "vec": "vec",
+    "nso": "nso",
+    "ban": "ban",
+    "bug": "bug",
+    "knc": "knc",
+    "kng": "kng",
+    "ibb": "ibb",
+    "lug": "lg",
+    "ace": "ace",
+    "bam": "bm",
+    "tzm": "tzm",
+    "ydd": "yi",
+    "kmb": "kmb",
+    "lun": "lun",
+    "shn": "shn",
+    "war": "war",
+    "dyu": "dyu",
+    "wol": "wo",
+    "kir": "ky",
+    "nds": "nds",
+    "mkd": "mk",
+    "vmw": "vmw",
+    "zgh": "zgh",
+    "ewe": "ee",
+    "khk": "khk",
+    "slv": "sl",
+    "ayr": "ayr",
+    "bem": "bem",
+    "emk": "emk",
+    "bci": "bci",
+    "bum": "bum",
+    "epo": "eo",
+    "pam": "pam",
+    "tiv": "tiv",
+    "tpi": "tpi",
+    "ven": "ve",
+    "ssw": "ss",
+    "nyn": "nyn",
+    "kbd": "kbd",
+    "iii": "ii",
+    "yao": "yao",
+    "lvs": "lv",
+    "quz": "quz",
+    "src": "sc",
+    "rup": "rup",
+    "sco": "sco",
+    "tso": "ts",
+    "men": "men",
+    "fon": "fon",
+    "nhn": "nhn",
+    "dip": "dip",
+    "kde": "kde",
+    "kbp": "kbp",
+    "tem": "tem",
+    "toi": "toi",
+    "ekk": "et",
+    "snk": "snk",
+    "cjk": "cjk",
+    "ada": "ada",
+    "aii": "aii",
+    "quy": "quy",
+    "rmn": "rmn",
+    "bin": "bin",
+    "gaa": "gaa",
+    "ndo": "nd"
+  };
 
-  const detectedLanguageCode = franc(postDetail.Description);
-  console.log(detectedLanguageCode);
+  // Function to convert franc keyword to ISO 639-1 language code
+  const detectedLanguageCode = franc(postDetail.Description)
+  function francToISO(francKeyword) {
+    // Check if the provided keyword exists in the mapping
+    if (languageMapping.hasOwnProperty(francKeyword)) {
+      // Return the corresponding ISO 639-1 language code
+      return languageMapping[francKeyword];
+    } else {
+      // Return null if no mapping found
+      return null;
+    }
+  }
+
 
   const translatePost = async (text, detectedLanguageCode) => {
-    if (detectedLanguageCode !== "eng") {
-      try {
-        const translateText = await translate(text, {
-          from: detectedLanguageCode,
-          to: "en",
-        });
-        setTranslatedText(translateText)
-        console.log("Translated text:", translateText);
-      } catch (error) {
-        console.error("Translation failed:", error);
-      }
-    } else {
-      console.log("Text is already in English:", text);
-    }
-  };
+    console.log(detectedLanguageCode);
+    const detectedLanguage = francToISO(detectedLanguageCode)
+    console.log(detectedLanguage);
+    const translateText = await translate(text, {
+      from: detectedLanguage,
+      to: "en",
+    });
+    setTranslatedText(translateText)
+    console.log("Translated text:", translateText);
+
+  }
 
   //listening to the realtime changes to likes of the post
   useEffect(() => {

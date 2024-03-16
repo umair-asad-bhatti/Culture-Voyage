@@ -21,6 +21,8 @@
     "franc": "^6.2.0",
     "gsap": "^3.12.5",
     "iconsax-react": "^0.0.8",
+    "languagedetect": "^2.0.0",
+    "languages.io": "^0.9.1",
     "libphonenumber-js": "^1.10.53",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",

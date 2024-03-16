@@ -11,13 +11,12 @@ const useDeletePost = () => {
     const [deleting, setDeleting] = useState(false)
     const toast = useToast()
     const deletePost = async (postId, communityId, postType) => {
-
         setDeleting(true)
         const postRef = doc(db, `Community Posts`, postId)
         const generalPostRef = doc(db, 'General Posts', postId)
         const userRef = doc(db, 'Users', user.uid)
         try {
-            if (postType == 'community') {
+            if (communityId) {
                 const communityRef = doc(db, "Communities", communityId)
                 await runTransaction(db, async (transaction) => {
                     //perform the writes first
