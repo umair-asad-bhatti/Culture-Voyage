@@ -110,9 +110,8 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 />
               </div>
               <Link
-                to={`/post/${postDetail["id"]}?type=${
-                  postType == "general" ? "general" : "community"
-                }`}
+                to={`/post/${postDetail["id"]}?type=${postType == "general" ? "general" : "community"
+                  }`}
               >
                 <h1 className="lg:text-lg text-md font-bold text-blAccent dark:text-accent ">
                   {postDetail?.Title}
@@ -160,13 +159,13 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               <h1 className="dark:text-textPrimary text-textSecondary">{translatedtext}</h1>
             </div>
           )}
-          {detectedLanguageCode!=='eng'&&(
-          <Button
-            onClickHandler={() => translatePost(postDetail.Description, detectedLanguageCode)}
-          >
-            Translate into English
-          </Button>
-         )}
+          {detectedLanguageCode !== 'eng' && (
+            <Button
+              onClickHandler={() => translatePost(postDetail.Description, detectedLanguageCode)}
+            >
+              Translate into English
+            </Button>
+          )}
           <div className="flex items-center justify-around  my-2   bg-slate-100 dark:bg-gray-800 rounded-xl p-2">
             <div className="flex items-center justify-center gap-2">
               <Heart
@@ -192,7 +191,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               </h1>
             </div>
           </div>
-          {postDetail["Created By"] == user.uid && postType != "general" && (
+          {postDetail["Created By"] == user.uid && (
             <Button
               onClickHandler={() =>
                 deletePost(postDetail.id, communityId, postType)
