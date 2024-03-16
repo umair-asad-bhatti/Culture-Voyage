@@ -1,7 +1,7 @@
 import { franc } from 'franc';
 import { useState } from 'react'
 import Translate from 'translate';
-
+// dont use this hook. This need to be updated first
 function useTranslatePost(postDetail) {
     const [translatedtext, setTranslatedText] = useState('');
     const [detectedLanguageCode, setDetectedLanguageCode] = useState(franc(postDetail.Description))

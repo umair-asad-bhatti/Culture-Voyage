@@ -39,8 +39,6 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
       to: "en",
     });
     setTranslatedText(translateText)
-
-
   }
 
   //listening to the realtime changes to likes of the post
