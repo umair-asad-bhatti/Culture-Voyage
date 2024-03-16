@@ -204,7 +204,6 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
   };
 
   // Function to convert franc keyword to ISO 639-1 language code
-  const detectedLanguageCode = franc(postDetail.Description)
   function francToISO(francKeyword) {
     // Check if the provided keyword exists in the mapping
     if (languageMapping.hasOwnProperty(francKeyword)) {
@@ -216,17 +215,19 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
     }
   }
 
-
-  const translatePost = async (text, detectedLanguageCode) => {
-    console.log(detectedLanguageCode);
-    const detectedLanguage = francToISO(detectedLanguageCode)
-    console.log(detectedLanguage);
-    const translateText = await translate(text, {
+  const [detectedLanguageCode, setDetectedLanguageCode] = useState()
+  const translatePost = async (text) => {
+    const res = franc(text)
+    setDetectedLanguageCode(res)
+    const detectedLanguage = francToISO(res)
+    const translateText = await translate('come ti chiami', {
       from: detectedLanguage,
       to: "en",
     });
+
+    console.log(translateText);
     setTranslatedText(translateText)
-    console.log("Translated text:", translateText);
+
 
   }
 
@@ -350,7 +351,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
           )}
           {detectedLanguageCode !== 'eng' && (
             <Button
-              onClickHandler={() => translatePost(postDetail.Description, detectedLanguageCode)}
+              onClickHandler={() => translatePost(postDetail.Description)}
             >
               Translate into English
             </Button>
