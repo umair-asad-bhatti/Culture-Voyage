@@ -12,7 +12,7 @@ import { db } from "../../firebase/Firebase";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import Button from "../Button/Button.component";
 import translate from "translate";
-import { franc } from "franc";
+
 
 const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
 
@@ -26,6 +26,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
 
 
 
+  // eslint-disable-next-line no-unused-vars
   const [detectedLanguageCode, setDetectedLanguageCode] = useState()
   const translatePost = async (text) => {
     const endpoint = `https://api.dandelion.eu/datatxt/li/v1/?text=${text}&token=dbfa0d365a2440a6b477878602cbf0b2`
