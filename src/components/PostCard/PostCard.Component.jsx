@@ -12,6 +12,7 @@ import { db } from "../../firebase/Firebase";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import Button from "../Button/Button.component";
 import translate from "translate";
+import { useTranslatePost } from "../../hooks/useTranslatePost";
 
 
 const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
@@ -21,25 +22,22 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
   const { user } = useContext(UserContext);
   const [isLiked, setIsLiked] = useState();
   const [isLiking, setIsLiking] = useState(false);
-  const [translatedtext, setTranslatedText] = useState();
+
+  const {translatePost, translatedtext, detectedLanguageCode, setDetectedLanguageCode} = useTranslatePost();
   // Mapping between franc keywords and ISO 639-1 language codes
-
-
-
-  // eslint-disable-next-line no-unused-vars
-  const [detectedLanguageCode, setDetectedLanguageCode] = useState()
-  const translatePost = async (text) => {
-    const endpoint = `https://api.dandelion.eu/datatxt/li/v1/?text=${text}&token=dbfa0d365a2440a6b477878602cbf0b2`
+  const languageCode= async()=>{
+    const endpoint = `https://api.dandelion.eu/datatxt/li/v1/?text=${postDetail.Description}&token=dbfa0d365a2440a6b477878602cbf0b2`
     const res = await fetch(endpoint)
     const langs = await res.json()
     const lang = langs.detectedLangs[0].lang
+    setDetectedLanguageCode(lang)
     console.log(lang);
-    const translateText = await translate(text, {
-      from: lang,
-      to: "en",
-    });
-    setTranslatedText(translateText)
   }
+ 
+  useEffect (()=>{
+    languageCode();
+  },[postDetail.Description])
+ 
 
   //listening to the realtime changes to likes of the post
   useEffect(() => {
@@ -159,9 +157,9 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               <h1 className="dark:text-textPrimary text-textSecondary">{translatedtext}</h1>
             </div>
           )}
-          {detectedLanguageCode !== 'eng' && (
+          {detectedLanguageCode !== 'en' && (
             <Button
-              onClickHandler={() => translatePost(postDetail.Description)}
+              onClickHandler={() => translatePost(postDetail.Description,detectedLanguageCode)}
             >
               Translate into English
             </Button>
