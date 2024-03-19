@@ -2,6 +2,7 @@ import strings from "../../constants/Strings";
 import { useState, useEffect } from "react";
 import { Lock, SmsTracking } from "iconsax-react";
 import Logo from "../../assets/Logo.png";
+import Welcome from '../../assets/welcome.json'
 import GoogleLogo from "../../assets/GoogleLogo.png";
 import InputField from "../../components/Inputfield/InputField.component";
 import Button from "../../components/Button/Button.component";
@@ -17,6 +18,7 @@ import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js"
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../constants/AppRoutes.js";
+import Lottie from "lottie-react";
 export default function LoginPage() {
   // const toast = useToast()
   const navigate = useNavigate()
@@ -39,8 +41,11 @@ export default function LoginPage() {
       {(
         <>
           <div className="min-h-screen flex justify-between md:flex-row flex-col">
-            <div className="md:w-[50%] dark:bg-accent bg-blAccent  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
-              <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" />
+            <div className="md:w-[40%] dark:bg-accent bg-blAccent  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
+              <div className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]">
+                <Lottie animationData={Welcome} loop={true} />
+              </div>
+              {/* <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" /> */}
               {/* <div className="w-[300px] h-[300px]  rounded-full">
                 <Lottie animationData={hello} loop={true} />
               </div> */}
@@ -53,7 +58,7 @@ export default function LoginPage() {
               </h3>
             </div>
 
-            <div className=" md:h-auto h-screen gap-2 p-8  dark:bg-secondary  md:w-[50%] flex flex-col justify-center items-center ">
+            <div className=" md:h-auto h-screen gap-2 p-8  dark:bg-secondary  md:w-[60%] flex flex-col justify-center items-center ">
               <h3 className="dark:text-primary md:hidden block text-2xl text-center ">
                 Login
               </h3>

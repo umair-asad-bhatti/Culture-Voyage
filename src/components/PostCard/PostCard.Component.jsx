@@ -11,7 +11,6 @@ import { Heart, MessageProgramming } from "iconsax-react";
 import { db } from "../../firebase/Firebase";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import Button from "../Button/Button.component";
-import translate from "translate";
 import { useTranslatePost } from "../../hooks/useTranslatePost";
 
 
@@ -23,21 +22,8 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
   const [isLiked, setIsLiked] = useState();
   const [isLiking, setIsLiking] = useState(false);
 
-  const {translatePost, translatedtext, detectedLanguageCode, setDetectedLanguageCode} = useTranslatePost();
-  // Mapping between franc keywords and ISO 639-1 language codes
-  const languageCode= async()=>{
-    const endpoint = `https://api.dandelion.eu/datatxt/li/v1/?text=${postDetail.Description}&token=dbfa0d365a2440a6b477878602cbf0b2`
-    const res = await fetch(endpoint)
-    const langs = await res.json()
-    const lang = langs.detectedLangs[0].lang
-    setDetectedLanguageCode(lang)
-    console.log(lang);
-  }
- 
-  useEffect (()=>{
-    languageCode();
-  },[postDetail.Description])
- 
+  const { translatePost, translatedtext, detectedLanguageCode } = useTranslatePost(postDetail.Description);
+
 
   //listening to the realtime changes to likes of the post
   useEffect(() => {
@@ -159,7 +145,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
           )}
           {detectedLanguageCode !== 'en' && (
             <Button
-              onClickHandler={() => translatePost(postDetail.Description,detectedLanguageCode)}
+              onClickHandler={() => translatePost()}
             >
               Translate into English
             </Button>

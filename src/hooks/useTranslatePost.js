@@ -1,27 +1,35 @@
-import { franc } from 'franc';
-import { useState } from 'react'
+
+import { useEffect, useState } from 'react'
 import translate from 'translate';
 // dont use this hook. This need to be updated first
-function useTranslatePost(postDetail) {
+function useTranslatePost(textToBeTranslated) {
     const [translatedtext, setTranslatedText] = useState('');
     const [detectedLanguageCode, setDetectedLanguageCode] = useState()
+    useEffect(() => {
+        const detectLanguageCode = async () => {
+            const endpoint = `https://api.dandelion.eu/datatxt/li/v1/?text=${textToBeTranslated}&token=dbfa0d365a2440a6b477878602cbf0b2`
+            const res = await fetch(endpoint)
+            const langs = await res.json()
+            const lang = langs.detectedLangs[0].lang
+            setDetectedLanguageCode(lang)
+        }
+        detectLanguageCode()
+    }, [textToBeTranslated])
 
-  
-    const translatePost = async (text, detectedLanguageCode) => {
-        console.log(detectedLanguageCode);
+    const translatePost = async () => {
         if (detectedLanguageCode !== "eng") {
             try {
-                const translateText = await translate(text, {
+                const translateText = await translate(textToBeTranslated, {
                     from: detectedLanguageCode,
                     to: "en",
-                  });
-                  setTranslatedText(translateText)
+                });
+                setTranslatedText(translateText)
                 console.log("Translated text:", translateText);
             } catch (error) {
                 console.error("Translation failed:", error);
             }
         } else {
-            console.log("Text is already in English:", text);
+            console.log("Text is already in English:", textToBeTranslated);
         }
     };
     return { translatePost, translatedtext, detectedLanguageCode, setDetectedLanguageCode }

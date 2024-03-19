@@ -1,13 +1,13 @@
-import { Lock, PasswordCheck, Send, SmsTracking } from "iconsax-react";
+import { Lock, SmsTracking } from "iconsax-react";
 import PasswordChecklist from "react-password-checklist";
 import GoogleLogo from "../../assets/GoogleLogo.png";
-import Logo from "../../assets/Logo.png";
+// import Logo from "../../assets/Logo.png"; 
+import Welcome from '../../assets/welcome.json'
 import Button from "../../components/Button/Button.component";
 import InputField from "../../components/Inputfield/InputField.component";
 import NavigateLink from "../../components/NavigateLink/NavigateLink.component.jsx";
 import SocialMediaButton from "../../components/SocialMediaButton/SocialMediaButton.component";
 import strings from "../../constants/Strings";
-import { Colors } from "../../constants/Colors.js";
 import { Spinner } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import useSignup from "../../hooks/useSignup.js";
@@ -15,6 +15,7 @@ import { useGoogleLogin } from "../../hooks/useGoogleLogin.js";
 import { UserContext } from "../../context/AuthContext.jsx";
 import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+import Lottie from "lottie-react";
 
 export default function RegisterPage() {
   // const toast = useToast()
@@ -37,11 +38,14 @@ export default function RegisterPage() {
   return (
     <>
       <div className="md:min-h-screen flex  justify-between md:flex-row flex-col">
-        <div className="md:w-[50%] md:flex hidden  dark:bg-accent bg-blAccent  md:min-h-screen  flex-col items-center justify-center">
-          <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" />
+        <div className="md:w-[40%] md:flex hidden  dark:bg-accent bg-blAccent  md:min-h-screen  flex-col items-center justify-center">
+          <div className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]">
+            <Lottie animationData={Welcome} loop={true} />
+          </div>
+          {/* <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" /> */}
           <h3 className="text-primary text-2xl">{strings.signUpHeading}</h3>
         </div>
-        <div className="md:h-auto h-screen gap-4 p-8 rounded dark:bg-secondary flex-col md:w-[50%] flex justify-center items-center ">
+        <div className="md:h-auto h-screen gap-4 p-8 rounded dark:bg-secondary flex-col md:w-[60%] flex justify-center items-center ">
           <h3 className="dark:text-primary md:hidden block text-2xl text-center ">
             Register
           </h3>
