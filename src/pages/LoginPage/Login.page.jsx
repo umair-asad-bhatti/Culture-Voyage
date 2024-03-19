@@ -40,8 +40,9 @@ export default function LoginPage() {
     <>
       {(
         <>
-          <div className="min-h-screen flex justify-between md:flex-row flex-col">
-            <div className="md:w-[40%] dark:bg-accent bg-blAccent  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
+          <div className="min-h-screen flex justify-center md:flex-row flex-col">
+            <div className="md:w-[50%]  dark:bg-secondary  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
+
               <div className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]">
                 <Lottie animationData={Welcome} loop={true} />
               </div>
@@ -49,20 +50,21 @@ export default function LoginPage() {
               {/* <div className="w-[300px] h-[300px]  rounded-full">
                 <Lottie animationData={hello} loop={true} />
               </div> */}
-              <h3 className="text-primary font-bold md:text-4xl">{strings.loginHeading1} ,</h3>
-              <h3 className="text-primary text-lg text-center mt-2">
+              <h3 className="dark:text-primary text-textSecondary font-bold md:text-4xl">{strings.loginHeading1} ,</h3>
+              <h3 className="dark:text-primary text-textSecondary text-lg text-center mt-2">
                 {strings.loginHeading2}
               </h3>
-              <h3 className="text-primary text-lg text-center ">
+              <h3 className="dark:text-primary text-textSecondary text-lg text-center ">
                 {strings.loginHeading3}
               </h3>
             </div>
 
-            <div className=" md:h-auto h-screen gap-2 p-8  dark:bg-secondary  md:w-[60%] flex flex-col justify-center items-center ">
+            <div className=" md:h-auto h-screen gap-2 p-8  dark:bg-secondary  md:w-[50%] flex flex-col justify-center items-start ">
               <h3 className="dark:text-primary md:hidden block text-2xl text-center ">
                 Login
               </h3>
-              <form className="md:w-96 w-full">
+
+              <form className="dark:border-none border p-4 rounded-xl shadow-lg dark:shadow-none md:w-96 lg:w-[500px] w-full">
                 <div className="mb-4">
                   <InputField type="email" value={email} placeholder="Email" setValue={setEmail}>
                     <SmsTracking className={'dark:text-primary text-darkGrey'} />
