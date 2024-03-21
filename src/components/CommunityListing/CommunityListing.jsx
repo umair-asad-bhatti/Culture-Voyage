@@ -43,8 +43,8 @@ export const CommunityListing = ({ communities, isFetching = false }) => {
             700: 1,
             500: 1
         }}
-            className="my-masonry-grid "
-            columnClassName="my-masonry-grid_column">
-            {communities.map((communityData, index) => <div key={index} className="m-4"><CommunityCard key={index} community={communityData} /></div>)}
+            className="my-masonry-grid p-4"
+            columnClassName="my-masonry-grid_column ">
+            {communities.map((communityData, index) => <div key={index} className="my-6"><CommunityCard key={index} community={communityData} /></div>)}
         </Masonry >
 }

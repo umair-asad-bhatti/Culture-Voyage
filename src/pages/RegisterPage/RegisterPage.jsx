@@ -2,7 +2,8 @@ import { Lock, SmsTracking } from "iconsax-react";
 import PasswordChecklist from "react-password-checklist";
 import GoogleLogo from "../../assets/GoogleLogo.png";
 // import Logo from "../../assets/Logo.png"; 
-import Welcome from '../../assets/welcome.json'
+import WelcomeLight from '../../assets/Welocome2Light.json'
+import WelcomeDark from '../../assets/Welcome2Dark.json.json'
 import Button from "../../components/Button/Button.component";
 import InputField from "../../components/Inputfield/InputField.component";
 import NavigateLink from "../../components/NavigateLink/NavigateLink.component.jsx";
@@ -16,6 +17,7 @@ import { UserContext } from "../../context/AuthContext.jsx";
 import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 import Lottie from "lottie-react";
+
 
 export default function RegisterPage() {
   // const toast = useToast()
@@ -37,19 +39,20 @@ export default function RegisterPage() {
   // const navigation = useNavigate()
   return (
     <>
-      <div className="md:min-h-screen flex  justify-between md:flex-row flex-col">
-        <div className="md:w-[40%] md:flex hidden  dark:bg-accent bg-blAccent  md:min-h-screen  flex-col items-center justify-center">
-          <div className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]">
-            <Lottie animationData={Welcome} loop={true} />
+      <div className="min-h-screen flex justify-center md:flex-row flex-col">
+        <div className="md:w-[50%]  dark:bg-secondary  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
+          <div className="md:w-[300px] md:h-[300px] w-[200px] h-[200px]">
+             <Lottie animationData={WelcomeLight} loop={true} className="dark:hidden block" />
+                <Lottie animationData={WelcomeDark} loop={true} className="dark:block hidden"/>
           </div>
           {/* <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" /> */}
-          <h3 className="text-primary text-2xl">{strings.signUpHeading}</h3>
+          <h3 className="dark:text-textPrimary text-secondary  text-2xl">{strings.signUpHeading}</h3>
         </div>
-        <div className="md:h-auto h-screen gap-4 p-8 rounded dark:bg-secondary flex-col md:w-[60%] flex justify-center items-center ">
+        <div className="md:h-auto h-screen gap-2 p-8  dark:bg-secondary  md:w-[50%] flex flex-col justify-center items-start ">
           <h3 className="dark:text-primary md:hidden block text-2xl text-center ">
             Register
           </h3>
-          <form className="md:w-96 w-full ">
+          <form className="md:w-96 w-full border  px-4 p-8 rounded-xl dark:border-none dark:shadow-none lg:w-[400px] shadow-lg ">
             <div className="mb-4">
               <InputField type="email" value={email} placeholder="E-Mail" setValue={setEmail}>
                 <SmsTracking className={'dark:text-primary text-darkGrey'} />
@@ -74,7 +77,7 @@ export default function RegisterPage() {
               >
                 <Lock className={'dark:text-primary text-darkGrey'} />
               </InputField>
-              <div className="mt-4 ">
+              {password.length>0&& <div className="mt-4 ">
                 <PasswordChecklist
                   className={'dark:text-primary'}
                   rules={[
@@ -97,7 +100,7 @@ export default function RegisterPage() {
                   value={password}
                   valueAgain={confirmPassword}
                 />
-              </div>
+              </div>}
             </div>
 
             <div className="my-4">

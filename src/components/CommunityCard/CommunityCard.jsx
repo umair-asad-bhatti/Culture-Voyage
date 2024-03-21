@@ -25,7 +25,7 @@ export const CommunityCard = ({ community }) => {
   return (
     <div
       className={
-        " h-content  dark:bg-darkCardBg shadow-lg  bg-primary cursor-pointer  p-2 md:p-4 rounded-xl"
+        " h-content  dark:bg-darkCardBg shadow-lg  bg-primary cursor-pointer  p-2 md:p-4 rounded-xl hover:scale-105 transition-all hover:-translate-y-2"
       }
     >
       <div className="flex flex-wrap  items-center gap-4">

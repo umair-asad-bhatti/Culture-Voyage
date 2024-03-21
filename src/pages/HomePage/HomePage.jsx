@@ -33,8 +33,8 @@ export default function HomePage() {
             </div>
             <div className='flex justify-center items-center dark:bg-secondary'>
                 <div className='w-screen  min-h-screen xl:w-[1500px] flex '>
-                    <div className='w-[20%]  lg:block hidden dark:bg-transparent '>
-                        <div className='fixed py-2 h-[80%] dark:bg-transparent my-2 rounded-lg z-50 ml-2 min-w-[250px]'>
+                    <div className='w-[20%] lg:block hidden dark:bg-transparent '>
+                        <div className='fixed py-2 h-[80%] dark:bg-transparent my-2 rounded-lg z-50 min-w-[250px]'>
                             <SideBarComponent />
                         </div>
                     </div>

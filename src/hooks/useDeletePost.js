@@ -11,7 +11,7 @@ const useDeletePost = () => {
     const [deleting, setDeleting] = useState(false)
     const toast = useToast()
     const deletePost = async (postId, communityId, postType) => {
-        setDeleting(true)
+       // setDeleting(true)
         const postRef = doc(db, `Community Posts`, postId)
         const generalPostRef = doc(db, 'General Posts', postId)
         const userRef = doc(db, 'Users', user.uid)
@@ -70,7 +70,7 @@ const useDeletePost = () => {
         } catch (e) {
             console.log("Transaction failed: ", e);
         } finally {
-            setDeleting(false)
+            //setDeleting(false)
         }
     }
     return { deletePost, deleting }

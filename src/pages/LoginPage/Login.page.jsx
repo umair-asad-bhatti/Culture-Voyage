@@ -2,7 +2,8 @@ import strings from "../../constants/Strings";
 import { useState, useEffect } from "react";
 import { Lock, SmsTracking } from "iconsax-react";
 import Logo from "../../assets/Logo.png";
-import Welcome from '../../assets/welcome.json'
+import WelcomeLight from '../../assets/Welocome2Light.json.json'
+import WelcomeDark from '../../assets/Welcome2Dark.json.json'
 import GoogleLogo from "../../assets/GoogleLogo.png";
 import InputField from "../../components/Inputfield/InputField.component";
 import Button from "../../components/Button/Button.component";
@@ -43,9 +44,11 @@ export default function LoginPage() {
           <div className="min-h-screen flex justify-center md:flex-row flex-col">
             <div className="md:w-[50%]  dark:bg-secondary  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
 
-              <div className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]">
-                <Lottie animationData={Welcome} loop={true} />
+              <div className="md:w-[300px]  md:h-[300px] w-[200px] h-[200px]">
+                <Lottie animationData={WelcomeLight} loop={true} className="dark:hidden block" />
+                <Lottie animationData={WelcomeDark} loop={true} className="dark:block hidden"/>
               </div>
+             
               {/* <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" /> */}
               {/* <div className="w-[300px] h-[300px]  rounded-full">
                 <Lottie animationData={hello} loop={true} />
@@ -64,7 +67,7 @@ export default function LoginPage() {
                 Login
               </h3>
 
-              <form className="dark:border-none border p-4 rounded-xl shadow-lg dark:shadow-none md:w-96 lg:w-[500px] w-full">
+              <form className="dark:border-none border px-4 py-10 rounded-xl shadow-lg dark:shadow-none md:w-96 lg:w-[400px] w-full">
                 <div className="mb-4">
                   <InputField type="email" value={email} placeholder="Email" setValue={setEmail}>
                     <SmsTracking className={'dark:text-primary text-darkGrey'} />
@@ -119,7 +122,7 @@ export default function LoginPage() {
                   {isGoogleLoading ? (
                     <LoadingSpinner size={'sm'} />
                   ) : (
-                    <img src={GoogleLogo} alt="" width={20} height={20} />
+                    <img src={GoogleLogo} alt="" width={30} height={30} />
                   )}
                 </SocialMediaButton>
               </form>

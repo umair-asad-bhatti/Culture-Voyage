@@ -11,19 +11,36 @@ import { Heart, MessageProgramming } from "iconsax-react";
 import { db } from "../../firebase/Firebase";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import Button from "../Button/Button.component";
+import InputField from "../Inputfield/InputField.component";
 import { useTranslatePost } from "../../hooks/useTranslatePost";
-
+import { Setting4 } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
 
 const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
-
   const [author, setAuthor] = useState();
   const { deletePost, deleting } = useDeletePost();
   const { user } = useContext(UserContext);
   const [isLiked, setIsLiked] = useState();
   const [isLiking, setIsLiking] = useState(false);
+  const [openReport, setOpenReport] = useState();
+  const [report, setReport] = useState()
 
-  const { translatePost, translatedtext, detectedLanguageCode } = useTranslatePost(postDetail.Description);
+  //Report
+  const handleReportChange=(e)=>{
+    setReport(e.target.value)
+   console.log(e.target.value)
+  }
+  const handleReport = () => {
+    setOpenReport(true);
+  };
+  const closeModal = () => {
+    setOpenReport(false);
+  };
 
+  const navigation = useNavigate();
+
+  const { translatePost, translatedtext, detectedLanguageCode } =
+    useTranslatePost(postDetail.Description);
 
   //listening to the realtime changes to likes of the post
   useEffect(() => {
@@ -53,7 +70,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
     }
 
     const snapshot = await getDoc(postRef);
-    const likesArray = snapshot.data().Likes ?? [];
+    const likesArray = snapshot.data()?.Likes ?? [];
 
     if (isLiked) {
       //dislike the post
@@ -94,8 +111,9 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 />
               </div>
               <Link
-                to={`/post/${postDetail["id"]}?type=${postType == "general" ? "general" : "community"
-                  }`}
+                to={`/post/${postDetail["id"]}?type=${
+                  postType == "general" ? "general" : "community"
+                }`}
               >
                 <h1 className="lg:text-lg text-md font-bold text-blAccent dark:text-accent ">
                   {postDetail?.Title}
@@ -105,8 +123,114 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 </span>
               </Link>
             </div>
-            <div></div>
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="m-1">
+                <Setting4
+                  size="25"
+                  className="dark:text-primary text-secondary"
+                />
+              </div>
+              <ul
+                tabIndex={0}
+                className=" dropdown-content z-[1] menu p-2 shadow dark:bg-secondary bg-primary rounded-box w-52"
+              >
+                {postDetail["Created By"] == user.uid && (
+                  <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
+                    <a
+                      className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
+                      onClick={() => {
+                        navigation(
+                          `/edit/post/${postDetail["id"]}?type=${
+                            postType == "general" ? "general" : "community"
+                          }`
+                        );
+                      }}
+                    >
+                      Edit Post
+                    </a>
+                  </li>
+                )}
+                {postDetail["Created By"] == user.uid && (
+                  <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
+                    <Button
+                      className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
+                      onClickHandler={() =>
+                        deletePost(postDetail.id, communityId, postType)
+                      }
+                    >
+                      Delete Post
+                    </Button>
+                  </li>
+                )}
+                {postDetail["Created By"] !== user.uid && (
+                  <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
+                    <a
+                      className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
+                      onClick={handleReport}
+                    >
+                      Report Post
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </div>
+            {openReport && (
+              <div className="fixed z-10 inset-0 overflow-y-auto">
+                <div className="flex items-center justify-center min-h-screen">
+                  <dialog id="my_modal_2" className="modal" open>
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg mb-2">Report Post!</h3>
+                      <form >
+                        <div className="mb-3 gap-3 flex">
+                          <input
+                            type="radio"
+                            name="radio-2"
+                            value='Spam'
+                            className="radio radio-primary"
+                            onChange={handleReportChange}
+                          />
+                          <label htmlFor="Spam">Spam</label><br/>
+                        </div>
+                        <div className="mb-3 gap-3 flex">
+                          <input
+                            type="radio"
+                            name="radio-2"
+                            value='Irrelevent'
+                            className="radio radio-primary"
+                           
+                          />
+                          <label htmlFor="Spam">Irrelevent</label><br/>
+                        </div>
+                        <div className="mb-3 gap-3 flex">
+                          <input
+                            type="radio"
+                            name="radio-2"
+                            value='Wrong'
+                            className="radio radio-primary"
+                            
+                          />
+                          <label htmlFor="Spam">Wrong</label><br/>
+                        </div>
+                        <InputField
+                          type="textarea"
+                          placeholder="Addtional Details (Optional)"
+                          value={report}
+                          setValue={setReport}
+                          maxLength={100}
+                          onChange={handleReport}
+                        ></InputField>
+                        
+                      </form>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                      <button onClick={closeModal}>Close</button>
+                    </form>
+                  </dialog>
+                </div>
+              </div>
+            )}
           </div>
+
           <div className="p-2">
             <h1 className="dark:text-textPrimary text-textSecondary">
               {postDetail.Description &&
@@ -138,17 +262,21 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 );
               })}
           </div>
+
           {translatedtext && (
             <div className="p-2">
-              <h1 className="dark:text-textPrimary text-textSecondary">{translatedtext}</h1>
+              <h1 className="dark:text-textPrimary text-textSecondary">
+                {translatedtext}
+              </h1>
             </div>
           )}
-          {detectedLanguageCode !== 'en' && (
-            <Button
-              onClickHandler={() => translatePost()}
+          {detectedLanguageCode !== "en" && (
+            <h6
+              className="cursor-pointer underline Dark:text-accent text-blAccent"
+              onClick={() => translatePost()}
             >
-              Translate into English
-            </Button>
+              Translate
+            </h6>
           )}
           <div className="flex items-center justify-around  my-2   bg-slate-100 dark:bg-gray-800 rounded-xl p-2">
             <div className="flex items-center justify-center gap-2">
@@ -164,7 +292,11 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               </h1>
             </div>
             <div className="flex items-center justify-center gap-2">
-              <Link to={`/post/${postDetail["id"]}`}>
+              <Link
+                to={`/post/${postDetail["id"]}?type=${
+                  postType == "general" ? "general" : "community"
+                }`}
+              >
                 <MessageProgramming
                   size="20"
                   className="dark:text-primary text-secondary"
@@ -175,7 +307,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               </h1>
             </div>
           </div>
-          {postDetail["Created By"] == user.uid && (
+          {/* {postDetail["Created By"] == user.uid && (
             <Button
               onClickHandler={() =>
                 deletePost(postDetail.id, communityId, postType)
@@ -187,7 +319,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 {deleting ? "Deleting..." : "Delete Post"}
               </h1>
             </Button>
-          )}
+          )} */}
         </div>
       )}
     </>

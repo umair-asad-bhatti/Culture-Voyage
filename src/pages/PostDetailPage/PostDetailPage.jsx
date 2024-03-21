@@ -12,7 +12,7 @@ import { Setting4 } from "iconsax-react";
 import { useTranslatePost } from "../../hooks/useTranslatePost";
 
 
-export const PostDetailPage = () => {
+export const PostDetailPage = ({  communityId = null }) => {
 
   const { id } = useParams();
   const [searchParams] = useSearchParams()
@@ -25,6 +25,7 @@ export const PostDetailPage = () => {
   const [postDetail, setPostDetail] = useState(null);
   const { comments } = useFetchComments(id);
   const [commentUsers, setCommentUsers] = useState([]);
+
 
   useEffect(() => {
     window.scrollTo({
@@ -59,6 +60,7 @@ export const PostDetailPage = () => {
     fetchUserDetails();
   }, [comments]);
   if (!postDetail) return <h1>Loading</h1>;
+
 
   return (
     <>
@@ -98,7 +100,7 @@ export const PostDetailPage = () => {
               </a>
             </li>
           }
-          <li><a>Item 2</a></li>
+         
         </ul>
       </div >
 

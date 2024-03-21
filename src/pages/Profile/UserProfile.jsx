@@ -133,7 +133,7 @@ export const UserProfile = () => {
 
                 <hr />
                 <div className="dark:text-textPrimary text-textSecondary my-4">
-                  Total Posts: {userData?.["Community Posts"].length}
+                  Total Posts: {userData?.["Community Posts"]?.length}
                 </div>
               </div>
             }
