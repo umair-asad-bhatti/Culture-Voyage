@@ -13,8 +13,10 @@ import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import Button from "../Button/Button.component";
 import InputField from "../Inputfield/InputField.component";
 import { useTranslatePost } from "../../hooks/useTranslatePost";
+import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import { Setting4 } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
+import { useSubmitReport } from "../../hooks/useSubmitReport";
 
 const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
   const [author, setAuthor] = useState();
@@ -23,13 +25,23 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
   const [isLiked, setIsLiked] = useState();
   const [isLiking, setIsLiking] = useState(false);
   const [openReport, setOpenReport] = useState();
-  const [report, setReport] = useState()
+  const [report, setReport] = useState();
+  const [detail, setDetail] = useState();
 
+  const { submitReport, isSubmitting } = useSubmitReport();
   //Report
-  const handleReportChange=(e)=>{
-    setReport(e.target.value)
-   console.log(e.target.value)
-  }
+  const handleSubmitReport = async () => {
+    const trimmedDetail = detail ? detail.trim() : "";
+    if (report) {
+      await submitReport(trimmedDetail, postDetail.id, report);
+    }
+    setDetail("");
+    setReport("");
+  };
+  const handleReportChange = (e) => {
+    setReport(e.target.value);
+    console.log(e.target.value);
+  };
   const handleReport = () => {
     setOpenReport(true);
   };
@@ -46,12 +58,12 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
   useEffect(() => {
     if (postType == "general") {
       onSnapshot(doc(db, "General Posts", postDetail.id), (doc) => {
-        const likesArray = doc.data().Likes ?? [];
+        const likesArray = doc.data()?.Likes ?? [];
         setIsLiked(likesArray.includes(user.uid));
       });
     } else {
       onSnapshot(doc(db, "Community Posts", postDetail.id), (doc) => {
-        const likesArray = doc.data().Likes ?? [];
+        const likesArray = doc.data()?.Likes ?? [];
         setIsLiked(likesArray.includes(user.uid));
       });
     }
@@ -152,14 +164,14 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 )}
                 {postDetail["Created By"] == user.uid && (
                   <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
-                    <Button
+                    <a
                       className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
-                      onClickHandler={() =>
+                      onClick={() =>
                         deletePost(postDetail.id, communityId, postType)
                       }
                     >
                       Delete Post
-                    </Button>
+                    </a>
                   </li>
                 )}
                 {postDetail["Created By"] !== user.uid && (
@@ -178,49 +190,150 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               <div className="fixed z-10 inset-0 overflow-y-auto">
                 <div className="flex items-center justify-center min-h-screen">
                   <dialog id="my_modal_2" className="modal" open>
-                    <div className="modal-box">
+                    <div className="modal-box dark:bg-secondary dark:text-textPrimary">
                       <h3 className="font-bold text-lg mb-2">Report Post!</h3>
-                      <form >
-                        <div className="mb-3 gap-3 flex">
-                          <input
-                            type="radio"
-                            name="radio-2"
-                            value='Spam'
-                            className="radio radio-primary"
-                            onChange={handleReportChange}
-                          />
-                          <label htmlFor="Spam">Spam</label><br/>
-                        </div>
-                        <div className="mb-3 gap-3 flex">
-                          <input
-                            type="radio"
-                            name="radio-2"
-                            value='Irrelevent'
-                            className="radio radio-primary"
-                           
-                          />
-                          <label htmlFor="Spam">Irrelevent</label><br/>
-                        </div>
-                        <div className="mb-3 gap-3 flex">
-                          <input
-                            type="radio"
-                            name="radio-2"
-                            value='Wrong'
-                            className="radio radio-primary"
-                            
-                          />
-                          <label htmlFor="Spam">Wrong</label><br/>
-                        </div>
-                        <InputField
-                          type="textarea"
-                          placeholder="Addtional Details (Optional)"
-                          value={report}
-                          setValue={setReport}
-                          maxLength={100}
-                          onChange={handleReport}
-                        ></InputField>
-                        
-                      </form>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="I just don't like It"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">I just don't like It</label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="It's Spam"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">It's Spam</label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="Nudity and Sexual Activity"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">Nudity and Sexual Activity</label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="Hate Speech or Symbols"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">Hate Speech or Symbols</label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="Violence and Dangerous Content"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">
+                          Violence and Dangerous Content
+                        </label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="Bullying and Harassment"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">Bullying and Harassment</label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="False Information"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">False Information</label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="Suicide or Self-Injury"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">Suicide or Self-Injury</label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="Sale of Illegal or Regualted Goods"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">
+                          Sale of Illegal or Regualted Goods
+                        </label>
+                        <br />
+                      </div>
+                      <div className="mb-3 gap-3 flex">
+                        <input
+                          type="radio"
+                          name="radio-2"
+                          value="Intellectual Property Violation"
+                          className="radio radio-primary"
+                          onChange={handleReportChange}
+                        />
+                        <label htmlFor="Spam">
+                          Intellectual Property Violation
+                        </label>
+                        <br />
+                      </div>
+                      <InputField
+                        type="textarea"
+                        placeholder="Please tell us more (Optional)..."
+                        value={detail}
+                        setValue={setDetail}
+                        maxLength={100}
+                        onChange={handleReport}
+                      ></InputField>
+                      <div className="my-2">
+                        {
+                          <Button
+                            onClickHandler={handleSubmitReport}
+                            isDisabled={isSubmitting}
+                          >
+                            {isSubmitting ? (
+                              <div className="w-full flex items-center justify-center">
+                                <div className="w-8 h-6">
+                                  <LoadingSpinner />
+                                </div>
+                              </div>
+                            ) : (
+                              "Submit"
+                            )}
+                          </Button>
+                        }
+                      </div>
                     </div>
                     <form method="dialog" className="modal-backdrop">
                       <button onClick={closeModal}>Close</button>
