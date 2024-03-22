@@ -27,8 +27,13 @@ const ZodSignupSchema = z.object({
         return hasUpperCase && hasLowerCase && hasSpecialCharacter && hasNoSpaces && hasNumber;
     }, {
         message: 'Invalid password format. It must contain at least one uppercase letter, one lowercase letter, one special character, no spaces, and at least one number.',
-    })
-})
+    }),
+    confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+});
+
 export const formatDate = (inputDate) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 

@@ -27,11 +27,18 @@ const AdditionalInformationPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const navigation = useNavigate();
-  const { user, isLoading } = useContext(UserContext);
-  const { checkingUserInformation } = useCheckUserInformation()
+  const { user, isLoading, isGoogleLoading } = useContext(UserContext);
+  const { checkIsEmailVerified, isAdditionalInformationComplete } = useCheckUserInformation()
   useEffect(() => {
-    if (!isLoading && !user)
+    if (!isLoading && !user) {
       navigation('/login')
+      return
+    }
+    if (!isLoading && user) {
+      checkIsEmailVerified(user)
+      if (user.emailVerified && !isGoogleLoading)
+        isAdditionalInformationComplete(user)
+    }
   }, [user, isLoading])
   if (isLoading)
     return <div className={'flex items-center justify-center h-screen w-screen'} size={'lg'}><Spinner color={Colors.accent} /></div>

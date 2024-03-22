@@ -49,8 +49,6 @@ export default function HomePage() {
                                 <Route exact path={AppRoutes.createPost.route} element={<CreatePost />} />
                                 <Route exact path={AppRoutes.editProfile.route} element={<EditProfilePage />} />
                                 <Route exact path={AppRoutes.editPost.route} element={<EditPost />} />
-
-
                             </Route>
                         </Routes>
                     </div>

@@ -12,10 +12,10 @@ const useSignup = () => {
     const toast = useToast()
     const [isSigningUp, setIsSigningUp] = useState(false)
 
-    const handleSignup = async (e, email, password) => {
+    const handleSignup = async (e, email, password, confirmPassword) => {
         e.preventDefault()
         try {
-            ZodSignupSchema.parse({ email, password });
+            ZodSignupSchema.parse({ email, password, confirmPassword });
         } catch (errors) {
             let SignupErrors = JSON.parse(errors);
             SignupErrors.forEach(error => {

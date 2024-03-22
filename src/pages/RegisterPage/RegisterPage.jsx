@@ -29,21 +29,14 @@ export default function RegisterPage() {
   const { handleGoogleLogin, isGoogleLoading } = useGoogleLogin();
   const { user, isLoading } = useContext(UserContext)
   const { isAdditionalInformationComplete, checkIsEmailVerified } = useCheckUserInformation()
-  useEffect(() => {
-    if (!isLoading && user) {
-      checkIsEmailVerified(user)
-      if (user.emailVerified)
-        isAdditionalInformationComplete(user)
-    }
-  }, [user, isLoading]);
-  // const navigation = useNavigate()
+
   return (
     <>
       <div className="min-h-screen flex justify-center md:flex-row flex-col">
         <div className="md:w-[50%]  dark:bg-secondary  md:min-h-screen  p-2 md:p-0 md:flex hidden flex-col items-center justify-center ">
           <div className="md:w-[300px] md:h-[300px] w-[200px] h-[200px]">
-             <Lottie animationData={WelcomeLight} loop={true} className="dark:hidden block" />
-                <Lottie animationData={WelcomeDark} loop={true} className="dark:block hidden"/>
+            <Lottie animationData={WelcomeLight} loop={true} className="dark:hidden block" />
+            <Lottie animationData={WelcomeDark} loop={true} className="dark:block hidden" />
           </div>
           {/* <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" /> */}
           <h3 className="dark:text-textPrimary text-secondary  text-2xl">{strings.signUpHeading}</h3>
@@ -77,7 +70,7 @@ export default function RegisterPage() {
               >
                 <Lock className={'dark:text-primary text-darkGrey'} />
               </InputField>
-              {password.length>0&& <div className="mt-4 ">
+              {password.length > 0 && <div className="mt-4 ">
                 <PasswordChecklist
                   className={'dark:text-primary'}
                   rules={[
@@ -106,7 +99,7 @@ export default function RegisterPage() {
             <div className="my-4">
               {
                 <Button
-                  onClickHandler={() => handleSignup(event, email, password)}
+                  onClickHandler={() => handleSignup(event, email, password, confirmPassword)}
                   isDisabled={isSigningUp}
                 >
                   {isSigningUp ? (

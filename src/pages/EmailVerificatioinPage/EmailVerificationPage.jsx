@@ -1,33 +1,38 @@
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase/Firebase'; // Import your Firebase configuration
-import {sendEmailVerification, onAuthStateChanged, signOut} from 'firebase/auth';
+import { sendEmailVerification, onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore'
 import NavigateLink from '../../components/NavigateLink/NavigateLink.component.jsx';
 import EmailVerify from '../../assets/EmailVerify.png'
 import strings from '../../constants/Strings'
-import {useToast} from "@chakra-ui/react";
-import {ToastStrings} from "../../constants/ToastStrings.js";
-import {useContext} from "react";
-import {UserContext} from "../../context/AuthContext.jsx";
-import {useNavigate} from "react-router-dom";
-import {Colors} from '../../constants/Colors.js'
-import {Spinner} from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
+import { ToastStrings } from "../../constants/ToastStrings.js";
+import { useContext } from "react";
+import { UserContext } from "../../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
+import { Colors } from '../../constants/Colors.js'
+import { Spinner } from "@chakra-ui/react";
 import Button from '../../components/Button/Button.component.jsx'
-import {useCheckUserInformation} from "../../hooks/useCheckUserInformation.js";
+import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js";
 const EmailVerificationPage = () => {
-    const {user,isLoading,setUser}=useContext(UserContext)
-    const navigation=useNavigate()
-    const toast=useToast()
+    const user = JSON.parse(localStorage.getItem('user'))
+    const navigation = useNavigate()
+    const toast = useToast()
     const [isEmailVerified, setIsEmailVerified] = useState(false);
-    const [isSending,setIsSending]=useState(false)
-    const {isAdditionalInformationComplete}=useCheckUserInformation()
-    useEffect(()=>{
-        if(user.emailVerified){
-            (async()=>{
+    const [isSending, setIsSending] = useState(false)
+    const { isAdditionalInformationComplete } = useCheckUserInformation()
+    useEffect(() => {
+        if (!user) {
+            navigation('/login')
+            return;
+        }
+        if (user.emailVerified) {
+            (async () => {
                 await isAdditionalInformationComplete(user)
             })()
         }
-    },[user,isLoading])
+
+    }, [user])
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -49,15 +54,16 @@ const EmailVerificationPage = () => {
             }
         })
     }, [])
-    const signout =async () => {
+    const signout = async () => {
         try {
-        await signOut(auth);
-        }catch (e) {
+            await signOut(auth);
+            navigation('/login')
+        } catch (e) {
             toast({
-                title:e.message,
-                status:'error',
-                duration:ToastStrings.duration,
-                isClosable:true
+                title: e.message,
+                status: 'error',
+                duration: ToastStrings.duration,
+                isClosable: true
             })
         }
     }
@@ -67,17 +73,17 @@ const EmailVerificationPage = () => {
             setIsSending(true)
             await sendEmailVerification(auth.currentUser)
             toast({
-                description:'Verification Email has been sent',
-                status:'success',
-                duration:ToastStrings.duration
+                description: 'Verification Email has been sent',
+                status: 'success',
+                duration: ToastStrings.duration
             })
-        }catch (e) {
+        } catch (e) {
             toast({
-                description:e.message,
-                status:'error',
-                duration:ToastStrings.duration
+                description: e.message,
+                status: 'error',
+                duration: ToastStrings.duration
             })
-        }finally {
+        } finally {
             setIsSending(false)
         }
     };
@@ -90,7 +96,7 @@ const EmailVerificationPage = () => {
                 <h3 className='text-primary text-2xl text-center mt-4'>{strings.EmailVerify}</h3>
 
             </div>
-            
+
             <div className="p-8 rounded  w-[50%] flex  flex-col justify-center items-center gap-4">
                 <div className='flex  flex-col justify-center items-start gap-6'>
                     {isEmailVerified ? (
@@ -105,7 +111,7 @@ const EmailVerificationPage = () => {
                             <p>Please verify your email before continuing.</p>
                             <Button onClickHandler={handleResendVerificationEmail}>
 
-                                {isSending?<Spinner color={Colors.white} size={'sm'}/>:'Send Verification Email'}
+                                {isSending ? <Spinner color={Colors.white} size={'sm'} /> : 'Send Verification Email'}
                             </Button>
                         </div>
                     )}
@@ -117,7 +123,7 @@ const EmailVerificationPage = () => {
             </div>
 
         </div>
-    
+
     );
 };
 
