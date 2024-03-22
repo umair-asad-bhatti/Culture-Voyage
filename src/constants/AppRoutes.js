@@ -40,6 +40,12 @@ const AppRoutes = {
         route: 'edit/post/:id',
         baseRoute: 'edit/post'
 
+    },
+    communityChatPage: {
+        label: 'Community Chat',
+        route: 'communitychat/:id',
+        baseRoute: 'communitychat'
+
     }
 
 }

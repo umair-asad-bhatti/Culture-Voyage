@@ -14,6 +14,7 @@ import { CreatePost } from '../CreatePost/CreatePost.jsx'
 import { AppRoutes } from '../../constants/AppRoutes.js';
 import { EditProfilePage } from '../EditProfile/EditProfilePage.jsx';
 import { EditPost } from '../EditPost/EditPost.jsx';
+import { CommunityChatPage } from '../CommunityChatPage/CommunityChatPage.jsx';
 
 
 
@@ -49,6 +50,7 @@ export default function HomePage() {
                                 <Route exact path={AppRoutes.createPost.route} element={<CreatePost />} />
                                 <Route exact path={AppRoutes.editProfile.route} element={<EditProfilePage />} />
                                 <Route exact path={AppRoutes.editPost.route} element={<EditPost />} />
+                                <Route exact path={AppRoutes.communityChatPage.route} element={<CommunityChatPage />} />
                             </Route>
                         </Routes>
                     </div>

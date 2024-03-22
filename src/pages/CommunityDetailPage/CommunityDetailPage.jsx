@@ -6,10 +6,11 @@ import {
   Receipt1,
   Setting4,
   UserOctagon,
+  Edit
 } from "iconsax-react";
 import { useContext, useEffect, useState } from "react";
 import { Img } from "react-image";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button.component.jsx";
 import InputField from "../../components/Inputfield/InputField.component.jsx";
 import { TagsInput } from "../../components/TagsInput/TagsInput.jsx";
@@ -27,9 +28,11 @@ import { useFetchQuestionsPosts } from "../../hooks/useFetchQuestionPosts.js";
 import { useFetchExperiencePosts } from "../../hooks/useFetchExperiencePosts.js";
 import PostListing from "../../components/PostListing/PostListing.jsx";
 export const CommunityDetailPage = () => {
+  
   const { id } = useParams();
   const { user } = useContext(UserContext);
-
+  const navigation = useNavigate()
+  
   const [activeCategory, setActiveCategory] = useState("exp");
   const { CommunityData, isFetching } = useFetchCommunityDetails(id);
   const [communityGuidelines, setCommunityGuidelines] = useState(
@@ -331,6 +334,11 @@ export const CommunityDetailPage = () => {
               </Button>
             )}
           </div>
+          <button onClick={() => { navigation(`/communitychat/${id}`) }}> 
+            <Edit
+            size="30"
+            className="text-secondary dark:text-primary "/>
+            </button>
         </div>
 
         {/* Communities Members */}
