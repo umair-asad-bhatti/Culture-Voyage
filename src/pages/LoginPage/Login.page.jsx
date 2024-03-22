@@ -1,7 +1,6 @@
 import strings from "../../constants/Strings";
 import { useState, useEffect } from "react";
 import { Lock, SmsTracking } from "iconsax-react";
-import Logo from "../../assets/Logo.png";
 import WelcomeLight from '../../assets/Welocome2Light.json.json'
 import WelcomeDark from '../../assets/Welcome2Dark.json.json'
 import GoogleLogo from "../../assets/GoogleLogo.png";
@@ -46,9 +45,9 @@ export default function LoginPage() {
 
               <div className="md:w-[300px]  md:h-[300px] w-[200px] h-[200px]">
                 <Lottie animationData={WelcomeLight} loop={true} className="dark:hidden block" />
-                <Lottie animationData={WelcomeDark} loop={true} className="dark:block hidden"/>
+                <Lottie animationData={WelcomeDark} loop={true} className="dark:block hidden" />
               </div>
-             
+
               {/* <img src={Logo} className="md:w-[300px] md:h-[300px] w-[150px] h-[150px]" /> */}
               {/* <div className="w-[300px] h-[300px]  rounded-full">
                 <Lottie animationData={hello} loop={true} />
