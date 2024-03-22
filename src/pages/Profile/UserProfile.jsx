@@ -40,7 +40,7 @@ export const UserProfile = () => {
   return (
     <>
       <h1 className='font-bold md:text-lg text-md '>User profile</h1>
-      <div className="flex gap-16 items-start justify-start">
+      <div className="flex gap-16 items-start md:justify-start justify-center items-center flex-col md:flex-row">
         {/* profile card */}
         <div className="bg-primary dark:border-borderPrimary dark:border dark:bg-transparent w-96 p-8 shadow flex-col flex items-center justify-center rounded-xl">
           <div className="w-24 h-24 rounded-full relative">
@@ -87,9 +87,9 @@ export const UserProfile = () => {
         </div>
 
 
-        <div className="w-[500px]"> {/* right side content */}
+        <div className="max-w-[500px] p-4"> {/* right side content */}
           {/* top button group */}
-          <div className="bg-primary dark:bg-transparent gap-8 flex justify-between items-center rounded py-2 h-12 shadow px-8 dark:border">
+          <div className="bg-primary w-content dark:bg-transparent gap-8 flex justify-between items-center rounded py-2 h-12 shadow px-8 dark:border">
             <div onClick={() => { setActiveTab('myprofile'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer  relative ${activeTab == 'myprofile' ? 'text-blAccent dark:text-accent' : 'dark:text-textPrimary'}`}>
               My profile
               <div ref={active_nav} className="active-nav aboslute w-full h-[2px] rounded top-3  dark:bg-accent bg-blAccent"></div>
