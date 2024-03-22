@@ -27,8 +27,8 @@ export default function HomePage() {
         </div>
     return (
         <>
-            <div className="sticky top-0  z-10    flex justify-center">
-                <div className='w-screen xl:w-[1500px] justify-center px-4 bg-primary dark:bg-secondary'>
+            <div className="sticky top-0  z-10   bg-primary dark:bg-secondary flex justify-center">
+                <div className='w-screen xl:w-[1500px] justify-center px-4 '>
                     <Navbar />
                 </div>
             </div>
