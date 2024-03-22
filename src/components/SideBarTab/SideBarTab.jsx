@@ -12,7 +12,7 @@ const SideBarTab = ({ children, label, to, activeTab, setActiveTab }) => {
                 } `}
         >
             {children}
-            <h2>{label}</h2>
+            <h2 className="text-sm">{label}</h2>
         </Link>
     );
 };

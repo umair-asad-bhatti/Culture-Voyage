@@ -9,6 +9,8 @@ import home from '../../assets/sidebar_icons/home.png'
 import community from '../../assets/sidebar_icons/community.png'
 import profile from '../../assets/sidebar_icons/profile.png'
 import { CreateCommunity } from "../CreateCommunity.jsx";
+const ICON_WIDTH = 30;
+const ICON_HEIGHT = 30;
 const SideBarComponent = () => {
     const location = useLocation()
     const { user } = useContext(UserContext);
@@ -19,7 +21,7 @@ const SideBarComponent = () => {
             <div className="w-full px-2 ">
                 <div className="flex flex-col gap-5 relative  ">
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Home'} to={'/'}>
-                        <img src={home} width={40} height={40} className="rounded-full" />
+                        <img src={home} width={ICON_WIDTH} height={ICON_HEIGHT} className="rounded-full" />
 
                         {/* <Home variant={activeTab === '/' ? 'Bold' : 'Outline'} /> */}
                     </SideBarTab>
@@ -29,13 +31,13 @@ const SideBarComponent = () => {
                     </SideBarTab> */}
 
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} to='communities' label={'Communities'}>
-                        <img src={community} width={40} height={40} className="rounded-full" />
+                        <img src={community} width={ICON_WIDTH} height={ICON_HEIGHT} className="rounded-full" />
 
                         {/* <People variant={activeTab === 'communities' ? 'Bold' : 'Outline'} /> */}
                     </SideBarTab>
                     <hr />
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Create Post'} to={'create-post'}>
-                        <img src={pen} width={40} height={40} className="rounded-full" />
+                        <img src={pen} width={ICON_WIDTH} height={ICON_HEIGHT} className="rounded-full" />
                         {/* <AddCircle variant={activeTab === 'create-post' ? 'Bold' : 'Outline'} color="#F1BC19" /> */}
                     </SideBarTab>
                     {/* <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Favourites'} to={'sdf'}>
@@ -45,7 +47,7 @@ const SideBarComponent = () => {
                     <hr />
                     <SideBarTab activeTab={activeTab} setActiveTab={setActiveTab} label={'Profile'} to={`profile/${user?.uid}`}>
                         {/* <User variant={activeTab === (`profile/${user?.uid}`) ? 'Bold' : 'Outline'} /> */}
-                        <img src={profile} width={40} height={40} className="rounded-full" />
+                        <img src={profile} width={ICON_WIDTH} height={ICON_HEIGHT} className="rounded-full" />
                     </SideBarTab>
                 </div>
             </div>

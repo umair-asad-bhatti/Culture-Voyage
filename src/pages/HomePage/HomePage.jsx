@@ -33,12 +33,14 @@ export default function HomePage() {
             </div>
             <div className='flex justify-center items-center dark:bg-secondary'>
                 <div className='w-screen  min-h-screen xl:w-[1500px] flex '>
-                    <div className='w-[20%] lg:block hidden dark:bg-transparent '>
-                        <div className='fixed py-2 h-[80%] dark:bg-transparent my-2 rounded-lg z-50 min-w-[250px]'>
-                            <SideBarComponent />
+                    <div className=' lg:block hidden dark:bg-transparent '>
+                        <div className='py-2 h-[80%] dark:bg-transparent my-2 rounded-lg z-50 min-w-[250px]'>
+                            <div className='fixed'>
+                                <SideBarComponent />
+                            </div>
                         </div>
                     </div>
-                    <div className='xl:max-w-[80%] shadow-xllg:w-[80%] md:w-full w-screen bg-gray-100 dark:bg-transparent flex flex-col gap-4 md:p-4 p-1'>
+                    <div className='w-full bg-gray-100 dark:bg-transparent flex flex-col gap-4 md:p-4 p-1'>
                         <Routes>
                             <Route element={<PrivateRoutes />}>
                                 <Route exact path={AppRoutes.home.route} element={<PostPage />} />

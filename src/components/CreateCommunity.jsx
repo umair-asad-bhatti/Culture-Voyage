@@ -21,8 +21,8 @@ export const CreateCommunity = () => {
                 className="flex items-center justify-center gap-2 cursor-pointer     rounded-xl font-bold      p-4 dark:hover:bg-darkerGrey hover:bg-softGrey hover:text-textSecondary dark:hover:text-textPrimary dark:text-textPrimary text-textSecondary"
                 onClick={() => document.getElementById("my_modal_1").showModal()}
             >
-                <img src={create_community} width={40} height={40} />
-                <h1>Create Community</h1>
+                <img src={create_community} width={30} height={30} />
+                <h1 className="text-sm">Create Community</h1>
             </div>
 
             <dialog id="my_modal_1" className="modal">
