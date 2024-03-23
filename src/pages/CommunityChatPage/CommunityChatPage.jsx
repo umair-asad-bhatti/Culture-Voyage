@@ -1,4 +1,4 @@
-import { useEffect, useState  } from "react";
+import { useEffect, useState } from "react";
 import InputField from "../../components/Inputfield/InputField.component";
 import { useParams } from "react-router-dom";
 import Message from "../../components/Message/Message.component";
@@ -9,12 +9,12 @@ import { query, collection, onSnapshot, orderBy, where } from "firebase/firestor
 export const CommunityChatPage = () => {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
- // console.log(id)
+  // console.log(id)
 
   useEffect(() => {
     const q = query(
       collection(db, 'Messages'),
-      where('communityID', '==', id), 
+      where('communityID', '==', id),
       orderBy('Time')
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -24,19 +24,19 @@ export const CommunityChatPage = () => {
       });
       setMessages(messages);
     });
-  
+
     return () => unsubscribe();
-  }, [id]); 
-  
+  }, [id]);
+
 
   return (
-    <> 
-    <div className="flex flex-col p-[10px]">
-      {messages && messages.map((message)=>(
-        <Message key={message.id} message={message}/>
-      ))}
-    </div>
-    <SendMessage/>
+    <>
+      <div className="flex flex-col p-[10px]">
+        {messages && messages.map((message) => (
+          <Message key={message.id} message={message} />
+        ))}
+      </div>
+      <SendMessage />
     </>
   );
 };
