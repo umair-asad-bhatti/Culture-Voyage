@@ -29,7 +29,13 @@ export default function RegisterPage() {
   const { handleGoogleLogin, isGoogleLoading } = useGoogleLogin();
   const { user, isLoading } = useContext(UserContext)
   const { isAdditionalInformationComplete, checkIsEmailVerified } = useCheckUserInformation()
-
+  useEffect(() => {
+    if (!isLoading && user) {
+      checkIsEmailVerified(user)
+      if (user.emailVerified && !isGoogleLoading)
+        isAdditionalInformationComplete(user)
+    }
+  }, [checkIsEmailVerified, isAdditionalInformationComplete, isGoogleLoading, isLoading, user])
   return (
     <>
       <div className="min-h-screen flex justify-center md:flex-row flex-col">
