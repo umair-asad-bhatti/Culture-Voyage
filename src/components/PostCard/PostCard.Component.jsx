@@ -14,7 +14,7 @@ import Button from "../Button/Button.component";
 import InputField from "../Inputfield/InputField.component";
 import { useTranslatePost } from "../../hooks/useTranslatePost";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
-import { Setting4 } from "iconsax-react";
+import { Setting4, Flag, Edit, Trash } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { useSubmitReport } from "../../hooks/useSubmitReport";
 
@@ -148,6 +148,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               >
                 {postDetail["Created By"] == user.uid && (
                   <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
+                  
                     <a
                       className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
                       onClick={() => {
@@ -158,7 +159,10 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                         );
                       }}
                     >
-                      Edit Post
+                  <Edit
+                  size="20"
+                  className="dark:text-primary text-secondary"
+                />Edit Post
                     </a>
                   </li>
                 )}
@@ -170,17 +174,23 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                         deletePost(postDetail.id, communityId, postType)
                       }
                     >
-                      Delete Post
+                         <Trash
+                  size="20"
+                  className="dark:text-primary text-secondary"
+                /> Delete Post
                     </a>
                   </li>
                 )}
                 {postDetail["Created By"] !== user.uid && (
-                  <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
+                  <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey  text-red-600">
                     <a
                       className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
                       onClick={handleReport}
                     >
-                      Report Post
+                         <Flag
+                  size="20"
+                  className=" text-red-600"
+                /> Report Post
                     </a>
                   </li>
                 )}

@@ -11,7 +11,7 @@ export default function SendMessage() {
   //console.log(id)
   const { user } = useContext(UserContext);
   const [input, setInput] = useState();
-  // console.log(user)
+   console.log(user)
 
   const sendMessage = async (e) => {
     e.preventDefault();

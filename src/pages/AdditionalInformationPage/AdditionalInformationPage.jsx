@@ -17,6 +17,7 @@ import { useCheckUserInformation } from "../../hooks/useCheckUserInformation.js"
 import { Spinner } from "@chakra-ui/react";
 import { Colors } from "../../constants/Colors.js";
 import { formatDate } from "../../utils/index.js";
+import { docExistsOrNot } from "../../utils/Firebase Utils Functions/index.js";
 // eslint-disable-next-line react/prop-types
 
 const AdditionalInformationPage = () => {
@@ -54,7 +55,12 @@ const AdditionalInformationPage = () => {
       `https://restcountries.com/v3.1/alpha/${countryDialCode}`
     );
     const country = response.data?.[0]?.name?.common || "";
-
+    const userNameAlreadyExists= await docExistsOrNot("Users","Username","==",username)
+    if(userNameAlreadyExists){
+      console.log("Username Already Exists.")
+      return
+    }
+    else{
     await updateDoc(doc(db, "Users", user.uid), {
       ["First Name"]: firstName,
       ["Last Name"]: lastName,
@@ -68,6 +74,7 @@ const AdditionalInformationPage = () => {
       ["Date Of Birth"]: DOB,
       ["Phone Verified"]: false,
     });
+  }
     navigation("/");
   };
 
