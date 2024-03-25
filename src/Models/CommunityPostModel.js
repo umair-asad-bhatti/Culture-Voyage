@@ -12,6 +12,7 @@ class CommunityPostModel {
     this['Post Type'] = postType;
     this['Likes'] = [];
     this['Edited'] = false
+    this['Comments'] = []
   }
 }
 export { CommunityPostModel };

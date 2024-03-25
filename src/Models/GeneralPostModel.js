@@ -9,6 +9,7 @@ class GeneralPostModel {
         this["Media URL"] = secureURLs;
         this['Likes'] = [];
         this['Edited'] = false
+        this['Comments'] = []
     }
 }
 export { GeneralPostModel }

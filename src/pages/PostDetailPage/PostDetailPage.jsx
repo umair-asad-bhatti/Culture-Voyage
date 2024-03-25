@@ -12,7 +12,7 @@ import { Setting4 } from "iconsax-react";
 import { useTranslatePost } from "../../hooks/useTranslatePost";
 
 
-export const PostDetailPage = ({  communityId = null }) => {
+export const PostDetailPage = ({ communityId = null }) => {
 
   const { id } = useParams();
   const [searchParams] = useSearchParams()
@@ -100,17 +100,17 @@ export const PostDetailPage = ({  communityId = null }) => {
               </a>
             </li>
           }
-         
+
         </ul>
       </div >
 
       {/* comment sectino */}
       <Comment postID={id} />
-      <div className="">
+      <div className="w-full">
         <ul>
           {comments.map((comment) => (
             <li key={comment.id}>
-              <div className="mb-2 bg-grey p-2 w-72 rounded-2xl">
+              <div className="mb-2 bg-grey p-4 w-full h-28 rounded-2xl">
                 <div className="flex items-center gap-2">
                   <img
                     className="w-8 h-8 rounded-full"

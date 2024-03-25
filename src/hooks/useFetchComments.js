@@ -19,9 +19,9 @@ export const useFetchComments = (postId) => {
           where('Post ID', '==', postId)
         );
 
-        unsubscribe =  onSnapshot(commentsQuery, (snapshot) => {
+        unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
           const commentsData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-         setComments(commentsData);
+          setComments(commentsData);
           setIsLoading(false);
         });
       } catch (error) {
@@ -31,7 +31,7 @@ export const useFetchComments = (postId) => {
       }
     };
 
-     fetchComments();
+    fetchComments();
 
     return () => {
       if (unsubscribe) {
