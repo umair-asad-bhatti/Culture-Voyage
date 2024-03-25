@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { doc, getDoc } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
@@ -6,10 +7,8 @@ import { db } from "../../firebase/Firebase";
 import Comment from "../../components/CommentSection/Comment";
 import { useFetchComments } from "../../hooks/useFetchComments";
 import { UserContext } from "../../context/AuthContext";
-import Button from "../../components/Button/Button.component";
+import { Calendar, Heart, Location, Messages2, Setting4 } from "iconsax-react";
 import { Img } from "react-image";
-import { Setting4 } from "iconsax-react";
-import { useTranslatePost } from "../../hooks/useTranslatePost";
 
 
 export const PostDetailPage = ({ communityId = null }) => {
@@ -24,15 +23,15 @@ export const PostDetailPage = ({ communityId = null }) => {
   const { user } = useContext(UserContext)
   const [postDetail, setPostDetail] = useState(null);
   const { comments } = useFetchComments(id);
+
   const [commentUsers, setCommentUsers] = useState([]);
 
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // Optional: for smooth scrolling behavior
-    });
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth", // Optional: for smooth scrolling behavior
+  //   });
+  // }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -52,6 +51,7 @@ export const PostDetailPage = ({ communityId = null }) => {
           const userSnapshot = await getDoc(doc(db, "Users", userId));
           const userData = userSnapshot.data();
           users[userId] = userData;
+
         }
       }
       setCommentUsers(users);
@@ -63,7 +63,7 @@ export const PostDetailPage = ({ communityId = null }) => {
 
 
   return (
-    <>
+    <div className="">
       {/* <Img
         className={"object-cover rounded-lg w-full h-full"}
         src={postDetail["Banner URL"]}
@@ -105,28 +105,50 @@ export const PostDetailPage = ({ communityId = null }) => {
       </div >
 
       {/* comment sectino */}
-      <Comment postID={id} />
-      <div className="w-full">
-        <ul>
-          {comments.map((comment) => (
-            <li key={comment.id}>
-              <div className="mb-2 bg-grey p-4 w-full h-28 rounded-2xl">
-                <div className="flex items-center gap-2">
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src={commentUsers[comment["Created By"]]?.Avatar}
-                    alt="Profile Pic"
-                  />
-                  <span>{commentUsers[comment["Created By"]]?.Username}</span>
-                </div>
-                <p>{comment.Description}</p>
+      <div className="  bg-primary dark:bg-darkCardBg rounded-lg p-4 shadow-lg">
+        <Comment postID={id} />
+        <hr className="my-2" />
 
-                {/* <button className="bg-sky-500 rounded-2xl p-1">Reply</button> */}
+        <div className="flex items-center justify-start gap-2 md:my-4 my-2">
+          <Messages2 variant="Bold" size="27" color="#E1306C" />
+          <h1 className="text-[#E1306C] font-bold tracking-widest text-lg">User Comments</h1>
+          <h1 className="bg-[#E1306C] text-xs px-[4px] py-[1px] text-textLight rounded-lg">{comments.length}</h1>
+        </div>
+        {comments.map((comment) => (
+          <div key={comment.id} className=" p-2  w-full border-b-[1px] dark:border-darkGrey my-2" >
+            <div className="flex items-center gap-4">
+              <div>
+                <Img
+                  className="w-10 h-10 rounded-full"
+                  src={commentUsers[comment["Created By"]]?.Avatar}
+                  alt="Profile Pic"
+                  loa
+                />
               </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+              <div>
+                <h1 className="font-bold dark:text-textPrimary text-textSecondary">{commentUsers[comment["Created By"]]?.Username}</h1>
+                <div className="flex gap-4 items-center justify-center">
+                  <div className="flex items-center justify-start gap-1">
+                    <Location variant="Bold" size="15" className="text-gray-500" />
+                    <span className="text-sm font-thin text-gray-500">{commentUsers[comment["Created By"]]?.Country}</span>
+                  </div>
+                  <div className="flex items-center justify-start gap-1">
+                    <Calendar variant="Bold" size="15" className="text-gray-500" />
+                    <span className="text-sm font-thin text-gray-500">1m ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="max-w-[600px]">
+              <p className="dark:text-textPrimary text-textSecondary my-4">{comment.Description}</p>
+            </div>
+
+            {/* <button className="bg-sky-500 rounded-2xl p-1">Reply</button> */}
+          </div>
+
+        ))}
+
+      </div >
+    </div>
   );
 };

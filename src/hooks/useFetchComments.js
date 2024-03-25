@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 import { db } from "../firebase/Firebase.js";
 
 export const useFetchComments = (postId) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  let unsubscribe;
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -16,11 +15,11 @@ export const useFetchComments = (postId) => {
 
         const commentsQuery = query(
           collection(db, 'Comments'),
-          where('Post ID', '==', postId)
+          where('Post ID', '==', postId),
         );
-
-        unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
+        onSnapshot(commentsQuery, (snapshot) => {
           const commentsData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+          commentsData.sort((a, b) => b['Created At'] - a[['Created At']]);
           setComments(commentsData);
           setIsLoading(false);
         });
@@ -33,11 +32,6 @@ export const useFetchComments = (postId) => {
 
     fetchComments();
 
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
   }, [postId]);
 
   return { comments, isLoading, error };

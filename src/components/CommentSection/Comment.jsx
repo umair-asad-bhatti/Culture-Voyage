@@ -1,15 +1,13 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import InputField from "../Inputfield/InputField.component";
 import Button from "../Button/Button.component";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import { useAddComment } from "../../hooks/useAddComment";
-import { useSearchParams } from "react-router-dom";
 
 const Comment = ({ postID }) => {
   const [description, setDescription] = useState("");
   const { addComment, isAddingComment } = useAddComment();
-
-
 
   const handleAddComment = async () => {
     if (description.trim() !== "") {
@@ -24,10 +22,10 @@ const Comment = ({ postID }) => {
         type="textarea"
         value={description}
         setValue={setDescription}
-        maxLength={50}
+        maxLength={1000}
         placeholder="Write Your Comment"
       ></InputField>
-      <div className="flex my-4 cursor-pointer">
+      <div className="flex my-4 cursor-pointer w-24">
         <Button
           onClickHandler={handleAddComment}
           isDisabled={isAddingComment}
@@ -39,7 +37,7 @@ const Comment = ({ postID }) => {
               </div>
             </div>
           ) : (
-            "Add Comment"
+            "Post"
           )}
         </Button>
       </div>

@@ -36,7 +36,6 @@ export const useAddComment = () => {
         dataToUpdate['Comments'] = generalPostComments
         await updateDoc(generalPostReference, dataToUpdate)
 
-
       } else {
         const communityPostReference = doc(db, 'Community Posts', postID)
         const communityPostSnapshot = await getDoc(communityPostReference)
