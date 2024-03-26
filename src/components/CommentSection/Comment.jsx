@@ -4,15 +4,43 @@ import InputField from "../Inputfield/InputField.component";
 import Button from "../Button/Button.component";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import { useAddComment } from "../../hooks/useAddComment";
+import axios from "axios";
 
+
+const PERSPECTIVE_API_URL = "https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=AIzaSyCZHzklAcaamZlXVAvJAx2bkcvrG3ZwWUc";
 const Comment = ({ postID }) => {
   const [description, setDescription] = useState("");
   const { addComment, isAddingComment } = useAddComment();
 
   const handleAddComment = async () => {
     if (description.trim() !== "") {
-      await addComment(description, postID);
+      axios
+        .post(PERSPECTIVE_API_URL, {
+          comment: {
+            text: description
+          },
+          languages: ["en"],
+          requestedAttributes: {
+            TOXICITY: {},
+            // INSULT: {},
+            // FLIRTATION: {},
+            // THREAT: {}
+          }
+        })
+        .then(async (res) => {
+          const toxicityScore = res.data.attributeScores.TOXICITY.summaryScore.value;
+          if (toxicityScore < 0.6)
+            await addComment(description, postID);
+          else {
+            alert('toxic comment found')
+          }
+        })
+        .catch(() => {
+          // The perspective request failed, put some defensive logic here!
+          alert('something went wront')
+        })
       setDescription("");
+
     }
   };
 

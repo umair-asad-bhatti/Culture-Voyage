@@ -21,12 +21,10 @@ export const useFetchComments = (postId) => {
       commentsData.sort((a, b) => b['Created At'] - a[['Created At']]);
       setComments(commentsData);
       setIsLoading(false);
-
       setIsLoading(false);
 
     });
     return () => unsub()
-
 
   }, [postId]);
 

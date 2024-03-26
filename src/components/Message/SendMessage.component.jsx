@@ -7,11 +7,11 @@ import { Send } from "iconsax-react";
 import { useParams } from "react-router-dom";
 
 export default function SendMessage() {
-  const {id} = useParams();
+  const { id } = useParams();
   //console.log(id)
   const { user } = useContext(UserContext);
   const [input, setInput] = useState();
-   console.log(user)
+  console.log(user)
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ export default function SendMessage() {
       text: input,
       name: user.displayName,
       uid: user.uid,
-      communityID:id,
+      communityID: id,
       Time: serverTimestamp(),
     });
     setInput("");

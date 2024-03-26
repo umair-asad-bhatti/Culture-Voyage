@@ -9,7 +9,7 @@ import { query, collection, onSnapshot, orderBy, where } from "firebase/firestor
 export const CommunityChatPage = () => {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
-  // console.log(id)
+  // console.log(id)  
 
   useEffect(() => {
     const q = query(

@@ -13,6 +13,10 @@ Currently, two official plugins are available:
 2. 
 
 
+#perpective API key
+AIzaSyCZHzklAcaamZlXVAvJAx2bkcvrG3ZwWUc
+
+
 
 
 
