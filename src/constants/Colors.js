@@ -1,6 +1,7 @@
 const Colors = {
     primary: '#FFFFFF',//light mode bg
     secondary: '#0D1B1E', //dark mode bg
+    tertiary: '#E1306C',
     accent: '#32A287', //this is accent color
     blAccent: '#2D82B7',
     darkCardBg: '#292F36', //bg color of card on dark mode
@@ -30,5 +31,7 @@ const Colors = {
     softGrey: '#F0F8EA', //light mode  card bg color
     lightGrey: '#F9F9F9',
     white: '#FFFFFF',
+
+
 }
 export { Colors }

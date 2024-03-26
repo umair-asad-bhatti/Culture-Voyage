@@ -3,20 +3,21 @@ import { useEffect, useState } from 'react'
 import translate from 'translate';
 // dont use this hook. This need to be updated first
 function useTranslatePost(textToBeTranslated) {
+
     const [translatedtext, setTranslatedText] = useState('');
-    const [detectedLanguageCode, setDetectedLanguageCode] = useState()
+    const [detectedLanguageCode, setDetectedLanguageCode] = useState(null)
     useEffect(() => {
-        const detectLanguageCode = async () => {
+        (async () => {
             const endpoint = `https://api.dandelion.eu/datatxt/li/v1/?text=${textToBeTranslated}&token=dbfa0d365a2440a6b477878602cbf0b2`
             const res = await fetch(endpoint)
             const langs = await res.json()
             const lang = langs.detectedLangs[0].lang
             setDetectedLanguageCode(lang)
-        }
-        detectLanguageCode()
+        })()
     }, [textToBeTranslated])
 
     const translatePost = async () => {
+        if (!detectedLanguageCode) return
         if (detectedLanguageCode !== "eng") {
             try {
                 const translateText = await translate(textToBeTranslated, {

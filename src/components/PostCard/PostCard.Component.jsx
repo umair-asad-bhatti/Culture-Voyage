@@ -3,11 +3,11 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUserData } from "../../utils/Firebase Utils Functions";
-import { truncateText } from "../../utils";
+import { getTimeElapsedSince, truncateText } from "../../utils";
 import { Img } from "react-image";
 import { useDeletePost } from "../../hooks/useDeletePost";
 import { UserContext } from "../../context/AuthContext";
-import { Heart, MessageProgramming } from "iconsax-react";
+import { Calendar, Heart, MessageProgramming } from "iconsax-react";
 import { db } from "../../firebase/Firebase";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import Button from "../Button/Button.component";
@@ -20,7 +20,7 @@ import { useSubmitReport } from "../../hooks/useSubmitReport";
 
 const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
   const [author, setAuthor] = useState();
-  const { deletePost, deleting } = useDeletePost();
+  const { deletePost } = useDeletePost();
   const { user } = useContext(UserContext);
   const [isLiked, setIsLiked] = useState();
   const [isLiking, setIsLiking] = useState(false);
@@ -109,23 +109,23 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
     <>
       {postDetail && (
         <div className="p-4   bg-primary dark:bg-darkCardBg rounded-xl shadow-lg">
-          <div className="flex items-center justify-between  gap-4">
-            <div className="flex items-center justify-center gap-4">
-              <div style={{ width: 50, height: 50 }}>
-                <Img
-                  loader={
-                    <div className="w-full h-full rounded-full skeleton"></div>
-                  }
-                  className="rounded-full w-full h-full "
-                  src={author?.Avatar}
-                  width={50}
-                  height={50}
-                />
+          <div className="flex items-start justify-between  gap-4">
+            <div className="flex  items-start justify-center gap-4">
+              <div className=''>
+                <div className="w-[50px] h-[50px]">
+                  <Img
+                    loader={
+                      <div className="w-full h-full rounded-full skeleton"></div>
+                    }
+                    className="rounded-full w-[50px] h-[50px] "
+                    src={author?.Avatar}
+                  />
+                </div>
               </div>
               <Link
-                to={`/post/${postDetail["id"]}?type=${
-                  postType == "general" ? "general" : "community"
-                }`}
+
+                to={`/post/${postDetail["id"]}?type=${postType == "general" ? "general" : "community"
+                  }`}
               >
                 <h1 className="lg:text-lg text-md font-bold text-blAccent dark:text-accent ">
                   {postDetail?.Title}
@@ -133,9 +133,10 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 <span className="dark:text-textPrimary text-textSecondary">
                   By @{author?.Username}
                 </span>
+
               </Link>
             </div>
-            <div className="dropdown dropdown-end">
+            <div className="dropdown dropdown-end ">
               <div tabIndex={0} role="button" className="m-1">
                 <Setting4
                   size="25"
@@ -148,21 +149,20 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               >
                 {postDetail["Created By"] == user.uid && (
                   <li className="dark:hover:bg-darkerGrey rounded-lg flex hover:bg-softGrey dark:text-primary text-secondary">
-                  
+
                     <a
                       className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
                       onClick={() => {
                         navigation(
-                          `/edit/post/${postDetail["id"]}?type=${
-                            postType == "general" ? "general" : "community"
+                          `/edit/post/${postDetail["id"]}?type=${postType == "general" ? "general" : "community"
                           }`
                         );
                       }}
                     >
-                  <Edit
-                  size="20"
-                  className="dark:text-primary text-secondary"
-                />Edit Post
+                      <Edit
+                        size="20"
+                        className="dark:text-primary text-secondary"
+                      />Edit Post
                     </a>
                   </li>
                 )}
@@ -174,10 +174,10 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                         deletePost(postDetail.id, communityId, postType)
                       }
                     >
-                         <Trash
-                  size="20"
-                  className="dark:text-primary text-secondary"
-                /> Delete Post
+                      <Trash
+                        size="20"
+                        className="dark:text-primary text-secondary"
+                      /> Delete Post
                     </a>
                   </li>
                 )}
@@ -187,10 +187,10 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                       className=" dark:hover:bg-darkerGrey hover:bg-softGrey"
                       onClick={handleReport}
                     >
-                         <Flag
-                  size="20"
-                  className=" text-red-600"
-                /> Report Post
+                      <Flag
+                        size="20"
+                        className=" text-red-600"
+                      /> Report Post
                     </a>
                   </li>
                 )}
@@ -210,7 +210,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                           className="radio radio-primary"
                           onChange={handleReportChange}
                         />
-                        <label htmlFor="Spam">I just don't like It</label>
+                        <label htmlFor="Spam">I just do not like It</label>
                         <br />
                       </div>
                       <div className="mb-3 gap-3 flex">
@@ -221,7 +221,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                           className="radio radio-primary"
                           onChange={handleReportChange}
                         />
-                        <label htmlFor="Spam">It's Spam</label>
+                        <label htmlFor="Spam">It is a Spam</label>
                         <br />
                       </div>
                       <div className="mb-3 gap-3 flex">
@@ -349,10 +349,10 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                       <button onClick={closeModal}>Close</button>
                     </form>
                   </dialog>
-                </div>
-              </div>
+                </div >
+              </div >
             )}
-          </div>
+          </div >
 
           <div className="p-2">
             <h1 className="dark:text-textPrimary text-textSecondary">
@@ -360,6 +360,10 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 truncateText(postDetail?.Description, 100)}
             </h1>
           </div>
+          <span className="dark:text-textPrimary p-2 flex items-center justify-start gap-2 text-textSecondary">
+            <Calendar variant="Bold" size="15" className="text-gray-500" />
+            {getTimeElapsedSince(postDetail['Created At'].seconds)} ago
+          </span>
           <div className="carousel w-full">
             {postDetail["Media URL"] &&
               postDetail["Media URL"].map((url, index) => {
@@ -386,21 +390,26 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               })}
           </div>
 
-          {translatedtext && (
-            <div className="p-2">
-              <h1 className="dark:text-textPrimary text-textSecondary">
-                {translatedtext}
-              </h1>
-            </div>
-          )}
-          {detectedLanguageCode !== "en" && (
-            <h6
-              className="cursor-pointer underline Dark:text-accent text-blAccent"
-              onClick={() => translatePost()}
-            >
-              Translate
-            </h6>
-          )}
+          {
+            translatedtext && (
+              <div className="p-2">
+                <h1 className="dark:text-textPrimary text-textSecondary">
+                  {translatedtext}
+                </h1>
+              </div>
+            )
+          }
+          {
+            detectedLanguageCode !== "en" && (
+              <h6
+                className="cursor-pointer underline Dark:text-accent text-blAccent"
+                onClick={() => translatePost()}
+              >
+                Translate Post Title
+              </h6>
+            )
+          }
+
           <div className="flex items-center justify-around  my-2   bg-slate-100 dark:bg-gray-800 rounded-xl p-2">
             <div className="flex items-center justify-center gap-2">
               <Heart
@@ -416,20 +425,21 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
             </div>
             <div className="flex items-center justify-center gap-2">
               <Link
-                to={`/post/${postDetail["id"]}?type=${
-                  postType == "general" ? "general" : "community"
-                }`}
+                to={`/post/${postDetail["id"]}?type=${postType == "general" ? "general" : "community"
+                  }`}
               >
                 <MessageProgramming
+                  variant="Bold"
                   size="20"
-                  className="dark:text-primary text-secondary"
+                  className="text-[#E1306C]"
                 />
               </Link>
-              <h1 className="dark:text-textPrimary text-textSecondary text-sm">
-                0
+              <h1 className="text-[#E1306C] text-sm">
+                {postDetail.Comments?.length ?? 0}
               </h1>
             </div>
           </div>
+
           {/* {postDetail["Created By"] == user.uid && (
             <Button
               onClickHandler={() =>
@@ -443,7 +453,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
               </h1>
             </Button>
           )} */}
-        </div>
+        </div >
       )}
     </>
   );

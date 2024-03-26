@@ -11,7 +11,7 @@ const PERSPECTIVE_API_URL = "https://commentanalyzer.googleapis.com/v1alpha1/com
 const Comment = ({ postID }) => {
   const [description, setDescription] = useState("");
   const { addComment, isAddingComment } = useAddComment();
-
+  const [isToxic, setIsToxic] = useState(false)
   const handleAddComment = async () => {
     if (description.trim() !== "") {
       axios
@@ -29,17 +29,23 @@ const Comment = ({ postID }) => {
         })
         .then(async (res) => {
           const toxicityScore = res.data.attributeScores.TOXICITY.summaryScore.value;
-          if (toxicityScore < 0.6)
+          if (toxicityScore < 0.6) {
             await addComment(description, postID);
+            setDescription("");
+            setIsToxic(false)
+          }
+
           else {
-            alert('toxic comment found')
+
+            setIsToxic(true)
+
           }
         })
-        .catch(() => {
+        .catch((error) => {
           // The perspective request failed, put some defensive logic here!
-          alert('something went wront')
+          alert(error.message)
+          setDescription("");
         })
-      setDescription("");
 
     }
   };
@@ -68,6 +74,12 @@ const Comment = ({ postID }) => {
             "Post"
           )}
         </Button>
+
+      </div>
+      <div>
+        {
+          isToxic && <h1>Your Comments is toxic in nature.</h1>
+        }
       </div>
     </div>
   );

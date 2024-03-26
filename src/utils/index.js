@@ -49,6 +49,49 @@ export const formatDate = (inputDate) => {
     const formattedTimestamp = `${month} ${day}, ${year} at ${hours}:${minutes}:${seconds} ${ampm} UTC${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
     return formattedTimestamp;
 };
+
+function getTimeElapsedSince(seconds) {
+    // Create a new Date object for the given time
+    const givenTime = new Date(seconds * 1000); // Convert seconds to milliseconds
+
+    // Calculate the difference between the current time and the given time
+    const difference = new Date() - givenTime;
+
+    // Convert the difference to seconds, minutes, hours, etc.
+    const elapsedSeconds = Math.floor(difference / 1000);
+    const elapsedMinutes = Math.floor(elapsedSeconds / 60);
+    const elapsedHours = Math.floor(elapsedMinutes / 60);
+    const elapsedDays = Math.floor(elapsedHours / 24);
+    const elapsedMonths = Math.floor(elapsedDays / 30);
+    const elapsedYears = Math.floor(elapsedDays / 365);
+
+    // Construct the elapsed time string
+    let elapsedTime = "";
+    if (elapsedYears > 0) {
+        elapsedTime += elapsedYears + " y ";
+    }
+    else if (elapsedMonths > 0) {
+        elapsedTime += elapsedMonths + " mon ";
+    }
+    else if (elapsedDays > 0) {
+        elapsedTime += elapsedDays % 30 + " d ";
+    }
+    else if (elapsedHours > 0) {
+        elapsedTime += elapsedHours % 24 + " hr ";
+    }
+    else if (elapsedMinutes > 0) {
+        elapsedTime += elapsedMinutes % 60 + " min ";
+    }
+    else
+        elapsedTime += elapsedSeconds % 60 + " s";
+
+    // Return the elapsed time string
+    return elapsedTime;
+}
+
+
+
+
 function truncateText(text, maxLength) {
     if (text.length > maxLength) {
         return text.substring(0, maxLength) + "...";
@@ -56,30 +99,8 @@ function truncateText(text, maxLength) {
         return text;
     }
 }
-function calculateTimeElapsed(createdAt) {
-    // Parse the provided time string
-    const createdDate = new Date(createdAt.replace(/UTC[+-]\d+/, 'UTC'));
 
-    // Get the current time
-    const currentDate = new Date();
 
-    // Calculate the difference in milliseconds
-    const timeDifference = currentDate - createdDate;
-
-    // Calculate elapsed time in milliseconds
-    const seconds = Math.floor(timeDifference / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    // Return the elapsed time
-    return {
-        seconds,
-        minutes,
-        hours,
-        days
-    };
-}
 const FireBaseErrorHandler = (errorCode) => {
     switch (errorCode) {
         case "auth/user-not-found":
@@ -144,4 +165,4 @@ const FireBaseErrorHandler = (errorCode) => {
 
     }
 }
-export { ZodLoginSchema, ZodSignupSchema, FireBaseErrorHandler, truncateText, calculateTimeElapsed }
+export { ZodLoginSchema, ZodSignupSchema, FireBaseErrorHandler, getTimeElapsedSince, truncateText }

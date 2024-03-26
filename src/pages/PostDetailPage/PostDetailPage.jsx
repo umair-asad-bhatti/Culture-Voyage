@@ -10,11 +10,14 @@ import { UserContext } from "../../context/AuthContext";
 import { Calendar, Heart, Location, MessageEdit, Messages2, Setting4, User } from "iconsax-react";
 import { Img } from "react-image";
 import { getUserData } from "../../utils/Firebase Utils Functions";
+import { useTranslatePost } from "../../hooks/useTranslatePost";
+import { getTimeElapsedSince } from "../../utils";
 
 
 export const PostDetailPage = ({ communityId = null }) => {
 
   const { id } = useParams();
+
   const [searchParams] = useSearchParams()
   const type = searchParams.get('type')
 
@@ -23,7 +26,9 @@ export const PostDetailPage = ({ communityId = null }) => {
   //-----------------------------------------
   const { user } = useContext(UserContext)
   const [postDetail, setPostDetail] = useState(null);
+
   const { comments } = useFetchComments(id);
+  // console.log(comments[0]['Created At'].seconds ?? '');
   const [postUser, setPostUser] = useState(null)
 
   const [commentUsers, setCommentUsers] = useState([]);
@@ -42,13 +47,15 @@ export const PostDetailPage = ({ communityId = null }) => {
 
   useEffect(() => {
     const getData = async () => {
+
       const snapshot = await getDoc(doc(db, `${type == 'general' ? 'General Posts' : 'Community Posts'}`, id));
       const data = snapshot.data();
       setPostDetail(data);
+
     };
     getData();
   }, [id, type]);
-  // const { translatePost, translatedtext, detectedLanguageCode } = useTranslatePost(postDetail)
+
 
 
   // fetch users details for comments
@@ -69,23 +76,24 @@ export const PostDetailPage = ({ communityId = null }) => {
 
     fetchUserDetails();
   }, [comments]);
-  if (!postDetail) return <h1>Loading</h1>;
+
+
+
+
   if (!postUser || !comments || !postDetail)
     return <h1>loading</h1>
 
   return (
     <div className="flex just gap-2">
       <div className="md:w-[75%] bg-primary dark:bg-darkCardBg rounded-lg p-4 shadow-lg">
-        <div className="w-16 h-16 flex justify-start items-start gap-4">
+        <div className="w-16 h-16 flex justify-start items-center gap-4">
           <Img
             className={"object-cover rounded-full w-full h-full"}
             src={postUser["Avatar"]}
             loader={<div className="w-full h-full skeleton"></div>}
           />
           <div>
-            <h1 className="dark:text-textPrimary text-secondary font-bold text-2xl  w-96">
-              {postDetail.Title}
-            </h1>
+
             <div className="flex gap-4 items-start justify-start max-w-[500px] w-[500px]">
               <div className="flex items-center justify-start gap-1">
                 <User variant="Bold" size="15" className="text-gray-500" />
@@ -97,7 +105,7 @@ export const PostDetailPage = ({ communityId = null }) => {
               </div>
               <div className="md:flex hidden items-center justify-start gap-1">
                 <Calendar variant="Bold" size="15" className="text-gray-500" />
-                <span className="text-sm font-thin text-gray-500">1m ago</span>
+                <span className="text-sm font-thin text-gray-500">{getTimeElapsedSince(postDetail['Created At'].seconds)} ago</span>
               </div>
               {
                 postDetail['Created By'] == user.uid &&
@@ -111,20 +119,12 @@ export const PostDetailPage = ({ communityId = null }) => {
             </div>
           </div>
         </div>
+        <h1 className="dark:text-textPrimary my-2 text-right w-full text-secondary font-bold text-2xl h-content ">
+          {postDetail.Title}
+        </h1>
         {/* Description */}
-        <h1 className="dark:text-textPrimary text-secondary my-2 p-2">{postDetail.Description}</h1>
-        {/* {translatedtext && (
-        <div className="p-2">
-          <h1 className="dark:text-textPrimary text-textSecondary">{translatedtext}</h1>
-        </div>
-      )}
-      {detectedLanguageCode !== 'eng' && (
-        <Button
-          onClickHandler={() => translatePost(postDetail.Description, detectedLanguageCode)}
-        >
-          Translate into English
-        </Button>
-      )} */}
+        <h1 className="dark:text-textPrimary text-right text-secondary my-2 p-2">{postDetail.Description}</h1>
+
         {/* dropdown menu */}
         {/* <div className="dropdown">
           <div tabIndex={0} role="button" className="m-1">
@@ -171,7 +171,7 @@ export const PostDetailPage = ({ communityId = null }) => {
                     </div>
                     <div className="flex items-center justify-start gap-1">
                       <Calendar variant="Bold" size="15" className="text-gray-500" />
-                      <span className="text-sm font-thin text-gray-500">1m ago</span>
+                      <span className="text-sm font-thin text-gray-500">{getTimeElapsedSince(comment['Created At'].seconds)} ago</span>
                     </div>
                   </div>
                 </div>

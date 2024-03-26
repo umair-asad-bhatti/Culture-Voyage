@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import InputField from "../../components/Inputfield/InputField.component";
+
 import { useParams } from "react-router-dom";
 import Message from "../../components/Message/Message.component";
 import SendMessage from "../../components/Message/SendMessage.component";
@@ -30,13 +30,13 @@ export const CommunityChatPage = () => {
 
 
   return (
-    <>
-      <div className="flex flex-col p-[10px]">
+    <div className="h-full ">
+      <div className="flex flex-col  h-[80%] ">
         {messages && messages.map((message) => (
           <Message key={message.id} message={message} />
         ))}
       </div>
       <SendMessage />
-    </>
+    </div>
   );
 };

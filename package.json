@@ -25,6 +25,7 @@
     "languages.io": "^0.9.1",
     "libphonenumber-js": "^1.10.53",
     "lottie-react": "^2.4.0",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-animated-numbers": "^0.18.0",
     "react-dom": "^18.2.0",

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../../context/AuthContext";
 import { db } from "../../firebase/Firebase";
 import { addDoc, serverTimestamp, collection } from "firebase/firestore";
@@ -30,7 +30,7 @@ export default function SendMessage() {
   };
   return (
     <>
-      <div className="fixed bottom-0 w-96">
+      <div className="fixed bottom-0 w-96 dark:bg-secondary bg-primary">
         <InputField
           placeholder="Enter Message..."
           type="text"
