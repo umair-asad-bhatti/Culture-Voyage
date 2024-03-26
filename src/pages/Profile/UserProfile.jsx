@@ -40,7 +40,7 @@ export const UserProfile = () => {
   return (
     <>
       <h1 className='font-bold md:text-lg text-md '>User profile</h1>
-      <div className="flex gap-16 items-start md:justify-start justify-center items-center flex-col md:flex-row">
+      <div className="flex gap-16 items-start md:justify-start justify-center  flex-col md:flex-row">
         {/* profile card */}
         <div className="bg-primary dark:border-borderPrimary dark:border dark:bg-transparent w-96 p-8 shadow flex-col flex items-center justify-center rounded-xl">
           <div className="w-24 h-24 rounded-full relative">
