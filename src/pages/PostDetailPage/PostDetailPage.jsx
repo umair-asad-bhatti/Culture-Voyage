@@ -32,12 +32,7 @@ export const PostDetailPage = ({ communityId = null }) => {
   const [postUser, setPostUser] = useState(null)
 
   const [commentUsers, setCommentUsers] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const data = await getUserData(user.uid)
-      setPostUser(data)
-    })()
-  }, [])
+
   // useEffect(() => {
   //   window.scrollTo({
   //     top: 0,
@@ -79,7 +74,12 @@ export const PostDetailPage = ({ communityId = null }) => {
 
 
 
-
+  useEffect(() => {
+    (async () => {
+      const data = await getUserData(postDetail['Created By'])
+      setPostUser(data)
+    })()
+  }, [postDetail])
   if (!postUser || !comments || !postDetail)
     return <h1>loading</h1>
 
