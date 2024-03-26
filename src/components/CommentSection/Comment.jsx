@@ -32,8 +32,8 @@ const Comment = ({ postID }) => {
         >
           {isAddingComment ? (
             <div className="w-full flex items-center justify-center">
-              <div className="w-8 h-6">
-                <LoadingSpinner />
+              <div className="w-12 h-6">
+                <LoadingSpinner size={30} />
               </div>
             </div>
           ) : (
