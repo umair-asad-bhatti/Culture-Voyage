@@ -85,8 +85,6 @@ export const UserProfile = () => {
           </div>}
 
         </div>
-
-
         <div className="max-w-[500px] p-4"> {/* right side content */}
           {/* top button group */}
           <div className="bg-primary w-content dark:bg-transparent gap-8 flex justify-between items-center rounded py-2 h-12 shadow px-8 dark:border">
@@ -97,7 +95,7 @@ export const UserProfile = () => {
             <div onClick={() => { setActiveTab('posts'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer relative ${activeTab == 'posts' ? 'text-blAccent  dark:text-accent' : 'dark:text-textPrimary'}`}>
               Posts
             </div>
-            <div onClick={() => { setActiveTab('notification'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer relative ${activeTab == 'notification' ? 'text-blAccent dark:text-accent ' : 'dark:text-textPrimary'}`}>
+            <div onClick={() => { setActiveTab('notifications'); handleAnimClick(event) }} className={`links font-semibold cursor-pointer relative ${activeTab == 'notification' ? 'text-blAccent dark:text-accent ' : 'dark:text-textPrimary'}`}>
               Notifications
             </div>
           </div>
@@ -110,6 +108,64 @@ export const UserProfile = () => {
               activeTab == 'myprofile' && <div>
 
 
+                <div className="flex justify-start items-center gap-16">
+                  <div>
+                    <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">First Name</h1>
+                    <h1 className="text-textSecondary dark:text-textPrimary">
+
+                      {userData?.["First Name"]}
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">Last Name</h1>
+                    <h1 className="text-textSecondary dark:text-textPrimary">
+
+                      {userData?.["Last Name"]}
+                    </h1>
+                  </div>
+                </div>
+                <div className="my-4">
+                  <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">About Me</h1>
+                  <h1 className="text-textSecondary dark:text-textPrimary">{userData?.About || 'Not about defiend yet text-textSecondary dark:text-textPrimary'}</h1>
+                </div>
+
+                <hr />
+                <div className="dark:text-textPrimary text-textSecondary my-4">
+                  Total Posts: {userData?.["Community Posts"]?.length}
+                </div>
+              </div>
+            }
+            {
+              activeTab == 'posts' && <div>
+                <div className="flex justify-start items-center gap-16">
+                  <div>
+                    <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">First Name</h1>
+                    <h1 className="text-textSecondary dark:text-textPrimary">
+
+                      {userData?.["First Name"]}
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">Last Name</h1>
+                    <h1 className="text-textSecondary dark:text-textPrimary">
+
+                      {userData?.["Last Name"]}
+                    </h1>
+                  </div>
+                </div>
+                <div className="my-4">
+                  <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">About Me</h1>
+                  <h1 className="text-textSecondary dark:text-textPrimary">{userData?.About || 'Not about defiend yet text-textSecondary dark:text-textPrimary'}</h1>
+                </div>
+
+                <hr />
+                <div className="dark:text-textPrimary text-textSecondary my-4">
+                  Total Posts: {userData?.["Community Posts"]?.length}
+                </div>
+              </div>
+            }
+            {
+              activeTab == 'notifications' && <div>
                 <div className="flex justify-start items-center gap-16">
                   <div>
                     <h1 className="font-bold text-lg my-2 text-textSecondary dark:text-textPrimary">First Name</h1>
