@@ -329,10 +329,10 @@ export function CreatePostForm() {
         className={`md:block hidden rounded-xl cardddd   ${postCategory != "Select Category"
           ? "shadow-lg border-2 bg-primary dark:bg-transparent dark:border-borderSecondary border-borderPrimary"
           : "border-none"
-          }  p-2 w-96`}
+          }  p-2 w-80`}
       >
         {postCategory === (user && user["First Name"]) ? (
-          <div div className="card">
+          <div className="card">
             <div className="flex items-center justify-center">
               <img
                 src={user?.Avatar}
@@ -366,7 +366,7 @@ export function CreatePostForm() {
                       <h1 className="dark:text-primary font-bold text-secondary mt-20">
                         {c["Community Name"]}
                       </h1>
-                      <p className="dark:text-primary font-bold text-secondary">{c["Small Description"]}</p>
+                      <p className="dark:text-primary  text-secondary">{c["Small Description"]}</p>
                       <hr className="my-4  w-[90%] mx-auto" />
                       <div className="flex items-center justify-center gap-4">
                         <h1 className="dark:text-primary font-bold text-secondary">

@@ -159,7 +159,6 @@ export const PostDetailPage = ({ communityId = null }) => {
                     className="w-10 h-10 rounded-full"
                     src={commentUsers[comment["Created By"]]?.Avatar}
                     alt="Profile Pic"
-                    loa
                   />
                 </div>
                 <div>

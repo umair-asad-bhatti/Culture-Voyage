@@ -405,7 +405,7 @@ const PostCardComponent = ({ postDetail, communityId = null, postType }) => {
                 className="cursor-pointer underline Dark:text-accent text-blAccent"
                 onClick={() => translatePost()}
               >
-                Translate Post Title
+                Translate Post 
               </h6>
             )
           }

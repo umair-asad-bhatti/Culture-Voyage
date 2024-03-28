@@ -6,19 +6,21 @@ import { UserContext } from "../../context/AuthContext.jsx";
 import { Link } from "react-router-dom";
 import useJoinCommunity from "../../hooks/useJoinCommunity.js";
 import { AppRoutes } from "../../constants/AppRoutes.js";
-import { Img } from 'react-image'
+import { Img } from "react-image";
 // import { truncateText } from "../../utils/index.js";
 import AnimatedNumbers from "react-animated-numbers";
 
 // eslint-disable-next-line react/prop-types
 export const CommunityCard = ({ community }) => {
   const { user } = useContext(UserContext);
-  const { joinCommunity, isJoined, setIsJoined, isJoining } = useJoinCommunity(community.id);
+  const { joinCommunity, isJoined, setIsJoined, isJoining } = useJoinCommunity(
+    community.id
+  );
 
   const handleJoinLeave = () => {
     if (!isJoined) {
       joinCommunity(community.id);
-      setIsJoined(true)
+      setIsJoined(true);
     }
   };
 
@@ -34,14 +36,21 @@ export const CommunityCard = ({ community }) => {
             loader={<div className="w-full h-full rounded-full skeleton"></div>}
             className="w-full h-full rounded-full object-cover"
             src={community.communityLogoUrl}
-
           />
         </div>
-        <Link to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}>
-          <p className="text-md font-bold dark:text-accent text-blAccent hover:underline">
+        {isJoined ? (
+          <Link
+            to={`${AppRoutes.communityDetailPage.baseRoute}/${community.id}`}
+          >
+            <p className="text-md font-bold dark:text-accent text-blAccent hover:underline">
+              {community.communityName}
+            </p>
+          </Link>
+        ) : (
+          <p className="text-md font-bold dark:text-accent text-blAccent cursor-not-allowed">
             {community.communityName}
           </p>
-        </Link>
+        )}
       </div>
       <div className="flex justify-between my-2 flex-wrap gap-2">
         <p className="text-sm dark:text-textPrimary text-textSecondary  overflow-hidden">
@@ -51,7 +60,6 @@ export const CommunityCard = ({ community }) => {
           Create At:{" "}
           <span className={"text-accent"}>{community.createdAt}</span>
         </p>
-
       </div>
 
       <hr className="my-4  w-[95%] mx-auto" />
@@ -68,19 +76,33 @@ export const CommunityCard = ({ community }) => {
               })}
               animateToNumber={community.members.length}
             />
-
           </p>
-          <p className="dark:text-textPrimary text-textSecondary">Posts: {community.experiencePosts.length + community.questionPosts.length}</p>
+          <p className="dark:text-textPrimary text-textSecondary">
+            Posts:{" "}
+            {community.experiencePosts.length + community.questionPosts.length}
+          </p>
         </div>
         <div className={"text-sm"}>
           {community.createdBy !== user.uid && (
-            <Button outline={isJoined} isDisabled={isJoining} py={1} onClickHandler={handleJoinLeave}>
-              {isJoined ? <h1 className={isJoined ? "cursor-not-allowed" : 'cursor-pointer'}>Joined</h1> : "Join"}
+            <Button
+              outline={isJoined}
+              isDisabled={isJoining}
+              py={1}
+              onClickHandler={handleJoinLeave}
+            >
+              {isJoined ? (
+                <h1
+                  className={isJoined ? "cursor-not-allowed" : "cursor-pointer"}
+                >
+                  Joined
+                </h1>
+              ) : (
+                "Join"
+              )}
             </Button>
           )}
         </div>
       </div>
-
     </div>
   );
 };
