@@ -1,9 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/AuthContext";
 import { db } from "../../firebase/Firebase";
 import { addDoc, serverTimestamp, collection } from "firebase/firestore";
 import InputField from "../Inputfield/InputField.component";
 import { Send } from "iconsax-react";
+import { getUserData } from '../../utils/Firebase Utils Functions'
 import { useParams } from "react-router-dom";
 
 export default function SendMessage() {
@@ -11,7 +12,17 @@ export default function SendMessage() {
   //console.log(id)
   const { user } = useContext(UserContext);
   const [input, setInput] = useState();
-  console.log(user)
+  //console.log(user)
+
+  const [userData , setUserData] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const data = await getUserData(user.uid)
+      console.log("Data",data)
+      setUserData(data)
+    })()
+  }, [user.uid])
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -21,7 +32,8 @@ export default function SendMessage() {
     }
     await addDoc(collection(db, "Messages"), {
       text: input,
-      name: user.displayName,
+      name: userData?.Username,
+      Image:userData?.Avatar,
       uid: user.uid,
       communityID: id,
       Time: serverTimestamp(),
